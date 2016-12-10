@@ -2,13 +2,13 @@
 
 var proxyquire = require('proxyquire').noPreserveCache();
 
-var categoryCtrlStub = {
-  index: 'categoryCtrl.index',
-  show: 'categoryCtrl.show',
-  create: 'categoryCtrl.create',
-  upsert: 'categoryCtrl.upsert',
-  patch: 'categoryCtrl.patch',
-  destroy: 'categoryCtrl.destroy'
+var numberCtrlStub = {
+  index: 'numberCtrl.index',
+  show: 'numberCtrl.show',
+  create: 'numberCtrl.create',
+  upsert: 'numberCtrl.upsert',
+  patch: 'numberCtrl.patch',
+  destroy: 'numberCtrl.destroy'
 };
 
 var routerStub = {
@@ -20,64 +20,64 @@ var routerStub = {
 };
 
 // require the index with our stubbed out modules
-var categoryIndex = proxyquire('./index.js', {
+var numberIndex = proxyquire('./index.js', {
   express: {
     Router() {
       return routerStub;
     }
   },
-  './category.controller': categoryCtrlStub
+  './number.controller': numberCtrlStub
 });
 
-describe('category API Router:', function() {
+describe('number API Router:', function() {
   it('should return an express router instance', function() {
-    expect(categoryIndex).to.equal(routerStub);
+    expect(numberIndex).to.equal(routerStub);
   });
 
-  describe('GET /api/categorys', function() {
-    it('should route to category.controller.index', function() {
+  describe('GET /api/numbers', function() {
+    it('should route to number.controller.index', function() {
       expect(routerStub.get
-        .withArgs('/', 'categoryCtrl.index')
+        .withArgs('/', 'numberCtrl.index')
         ).to.have.been.calledOnce;
     });
   });
 
-  describe('GET /api/categorys/:id', function() {
-    it('should route to category.controller.show', function() {
+  describe('GET /api/numbers/:id', function() {
+    it('should route to number.controller.show', function() {
       expect(routerStub.get
-        .withArgs('/:id', 'categoryCtrl.show')
+        .withArgs('/:id', 'numberCtrl.show')
         ).to.have.been.calledOnce;
     });
   });
 
-  describe('POST /api/categorys', function() {
-    it('should route to category.controller.create', function() {
+  describe('POST /api/numbers', function() {
+    it('should route to number.controller.create', function() {
       expect(routerStub.post
-        .withArgs('/', 'categoryCtrl.create')
+        .withArgs('/', 'numberCtrl.create')
         ).to.have.been.calledOnce;
     });
   });
 
-  describe('PUT /api/categorys/:id', function() {
-    it('should route to category.controller.upsert', function() {
+  describe('PUT /api/numbers/:id', function() {
+    it('should route to number.controller.upsert', function() {
       expect(routerStub.put
-        .withArgs('/:id', 'categoryCtrl.upsert')
+        .withArgs('/:id', 'numberCtrl.upsert')
         ).to.have.been.calledOnce;
     });
   });
 
-  describe('PATCH /api/categorys/:id', function() {
-    it('should route to category.controller.patch', function() {
+  describe('PATCH /api/numbers/:id', function() {
+    it('should route to number.controller.patch', function() {
       expect(routerStub.patch
-        .withArgs('/:id', 'categoryCtrl.patch')
+        .withArgs('/:id', 'numberCtrl.patch')
         ).to.have.been.calledOnce;
     });
   });
 
-  describe('DELETE /api/categorys/:id', function() {
-    it('should route to category.controller.destroy', function() {
+  describe('DELETE /api/numbers/:id', function() {
+    it('should route to number.controller.destroy', function() {
       expect(routerStub.delete
-        .withArgs('/:id', 'categoryCtrl.destroy')
+        .withArgs('/:id', 'numberCtrl.destroy')
         ).to.have.been.calledOnce;
     });
   });

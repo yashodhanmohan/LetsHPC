@@ -115,3 +115,11 @@ export function destroy(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
+
+export function returnAllRows(req, res) {
+  return Number.find( { approach_id : req.param.approach_id})
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+
+}
