@@ -1,5 +1,5 @@
 /**
- * User model events
+ * Thing model events
  */
 
 'use strict';

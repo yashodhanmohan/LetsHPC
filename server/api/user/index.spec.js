@@ -4,38 +4,29 @@ var proxyquire = require('proxyquire').noPreserveCache();
 
 var userCtrlStub = {
   index: 'userCtrl.index',
-  destroy: 'userCtrl.destroy',
-  me: 'userCtrl.me',
-  changePassword: 'userCtrl.changePassword',
   show: 'userCtrl.show',
-  create: 'userCtrl.create'
-};
-
-var authServiceStub = {
-  isAuthenticated() {
-    return 'authService.isAuthenticated';
-  },
-  hasRole(role) {
-    return `authService.hasRole.${role}`;
-  }
+  create: 'userCtrl.create',
+  upsert: 'userCtrl.upsert',
+  patch: 'userCtrl.patch',
+  destroy: 'userCtrl.destroy'
 };
 
 var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
+  patch: sinon.spy(),
   post: sinon.spy(),
   delete: sinon.spy()
 };
 
 // require the index with our stubbed out modules
-var userIndex = proxyquire('./index', {
+var userIndex = proxyquire('./index.js', {
   express: {
     Router() {
       return routerStub;
     }
   },
-  './user.controller': userCtrlStub,
-  '../../auth/auth.service': authServiceStub
+  './user.controller': userCtrlStub
 });
 
 describe('User API Router:', function() {
@@ -44,41 +35,17 @@ describe('User API Router:', function() {
   });
 
   describe('GET /api/users', function() {
-    it('should verify admin role and route to user.controller.index', function() {
+    it('should route to user.controller.index', function() {
       expect(routerStub.get
-        .withArgs('/', 'authService.hasRole.admin', 'userCtrl.index')
-        ).to.have.been.calledOnce;
-    });
-  });
-
-  describe('DELETE /api/users/:id', function() {
-    it('should verify admin role and route to user.controller.destroy', function() {
-      expect(routerStub.delete
-        .withArgs('/:id', 'authService.hasRole.admin', 'userCtrl.destroy')
-        ).to.have.been.calledOnce;
-    });
-  });
-
-  describe('GET /api/users/me', function() {
-    it('should be authenticated and route to user.controller.me', function() {
-      expect(routerStub.get
-        .withArgs('/me', 'authService.isAuthenticated', 'userCtrl.me')
-        ).to.have.been.calledOnce;
-    });
-  });
-
-  describe('PUT /api/users/:id/password', function() {
-    it('should be authenticated and route to user.controller.changePassword', function() {
-      expect(routerStub.put
-        .withArgs('/:id/password', 'authService.isAuthenticated', 'userCtrl.changePassword')
+        .withArgs('/', 'userCtrl.index')
         ).to.have.been.calledOnce;
     });
   });
 
   describe('GET /api/users/:id', function() {
-    it('should be authenticated and route to user.controller.show', function() {
+    it('should route to user.controller.show', function() {
       expect(routerStub.get
-        .withArgs('/:id', 'authService.isAuthenticated', 'userCtrl.show')
+        .withArgs('/:id', 'userCtrl.show')
         ).to.have.been.calledOnce;
     });
   });
@@ -87,6 +54,30 @@ describe('User API Router:', function() {
     it('should route to user.controller.create', function() {
       expect(routerStub.post
         .withArgs('/', 'userCtrl.create')
+        ).to.have.been.calledOnce;
+    });
+  });
+
+  describe('PUT /api/users/:id', function() {
+    it('should route to user.controller.upsert', function() {
+      expect(routerStub.put
+        .withArgs('/:id', 'userCtrl.upsert')
+        ).to.have.been.calledOnce;
+    });
+  });
+
+  describe('PATCH /api/users/:id', function() {
+    it('should route to user.controller.patch', function() {
+      expect(routerStub.patch
+        .withArgs('/:id', 'userCtrl.patch')
+        ).to.have.been.calledOnce;
+    });
+  });
+
+  describe('DELETE /api/users/:id', function() {
+    it('should route to user.controller.destroy', function() {
+      expect(routerStub.delete
+        .withArgs('/:id', 'userCtrl.destroy')
         ).to.have.been.calledOnce;
     });
   });
