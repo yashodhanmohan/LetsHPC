@@ -88,7 +88,7 @@ describe('Cpmap API:', function() {
       request(app)
         .put(`/api/cpmaps/${newCpmap._id}`)
         .send({
-          cpmap_problem_id: 2,
+          cpmap_problem_id: 2
         })
         .expect(200)
         .expect('Content-Type', /json/)
