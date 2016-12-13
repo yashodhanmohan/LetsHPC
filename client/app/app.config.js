@@ -1,11 +1,11 @@
 'use strict';
 
 export function routeConfig($routeProvider, $locationProvider) {
-  'ngInject';
+    'ngInject';
 
-  $routeProvider.otherwise({
-    redirectTo: '/'
-  });
+    $routeProvider.otherwise({
+        redirectTo: '/'
+    });
 
-  $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 }

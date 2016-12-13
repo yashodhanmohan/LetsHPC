@@ -1,9 +1,11 @@
 'use strict';
 
 export default function routes($routeProvider) {
-  'ngInject';
+    'ngInject';
 
-  $routeProvider.when('/', {
-    template: '<main></main>'
-  });
+    $routeProvider.when('/', {
+        template: require('./main.html'),
+        controller: 'MainController',
+        controllerAs: 'main'
+    });
 }

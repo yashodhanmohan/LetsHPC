@@ -12,17 +12,17 @@ import 'core-js/es7/reflect';
 // require('zone.js/dist/zone');
 
 
-if(!ENV) {
-  var ENV = 'development';
+if (!ENV) {
+    var ENV = 'development';
 }
 
-if(ENV === 'production') {
-  // Production
+if (ENV === 'production') {
+    // Production
 } else {
-  // Development
+    // Development
 
 
-  Error.stackTraceLimit = Infinity;
+    Error.stackTraceLimit = Infinity;
 
-  // require('zone.js/dist/long-stack-trace-zone');
+    // require('zone.js/dist/long-stack-trace-zone');
 }

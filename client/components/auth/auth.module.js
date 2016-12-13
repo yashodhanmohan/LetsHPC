@@ -5,29 +5,29 @@ import constants from '../../app/app.constants';
 import util from '../util/util.module';
 import ngCookies from 'angular-cookies';
 import {
-  authInterceptor
+    authInterceptor
 } from './interceptor.service';
 import {
-  routerDecorator
+    routerDecorator
 } from './router.decorator';
 import {
-  AuthService
+    AuthService
 } from './auth.service';
 import {
-  UserResource
+    UserResource
 } from './user.service';
 const ngRoute = require('angular-route');
 
 function addInterceptor($httpProvider) {
-  'ngInject';
+    'ngInject';
 
-  $httpProvider.interceptors.push('authInterceptor');
+    $httpProvider.interceptors.push('authInterceptor');
 }
 
 export default angular.module('yashwantProjectApp.auth', [constants, util, ngCookies, ngRoute])
-  .factory('authInterceptor', authInterceptor)
-  .run(routerDecorator)
-  .factory('Auth', AuthService)
-  .factory('User', UserResource)
-  .config(['$httpProvider', addInterceptor])
-  .name;
+    .factory('authInterceptor', authInterceptor)
+    .run(routerDecorator)
+    .factory('Auth', AuthService)
+    .factory('User', UserResource)
+    .config(['$httpProvider', addInterceptor])
+    .name;
