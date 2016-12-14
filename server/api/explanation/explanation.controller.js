@@ -13,6 +13,9 @@
 import jsonpatch from 'fast-json-patch';
 import Explanation from './explanation.model';
 
+
+
+
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function(entity) {
@@ -114,4 +117,14 @@ export function destroy(req, res) {
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));
+}
+
+
+
+export function getExplanation(req, res) {
+    return Explanation.find({ approach_id: req.param.approach_id })
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+
 }
