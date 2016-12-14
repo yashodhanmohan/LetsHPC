@@ -13,8 +13,8 @@ var NumberSchema = new mongoose.Schema({
     p: Number,
     e2eS: Number,
     algS: Number,
-    e2eP: Number,
-    algP: Number
+    e2eNS: Number,
+    algNS: Number
 });
 
 export default mongoose.model('Number', NumberSchema);

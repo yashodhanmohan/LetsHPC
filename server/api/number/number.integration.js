@@ -43,8 +43,8 @@ describe('Number API:', function() {
                     p: 4,
                     e2eS: 100,
                     algS: 90,
-                    e2eP: 50,
-                    algP: 30
+                    e2eNS: 50,
+                    algNS: 30
                 })
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -67,8 +67,8 @@ describe('Number API:', function() {
             expect(newNumber.p).to.equal(4);
             expect(newNumber.e2eS).to.equal(100);
             expect(newNumber.algS).to.equal(90);
-            expect(newNumber.e2eP).to.equal(50);
-            expect(newNumber.algP).to.equal(30);
+            expect(newNumber.e2eNS).to.equal(50);
+            expect(newNumber.algNS).to.equal(30);
         });
     });
 
@@ -103,8 +103,8 @@ describe('Number API:', function() {
             expect(number.p).to.equal(4);
             expect(number.e2eS).to.equal(100);
             expect(number.algS).to.equal(90);
-            expect(number.e2eP).to.equal(50);
-            expect(number.algP).to.equal(30);
+            expect(number.e2eNS).to.equal(50);
+            expect(number.algNS).to.equal(30);
         });
     });
 
@@ -142,8 +142,8 @@ describe('Number API:', function() {
             expect(updatedNumber.p).to.equal(4);
             expect(updatedNumber.e2eS).to.equal(100);
             expect(updatedNumber.algS).to.equal(90);
-            expect(updatedNumber.e2eP).to.equal(50);
-            expect(updatedNumber.algP).to.equal(30);
+            expect(updatedNumber.e2eNS).to.equal(50);
+            expect(updatedNumber.algNS).to.equal(30);
 
         });
 
@@ -166,8 +166,8 @@ describe('Number API:', function() {
                     expect(number.p).to.equal(4);
                     expect(number.e2eS).to.equal(100);
                     expect(number.algS).to.equal(90);
-                    expect(number.e2eP).to.equal(50);
-                    expect(number.algP).to.equal(30);
+                    expect(number.e2eNS).to.equal(50);
+                    expect(number.algNS).to.equal(30);
 
                     done();
                 });
