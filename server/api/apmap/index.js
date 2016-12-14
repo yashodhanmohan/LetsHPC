@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./cpmap.controller');
+var controller = require('./apmap.controller');
 
 var router = express.Router();
 
