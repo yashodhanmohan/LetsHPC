@@ -115,3 +115,12 @@ export function destroy(req, res) {
         .then(removeEntity(res))
         .catch(handleError(res));
 }
+
+
+export function getMachine(req, res) {
+    return Machine.find({ machine_id: req.param.machine_id })
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+
+}
