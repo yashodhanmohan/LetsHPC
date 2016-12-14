@@ -5,6 +5,7 @@ var controller = require('./cpmap.controller');
 
 var router = express.Router();
 
+router.get('/getProblems', controller.getProblems);
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
