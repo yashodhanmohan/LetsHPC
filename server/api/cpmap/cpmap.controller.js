@@ -117,7 +117,7 @@ export function destroy(req, res) {
 }
 
 export function getProblems(req, res) {
-    return Cpmap.find({ category_id: req.param.category_id })
+    return Cpmap.find({ cpmap_category_id: req.param.category_id })
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));}
