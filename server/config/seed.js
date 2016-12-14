@@ -6,6 +6,7 @@
 'use strict';
 import Category from '../api/category/category.model';
 import Cpmap from '../api/cpmap/cpmap.model';
+import Apmap from '../api/apmap/apmap.model';
 import Explanation from '../api/explanation/explanation.model';
 import Machine from '../api/machine/machine.model';
 import Numbered from '../api/number/number.model';
@@ -2663,6 +2664,18 @@ Machine.find({}).remove()
             })
             .then(() => {
                 console.log('finished populating ');
+            });
+    });
+
+Apmap.find({}).remove()
+    .then(() => {
+        Apmap.create({
+                apmap_problem_id: 1,
+                apmap_approach_id: 1,
+                apmap_approach_desc: 'Test Approach'
+            })
+            .then(() => {
+                console.log('finished populating Apmap');
             });
     });
 
