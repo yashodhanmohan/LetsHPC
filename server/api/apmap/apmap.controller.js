@@ -11,7 +11,7 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Apmap from './cpmap.model';
+import Apmap from './apmap.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;

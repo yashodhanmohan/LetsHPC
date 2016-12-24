@@ -1,12 +1,13 @@
 'use strict';
 
 import angular from 'angular';
-// import ngAnimate from 'angular-animate';
+import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 const ngRoute = require('angular-route');
-
+// import '../assets/jquery/jquery.min.js';
+import bootstrap from '../assets/bootstrap/js/bootstrap.min.js'
 // import ngMessages from 'angular-messages';
 // import ngValidationMatch from 'angular-validation-match';
 
@@ -25,20 +26,11 @@ import util from '../components/util/util.module';
 
 import './app.css';
 
-
 google.load('visualization', '1', {
     packages: ['corechart']
 });
 
-google.setOnLoadCallback(function() {
-    angular.bootstrap(document, ['yashwantProjectApp'], {
-        strictDi: true
-    });
-});
-
-
-
-angular.module('yashwantProjectApp', [ngCookies, ngResource, ngSanitize, ngRoute, _Auth, account,
+angular.module('yashwantProjectApp', [ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, _Auth, account,
         admin, navbar, footer, main, constants, util
     ])
     .config(routeConfig)
@@ -57,5 +49,7 @@ angular.module('yashwantProjectApp', [ngCookies, ngResource, ngSanitize, ngRoute
 
 angular.element(document)
     .ready(() => {
-
+        angular.bootstrap(document, ['yashwantProjectApp'], {
+            strictDi: true
+        });
     });

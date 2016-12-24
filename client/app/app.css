@@ -1,4 +1,4 @@
-@import '~materialize-css/dist/css/materialize.min.css';
+@import '../assets/bootstrap/css/bootstrap.min.css';
 
 /**
  * App-wide Styles
@@ -11,6 +11,17 @@
     padding: 0.2em 0;
 }
 
+.indigo {
+    background-color: #3F51B5;
+}
+
+.pad-up {
+    padding-top: 2%
+}
+
+.pad-left {
+    padding-left: 5%
+}
 
 /* Responsive: Portrait tablets and up */
 
@@ -23,15 +34,9 @@
 
 /* Component styles are injected through gulp */
 
-
 /* inject:css */
-
 @import 'admin/admin.css';
-
 @import 'main/main.css';
-
 @import '../components/footer/footer.css';
-
 @import '../components/oauth-buttons/oauth-buttons.css';
-
 /* endinject */
