@@ -1,17 +1,17 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/Apmaps              ->  index
- * POST    /api/Apmaps              ->  create
- * GET     /api/Apmaps/:id          ->  show
- * PUT     /api/Apmaps/:id          ->  upsert
- * PATCH   /api/Apmaps/:id          ->  patch
- * DELETE  /api/Apmaps/:id          ->  destroy
+ * GET     /api/Approaches              ->  index
+ * POST    /api/Approaches              ->  create
+ * GET     /api/Approaches/:id          ->  show
+ * PUT     /api/Approaches/:id          ->  upsert
+ * PATCH   /api/Approaches/:id          ->  patch
+ * DELETE  /api/Approaches/:id          ->  destroy
  */
 
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Apmap from './apmap.model';
+import Approach from './approach.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -63,62 +63,55 @@ function handleError(res, statusCode) {
     };
 }
 
-// Gets a list of Apmaps
+// Gets a list of Approaches
 export function index(req, res) {
-    return Apmap.find().exec()
+    return Approach.find().exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Gets a single Apmap from the DB
+// Gets a single Approach from the DB
 export function show(req, res) {
-    return Apmap.findById(req.params.id).exec()
+    return Approach.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Creates a new Apmap in the DB
+// Creates a new Approach in the DB
 export function create(req, res) {
-    return Apmap.create(req.body)
+    return Approach.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
 }
 
-// Upserts the given Apmap in the DB at the specified ID
+// Upserts the given Approach in the DB at the specified ID
 export function upsert(req, res) {
     if (req.body._id) {
         delete req.body._id;
     }
-    return Apmap.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
+    return Approach.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
 
     .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Updates an existing Apmap in the DB
+// Updates an existing Approach in the DB
 export function patch(req, res) {
     if (req.body._id) {
         delete req.body._id;
     }
-    return Apmap.findById(req.params.id).exec()
+    return Approach.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(patchUpdates(req.body))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-// Deletes a Apmap from the DB
+// Deletes a Approach from the DB
 export function destroy(req, res) {
-    return Apmap.findById(req.params.id).exec()
+    return Approach.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));
 }
-
-
-export function getApproaches(req, res) {
-    return Apmap.find({ apmap_problem_id: req.param.problem_id })
-        .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));}

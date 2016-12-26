@@ -9,14 +9,12 @@ import path from 'path';
 
 export default function(app) {
     // Insert routes below
-    app.use('/api/users', require('./api/user'));
-    app.use('/api/apmaps', require('./api/apmap'));
-    app.use('/api/categorys', require('./api/category'));
-    app.use('/api/numbers', require('./api/number'));
-    app.use('/api/problems', require('./api/problem'));
-    app.use('/api/cpmaps', require('./api/cpmap'));
-    app.use('/api/machines', require('./api/machine'));
-    app.use('/api/explanations', require('./api/explanation'));
+    app.use('/api/user', require('./api/user'));
+    app.use('/api/approach', require('./api/approach'));
+    app.use('/api/category', require('./api/category'));
+    app.use('/api/number', require('./api/number'));
+    app.use('/api/problem', require('./api/problem'));
+    app.use('/api/machine', require('./api/machine'));
     app.use('/auth', require('./auth').default);
 
     // All undefined asset or api routes should return a 404

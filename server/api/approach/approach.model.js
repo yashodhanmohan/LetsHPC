@@ -2,12 +2,11 @@
 
 import mongoose from 'mongoose';
 
-var ExplanationSchema = new mongoose.Schema({
+var Approach = new mongoose.Schema({
     user_id: String,
-    problem_id: Number,
-    approach_id: Number,
-    category_id: Number,
-    approach_description: String,
+    problem_id: String,
+    category_id: String,
+    desc: String,
     complexity: String,
     estimated_ser_frac: String,
     diff_faced: String,
@@ -18,4 +17,4 @@ var ExplanationSchema = new mongoose.Schema({
     parallel_code: String
 });
 
-export default mongoose.model('Explanation', ExplanationSchema);
+export default mongoose.model('Approach', Approach);

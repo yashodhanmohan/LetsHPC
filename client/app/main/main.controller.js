@@ -24,7 +24,7 @@ export default class MainController {
         this.$http = $http;
 
         // Fetch categories
-        this.$http.get('/api/Categorys/').then((response)=>{
+        this.$http.get('/api/category/').then((response)=>{
             this.categories = response.data;
         }, (error)=>{
             console.log(error);
@@ -57,6 +57,7 @@ export default class MainController {
                 }    
             }    
         };
+        
         this.chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         google.visualization.events.addListener(this.chart, 'ready', () => {
             this.chart_image = this.chart.getImageURI();

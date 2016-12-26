@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 var UserSchema = new mongoose.Schema({
     name: String,
-    user_id: String,
+    username: String,
     affiliation: Number,
     password: String,
     position: String

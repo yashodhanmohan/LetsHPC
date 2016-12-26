@@ -4,10 +4,10 @@ import mongoose from 'mongoose';
 
 var NumberSchema = new mongoose.Schema({
     user_id: String,
-    problem_id: Number,
-    category_id: Number,
-    approach_id: Number,
-    machine_id: Number,
+    problem_id: String,
+    category_id: String,
+    approach_id: String,
+    machine_id: String,
     run_id: Number,
     n: Number,
     p: Number,
