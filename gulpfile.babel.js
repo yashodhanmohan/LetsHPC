@@ -290,7 +290,7 @@ gulp.task('clean:tmp', () => del(['.tmp/**/*'], {dot: true}));
 
 gulp.task('start:client', cb => {
     whenServerReady(() => {
-        open('http://localhost:' + config.browserSyncPort);
+        open('http://localhost:' + config.port);
         cb();
     });
 });
@@ -337,7 +337,7 @@ gulp.task('serve', cb => {
             'copy:fonts:dev',
             'env:all'
         ],
-        // 'webpack:dev',
+        'webpack:dev',
         ['start:server', 'start:client'],
         'watch',
         cb
