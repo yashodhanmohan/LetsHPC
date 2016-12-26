@@ -27,10 +27,10 @@
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                    <li ng-repeat="category in main.categories"><a href="#" ng-click="main.select_category(category)">{{category.category_name}}</a></li>
+                                    <li ng-repeat="category in main.categories"><a href="#" ng-click="main.select_category(category)">{{category.name}}</a></li>
                                 </ul>
                             </div>
-                            <input type="text" class="form-control" placeholder="Category" value="{{main.selected_category.category_name}}" disabled>
+                            <input type="text" class="form-control" placeholder="Category" value="{{main.selected_category.name}}" disabled>
                         </div>
                     </div>
                 </div>
@@ -40,10 +40,10 @@
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Problem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                    <li ng-repeat="problem in main.problems"><a href="#" ng-click="main.select_problem(problem)">{{problem.problem_name}}</a></li>
+                                    <li ng-repeat="problem in main.problems"><a href="#" ng-click="main.select_problem(problem)">{{problem.name}}</a></li>
                                 </ul>
                             </div>
-                            <input type="text" class="form-control" placeholder="Problem" value="{{main.selected_problem.problem_name}}" disabled>
+                            <input type="text" class="form-control" placeholder="Problem" value="{{main.selected_problem.name}}" disabled>
                         </div>
                     </div>
                 </div>
@@ -51,30 +51,28 @@
             <div class="row pad-up">
                 <div class="col-md-12">
                     <ul class="nav nav-pills">
-                        <li role="presentation" ng-class="{active: main.compare_machines}"><a href="#" ng-click="main.machine_approach_view_change('machine')">Compare machines</a></li>
-                        <li role="presentation" ng-class="{active: main.compare_approaches}"><a href="#" ng-click="main.machine_approach_view_change('approach')">Compare approaches</a></li>
+                        <li role="presentation" ng-class="{active: main.machine_approach_view=='machine'}"><a href="#" ng-click="main.machine_approach_view_change('machine')">Compare machines</a></li>
+                        <li role="presentation" ng-class="{active: main.machine_approach_view=='approach'}"><a href="#" ng-click="main.machine_approach_view_change('approach')">Compare approaches</a></li>
                     </ul>
-                    <ul class="list-group pad-up col-md-12" ng-if="main.compare_machines">
+                    <ul class="list-group pad-up col-md-12" ng-if="main.machine_approach_view=='machine'">
                         <li ng-repeat="machine in main.machines" class="list-group-item">
                             <div class="input-group">
                                 <span class="input-group-addon">
-                            <input type="checkbox" aria-label="...">
-                        </span>
+                                    <input type="checkbox" aria-label="...">
+                                </span>
                                 <input type="text" class="form-control" aria-label="..." disabled value="{{machine.machine_file}}">
                             </div>
                         </li>
                     </ul>
-                    <ul class="list-group pad-up col-md-12" ng-if="main.compare_approaches">
+                    <ul class="list-group pad-up col-md-12" ng-if="main.machine_approach_view=='approach'">
                         <li ng-repeat="approach in main.approaches" class="list-group-item">
                             <div class="input-group">
                                 <span class="input-group-addon">
-                        0  <input type="checkbox" aria-label="...">
-                        2  <input type="checkbox" aria-label="...">
-                        4  <input type="checkbox" aria-label="...">
-                        6  <input type="checkbox" aria-label="...">
-                        8  <input type="checkbox" aria-label="...">
-                      </span>
-                                <input type="text" class="form-control" aria-label="..." disabled value="{{approach.apmap_approach_desc}}">
+                                    <span ng-repeat="(thread, number) in approach.numbers_by_threads">
+                                        {{thread}}<input type="checkbox" ng-model="number.plot" ng-change="main.add_number_to_plot_data(number.plot, $parent.$index, thread)"> 
+                                    </span>
+                                </span>
+                                <input type="text" class="form-control" disabled value="{{approach.desc}}">
                             </div>
                         </li>
                     </ul>

@@ -11,126 +11,107 @@ import Machine from '../api/machine/machine.model';
 import Approach from '../api/approach/approach.model';
 import Numbers from '../api/number/number.model';
 
+var user1 = '58614771d3a6681abe39abb1';
+var category1 = '58614771d3a6681abe39abb2', category2 = '58614771d3a6681abe39abb3';
+var problem1 = '5861484d2c3e861ba6b380f2', problem2 = '5861484d2c3e861ba6b380f3';
+var approach1 = '5861484d2c3e861ba6b380f7', approach2 = '5861484d2c3e861ba6b380f8';
+var machine1 = '5861484d2c3e861ba6b380f4', machine2 = '5861484d2c3e861ba6b380f5', machine3 = '5861484d2c3e861ba6b380f6';
+
 // Create users
-var user1;
 User.find({})
     .remove()
     .then(() => {
         User
             .create({
+                _id: user1,
                 name: 'Yashwant Keswani',
                 username: 'yash1',
                 affiliation: 3,
                 password: 'pabloescobar',
                 position: 'Student'
-            })
-            .then((response) => {
-                user1 = response._id;
             });
         console.log('finished populating User');
     });
 
 // Create categories
-var category1, category2;
 Category.find({})
     .remove()
     .then(() => {
         Category
             .create({
+                _id: category1,
                 name: 'Reduction',
                 desc: 'This is the classic reduction stratergy'
-            })
-            .then((response) => {
-                category1 = response._id;
             });
         Category
             .create({
+                _id: category2,
                 name: 'Matrix Related',
                 desc: 'Matrix Related Operations'
-            })
-            .then((response) => {
-                category2 = response._id;
             });
         console.log('finished populating Category');
     });
 
 // Create problems
-var problem1, problem2;
 Problem.find({})
     .remove()
     .then(() => {
         Problem
             .create({
+                _id: problem1,
                 category_id: category1,
                 name: 'Finding the sum',
                 desc: 'This is a test problem'
-            })
-            .then((response) => {
-                problem1 = response._id;
-            })
+            });
         Problem
             .create({
+                _id: problem2,
                 category_id: category2,
                 name: 'Matrix Multiplication',
                 desc: 'This is a test matrix multiplication'
-            })
-            .then((response) => {
-                problem2 = response._id;
             });
         console.log('finished populating Problem');
     });
 
 // Create machines
-var machine1, machine2, machine3;
 Machine.find({}).remove()
     .then(() => {
         Machine
             .create({
+                _id: '5861484d2c3e861ba6b380f4',
                 machine_file: '/path/to/file1'
-            })
-            .then((response) => {
-                machine1 = response._id;
             });
         Machine
             .create({
+                _id: '5861484d2c3e861ba6b380f5',
                 machine_file: '/path/to/file2'
-            })
-            .then((response) => {
-                machine2 = response._id;
             });
         Machine
             .create({
+                _id: '5861484d2c3e861ba6b380f6',
                 machine_file: '/path/to/file3'
-            })
-            .then((response) => {
-                machine3 = response._id;
             });
         console.log('finished populating Machine');
     });
 
 // Create approaches
-var approach1, approach2;
 Approach.find({}).remove()
     .then(() => {
         Approach
             .create({
+                _id: approach1,
                 user_id: user1,
                 problem_id: problem1,
                 category_id: category1,
                 desc: 'Tree based approach'
-            })
-            .then((response) => {
-                approach1 = response._id;
             });
         Approach
             .create({
+                _id: approach2,
                 user_id: user1,
                 problem_id: problem2,
                 category_id: category2,
                 desc: 'Tree based approach'
-            })
-            .then((response) => {
-                approach2 = response._id;
             });
         console.log('finished populating Approach');
     });

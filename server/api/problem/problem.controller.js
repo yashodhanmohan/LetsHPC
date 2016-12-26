@@ -12,6 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import Problem from './problem.model';
+import Approach from '../approach/approach.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -113,5 +114,12 @@ export function destroy(req, res) {
     return Problem.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
+        .catch(handleError(res));
+}
+
+export function approach(req, res) {
+    return Approach.find({problem_id: req.params.id})
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
         .catch(handleError(res));
 }

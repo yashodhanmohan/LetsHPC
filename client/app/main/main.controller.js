@@ -1,6 +1,7 @@
 import angular from 'angular';
 const ngRoute = require('angular-route');
 import routing from './main.routes';
+import _ from 'lodash';
 
 export default class MainController {
 
@@ -10,8 +11,8 @@ export default class MainController {
     problems = [];
     machines = [];
     approaches = [];
-    compare_machines = true;
-    compare_approaches = false;
+    machine_approach_view = 'machine';
+    plotted_lines = [];
     data = {};
     chart = {};
     chart_image = {};
@@ -24,13 +25,12 @@ export default class MainController {
         this.$http = $http;
 
         // Fetch categories
-        this.$http.get('/api/category/').then((response)=>{
+        this.$http.get('/api/category').then((response)=>{
             this.categories = response.data;
         }, (error)=>{
             console.log(error);
         });
 
-        this.get_approach_data()
         this.chart_options = {
             title:'Number of threads vs time',
             titlePosition: 'in',
@@ -57,12 +57,11 @@ export default class MainController {
                 }    
             }    
         };
-        
+
         this.chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         google.visualization.events.addListener(this.chart, 'ready', () => {
             this.chart_image = this.chart.getImageURI();
         });
-        this.plot_graph();
     }
 
     // Select category of problems
@@ -74,22 +73,18 @@ export default class MainController {
     // Select problem whose solutions you want to compare
     select_problem(selected_problem) {
         this.selected_problem = selected_problem;
-        this.fetch_machine_approach_data();
+        this.fetch_machine_data();
+        this.fetch_approach_data();
     }
 
     machine_approach_view_change(view) {
-        if(view=='machine') {
-            this.compare_machines = true;
-            this.compare_approaches = false;
-        } else {
-            this.compare_approaches = true;
-            this.compare_machines = false;
-        }
+        
+        this.machine_approach_view = view;
     }
 
     fetch_problems() {
         // Fetch problems corresponding to category
-        this.$http.get('/api/Problems/').then((response)=>{
+        this.$http.get('/api/category/'+this.selected_category._id+'/problem').then((response)=>{
             this.problems = response.data;
         }, (error)=>{
             console.log(error);
@@ -97,58 +92,64 @@ export default class MainController {
     }
 
     fetch_machine_approach_data() {
-        
-        // Fetch problems corresponding to category
-        this.$http.get('/api/Machines/').then((response)=>{
+        this.$http.get('/api/machine').then((response) => {
             this.machines = response.data;
-        }, (error)=>{
+        }, (error) => {
             console.log(error);
         });
+    }
 
-        // Fetch problems corresponding to category
-        this.$http.get('/api/Apmaps/').then((response)=>{
+    fetch_machine_approach_data() {
+        this.$http.get('/api/problem/'+this.selected_problem._id+'/approach').then((response) => {
             this.approaches = response.data;
+            this.fetch_number_data();
         }, (error)=>{
             console.log(error);
         });
     }
 
-    plot_graph(x) {
-        var graph_data = new google.visualization.DataTable();
-        if (x==undefined) {
-            graph_data.addColumn('number', 'nthreads');
-            graph_data.addColumn('number', 'Time');
-            graph_data.addRows(this.data)
-            this.chart.draw(graph_data, this.chart_options);
-        } else if (x=='timeseries') {
-            graph_data.addColumn('number', 'nthreads');
-            graph_data.addColumn('number', 'Time');
-            graph_data.addRows(this.data)
-            this.chart_options.title = 'Number of threads vs execution time';
-            this.chart.draw(graph_data, this.chart_options);   
-        } else if (x=='karpflatt') {
-            graph_data.addColumn('number', 'nthreads');
-            graph_data.addColumn('number', 'Karp Flatt Metric');
-            var karp_flatt_data = this.get_karp_flatt_data();
-            graph_data.addRows(karp_flatt_data);
-            this.chart_options.title = 'Number of threads vs Karp Flatt coefficient';
-            this.chart.draw(graph_data, this.chart_options);
-        } else if (x=='speedup') {
-            graph_data.addColumn('number', 'nthreads');
-            graph_data.addColumn('number', 'Speedup');
-            var speedup_data = this.get_speedup_data();
-            graph_data.addRows(speedup_data);
-            this.chart_options.title = 'Number of threads vs Speedup';
-            this.chart.draw(graph_data, this.chart_options);
+    fetch_number_data() {
+        for(var i in this.approaches) {
+            this.$http.get('/api/approach/'+this.approaches[i]._id+'/number').then((response) => {
+                var numbers = response.data;
+                var numbers_grouped_by_thread_count = _.groupBy(numbers, function(number) {return number.p;})
+                this.approaches[i].numbers_by_threads = numbers_grouped_by_thread_count;
+                for(var j in this.approaches[i].numbers_by_threads) {
+                    this.approaches[i].numbers_by_threads[j] = {
+                        numbers: this.approaches[i].numbers_by_threads[j],
+                        plot: false
+                    };
+                }
+            });
         }
     }
 
-    // Populates main data file with [nthreads, time] pairs
-    get_approach_data() {
-        this.data = []
-        for(var i=0; i<33; i++) {
-            var x = (5.4 - 4*Math.exp(-Math.pow((i-16), 2)/81)) + Math.random();
-            this.data.push([i, x])
+    add_number_to_plot_data(plot, approach_index, nthreads) {
+        if (this.approaches[approach_index].numbers_by_threads[nthreads].plot==true) {
+            this.plotted_lines.push({
+                approach_index: approach_index,
+                nthreads: nthreads
+            });
+            this.plot_graph();
+        }
+        else {
+            this.plotted_lines = _.reject(this.plotted_lines, function(plotted) {
+                return (plotted.approach_index == approach_index) && (plotted.nthreads == nthreads)
+            });
+        }
+
+    }
+
+    plot_graph() {
+        var common_x_coordinates = [];
+        for(var l in this.plotted_lines) {
+            var approach_index = this.plotted_lines[l].approach_index;
+            var nthreads = this.plotted_lines[l].nthreads;
+            var series = this.approaches[approach_index].numbers_by_threads[nthreads].numbers;
+            var series_numbers = _.map(series, _.property('n'));
+            var series_values = _.map(series, _.property('e2eNS'));
+            console.log(series_numbers);
+            console.log(series_values);
         }
     }
 
