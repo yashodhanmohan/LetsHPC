@@ -5,6 +5,28 @@
                 <div id="chart_div" />
             </div>
             <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=true; main.refresh_chart()">X-axis: Log</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=false; main.refresh_chart()">X-axis: Linear</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=true; main.refresh_chart()">Y-axis: Log</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=false; main.refresh_chart()">Y-axis: Linear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pad-up">
                 <div class="col-md-3">
                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.graph_type=='karpflatt'}" ng-click="main.change_graph('karpflatt')">Karp-Flatt metric</button>
                 </div>
@@ -69,10 +91,14 @@
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <span ng-repeat="(thread, number) in approach.numbers_by_threads">
-                                        {{thread}}<input type="checkbox" ng-model="number.plot" ng-change="main.add_number_to_plot_data(number.plot, $parent.$index, thread)"> 
+                                        {{thread}}<input type="checkbox" ng-model="number.plot" ng-change="main.change_plot($parent.$index, thread)">
                                     </span>
                                 </span>
-                                <input type="text" class="form-control" disabled value="{{approach.desc}}">
+                                <input type="text" class="form-control" disabled value="{{($index+1) +' '+ approach.desc}}"></input>
+                                <span class="input-group-addon">
+                                    E2E<input type="checkbox" ng-model="approach.plot_e2e" ng-change="main.change_e2e_alg($index)">
+                                    ALG<input type="checkbox" ng-model="approach.plot_alg" ng-change="main.change_e2e_alg($index)">
+                                </span>
                             </div>
                         </li>
                     </ul>
