@@ -33,8 +33,8 @@
         <div class="row pad-up">
             <div class="col-md-12">
                 <ul class="col-md-offset-5 col-md-4 nav nav-pills">
-                    <li role="presentation" ng-class="{active: main.machine_approach_view=='machine'}"><a href="#" ng-click="main.machine_approach_view_change('machine')">Compare machines</a></li>
-                    <li role="presentation" ng-class="{active: main.machine_approach_view=='approach'}"><a href="#" ng-click="main.machine_approach_view_change('approach')">Compare approaches</a></li>
+                    <li role="presentation" ng-class="{active: main.machine_approach_view=='machine'}"><a href="#" ng-click="main.toggle_machine_approach('machine')">Compare machines</a></li>
+                    <li role="presentation" ng-class="{active: main.machine_approach_view=='approach'}"><a href="#" ng-click="main.toggle_machine_approach('approach')">Compare approaches</a></li>
                 </ul>
                 <ul class="list-inline pad-up col-md-12" ng-if="main.machine_approach_view=='machine'">
                     <li ng-repeat="machine in main.machines" class="list-group-item col-md-6">
@@ -51,13 +51,13 @@
                         <div class="input-group">
                             <span class="input-group-addon">
                                     <span ng-repeat="(thread, number) in approach.numbers_by_threads">
-                                        {{thread}}<input type="checkbox" ng-model="number.plot" ng-change="main.change_plot($parent.$index, thread)">
+                                        {{thread}}<input type="checkbox" ng-model="number.plot" ng-change="main.toggle_number_in_table($parent.$index, thread)">
                                     </span>
                             </span>
                             <input type="text" class="form-control" disabled value="{{($index+1) +' '+ approach.desc}}"></input>
                             <span class="input-group-addon">
-                                    E2E<input type="checkbox" ng-model="approach.plot_e2e" ng-change="main.change_e2e_alg($index)">
-                                    ALG<input type="checkbox" ng-model="approach.plot_alg" ng-change="main.change_e2e_alg($index)">
+                                    E2E<input type="checkbox" ng-model="approach.plot_e2e" ng-change="main.toggle_e2e_alg($index)">
+                                    ALG<input type="checkbox" ng-model="approach.plot_alg" ng-change="main.toggle_e2e_alg($index)">
                                 </span>
                         </div>
                     </li>
@@ -74,20 +74,20 @@
                 <div class="col-md-4 col-md-offset-2 well">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=true; main.refresh_chart()">X-axis: Log</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=true; main.refresh_chart(main.active_chart)">X-axis: Log</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=false; main.refresh_chart()">X-axis: Linear</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=false; main.refresh_chart(main.active_chart)">X-axis: Linear</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 well">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=true; main.refresh_chart()">Y-axis: Log</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=true; main.refresh_chart(main.active_chart)">Y-axis: Log</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=false; main.refresh_chart()">Y-axis: Linear</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=false; main.refresh_chart(main.active_chart)">Y-axis: Linear</button>
                         </div>
                     </div>
                 </div>
@@ -96,13 +96,13 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2 well">
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.graph_type=='karpflatt'}" ng-click="main.change_graph('karpflatt')">Karp-Flatt metric</button>
+                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt')" disabled="disabled">Karp-Flatt metric</button>
                 </div>
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.graph_type=='speedup'}" ng-click="main.change_graph('speedup')">Speedup</button>
+                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup')">Speedup</button>
                 </div>
                 <div class="col-md-3">
-                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.graph_type=='timeseries'}" ng-click="main.change_graph('timeseries')">Time series</button>
+                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries')">Time series</button>
                 </div>
                 <div class="col-md-3">
                     <a href="{{main.chart_image}}" class="btn btn-primary btn-block" download="image.png">Export Graph</a>
