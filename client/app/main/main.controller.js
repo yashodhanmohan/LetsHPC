@@ -64,19 +64,29 @@ export default class MainController {
         google.visualization.events.addListener(this.chart, 'ready', () => {
             this.chart_image = this.chart.getImageURI();
         });
+
+        this.refresh_chart();
     }
 
     // Select category of problems
     select_category(selected_category) {
-        this.selected_category = selected_category;
-        this.fetch_problems();
+        if(this.selected_category != selected_category) {
+            this.data.removeColumns(1, this.data.getNumberOfColumns() - 1);
+            this.refresh_chart();
+            this.selected_category = selected_category;
+            this.fetch_problems();
+        }
     }
 
     // Select problem whose solutions you want to compare
     select_problem(selected_problem) {
-        this.selected_problem = selected_problem;
-        this.fetch_machine_data();
-        this.fetch_approach_data();
+        if(this.selected_problem != selected_problem) {
+            this.selected_problem = selected_problem;
+            this.data.removeColumns(1, this.data.getNumberOfColumns() - 1);
+            this.refresh_chart();
+            this.fetch_machine_data();
+            this.fetch_approach_data();
+        }
     }
 
     machine_approach_view_change(view) {
