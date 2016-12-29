@@ -34,7 +34,7 @@ export default class MainController {
         this.chart_options = {
             title: 'Number of threads vs time',
             titlePosition: 'in',
-            height: 500,
+            height: 600,
             // curveType: 'function',
             pointShape: 'circle',
             pointsVisible: true,
@@ -54,7 +54,7 @@ export default class MainController {
                 backgroundColor: {
                     stroke: '#3F51B5',
                     strokeWidth: '1'
-                }
+                },
             }
         };
 

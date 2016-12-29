@@ -4,6 +4,10 @@
  * App-wide Styles
  */
 
+ .list-group-item {
+    float: left;
+}
+
 .browserupgrade {
     margin: 0.2em 0;
     background: #ccc;
@@ -16,7 +20,7 @@
 }
 
 .pad-up {
-    padding-top: 2%
+    padding-top: 20px
 }
 
 .pad-left {
