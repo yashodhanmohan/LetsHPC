@@ -47,18 +47,23 @@
                     </li>
                 </ul>
                 <ul class="list-inline pad-up col-md-12" ng-if="main.machine_approach_view=='approach'">
-                    <li ng-repeat="approach in main.approaches" class="list-group-item col-md-6">
+                    <li ng-repeat="approach in main.approaches" class="list-group-item col-md-12">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                    <span ng-repeat="(thread, number) in approach.numbers_by_threads">
-                                        {{thread}}<input type="checkbox" ng-model="number.plot" ng-change="main.toggle_number_in_table($parent.$index, thread)">
-                                    </span>
-                            </span>
-                            <input type="text" class="form-control" disabled value="{{($index+1) +' '+ approach.desc}}"></input>
-                            <span class="input-group-addon">
-                                    E2E<input type="checkbox" ng-model="approach.plot_e2e" ng-change="main.toggle_e2e_alg($index)">
-                                    ALG<input type="checkbox" ng-model="approach.plot_alg" ng-change="main.toggle_e2e_alg($index)">
+                                <span ng-repeat="(nthreads, nthreadi) in approach.thread_plots">
+                                    {{nthreads}}<input type="checkbox" ng-model="nthreadi.plot" ng-change="main.toggle_thread($parent.$index, nthreads)">
                                 </span>
+                            </span>
+                            <input type="text" class="form-control" disabled value="{{$index +' '+ approach.desc}}"></input>
+                            <span class="input-group-addon">
+                                E2E<input type="checkbox" ng-model="approach.plot_e2e" ng-change="main.toggle_e2e($index)">
+                                ALG<input type="checkbox" ng-model="approach.plot_alg" ng-change="main.toggle_alg($index)">
+                            </span>
+                            <span class="input-group-addon">
+                                <span ng-repeat="(machineid, machinei) in approach.machine_plots">
+                                    {{main.machines[machineid].machine_file}}<input type="checkbox" ng-model="machinei.plot" ng-change="main.toggle_machine($parent.$index, machineid)">
+                                </span>
+                            </span>
                         </div>
                     </li>
                 </ul>

@@ -76,7 +76,7 @@ export default class MainController {
             title: 'Problem size vs. Execution time',
             hAxis: {
                 title: 'Problem size'
-            }, 
+            },
             vAxis: {
                 title: 'Execution time'
             }
@@ -86,7 +86,7 @@ export default class MainController {
             title: 'Problem size vs. Speedup',
             hAxis: {
                 title: 'Problem size'
-            }, 
+            },
             vAxis: {
                 title: 'Speedup'
             }
@@ -96,7 +96,7 @@ export default class MainController {
             title: 'Problem size vs. Karp Flatt coefficient',
             hAxis: {
                 title: 'Problem size'
-            }, 
+            },
             vAxis: {
                 title: 'Karp flatt coefficient'
             }
@@ -144,8 +144,46 @@ export default class MainController {
     }
 
     toggle_machine_approach(view) {
+        if(this.machine_approach_view!=view) {
+            // Clear chart
+            this.execution_time_data.removeColumns(1, this.execution_time_data.getNumberOfColumns() - 1);
+            this.speedup_data.removeColumns(1, this.speedup_data.getNumberOfColumns() - 1);
+            this.refresh_chart(this.active_chart);
+            // Change machine-approach view
+            this.machine_approach_view = view;
+        }
+    }
 
-        this.machine_approach_view = view;
+    toggle_e2e(approach_index) {
+        if(this.approaches[approach_index].plot_e2e)
+            this.add_e2e_in_table(approach_index);
+        else
+            this.remove_e2e_from_table(approach_index);
+        this.refresh_chart(this.active_chart);
+    }
+
+    toggle_alg(approach_index) {
+        if(this.approaches[approach_index].plot_alg)
+            this.add_alg_in_table(approach_index);
+        else
+            this.remove_alg_from_table(approach_index);
+        this.refresh_chart(this.active_chart);
+    }
+
+    toggle_thread(approach_index, nthreads) {
+        if(this.approaches[approach_index].thread_plots[nthreads].plot)
+            this.add_thread_in_table(approach_index, nthreads);
+        else
+            this.remove_thread_from_table(approach_index, nthreads);
+        this.refresh_chart(this.active_chart);
+    }
+
+    toggle_machine(approach_index, machine_id) {
+        if(this.approaches[approach_index].machine_plots[machine_id].plot)
+            this.add_machine_in_table(approach_index, machine_id);
+        else
+            this.remove_machine_from_table(approach_index, machine_id);
+        this.refresh_chart(this.active_chart);
     }
 
     // Computation functions =============================================
@@ -155,17 +193,18 @@ export default class MainController {
         var alg_execution_time_by_problem_size = {};
 
         var number_grouped_by_problem_size = _.groupBy(number, function(x) {
-            return x.n });
+            return x.n
+        });
         for (var size in number_grouped_by_problem_size) {
             var e2e_averaged_execution_time = 0;
             var alg_averaged_execution_time = 0;
             var count = 0;
             for (var i in number_grouped_by_problem_size[size]) {
                 count++;
-                var e2eS = number_grouped_by_problem_size[size][i].e2eS;
-                var algS = number_grouped_by_problem_size[size][i].algS;
-                var e2eNS = number_grouped_by_problem_size[size][i].e2eNS;
-                var algNS = number_grouped_by_problem_size[size][i].algNS;
+                var e2eS = parseFloat(number_grouped_by_problem_size[size][i].e2eS);
+                var algS = parseFloat(number_grouped_by_problem_size[size][i].algS);
+                var e2eNS = parseFloat(number_grouped_by_problem_size[size][i].e2eNS);
+                var algNS = parseFloat(number_grouped_by_problem_size[size][i].algNS);
 
                 e2e_averaged_execution_time += (e2eS + (e2eNS * 1e-9))
                 alg_averaged_execution_time += (algS + (algNS * 1e-9))
@@ -182,60 +221,6 @@ export default class MainController {
             alg: alg_execution_time_by_problem_size
         };
     }
-
-    /*
-    averaged_speedup(number, number_for_serial) {
-        var e2e_speedup_by_problem_size = {};
-        var alg_speedup_by_problem_size = {};
-
-        var number_grouped_by_run = _.groupBy(number, function(x) {return x.run_id});
-        var number_serial_grouped_by_run = _.groupBy(number_for_serial, function(x) {return x.run_id});
-
-        var count = 0;
-        for(var run in number_grouped_by_run) {
-            count++;
-            for(var i in number_grouped_by_run[run]) {
-                count++;
-
-                var size = number_grouped_by_run[run][i].n;
-
-                var e2eS = number_grouped_by_run[run][i].e2eS;
-                var algS = number_grouped_by_run[run][i].algS;
-                var e2eNS = number_grouped_by_run[run][i].e2eNS;
-                var algNS = number_grouped_by_run[run][i].algNS;
-
-                var e2eS0 = number_serial_grouped_by_run[run][i].e2eS;
-                var algS0 = number_serial_grouped_by_run[run][i].algS;
-                var e2eNS0 = number_serial_grouped_by_run[run][i].e2eNS;
-                var algNS0 = number_serial_grouped_by_run[run][i].algNS;
-
-                var e2e_execution_time = e2eS + (e2eNS * 1e-9);
-                var alg_execution_time = algS + (algNS * 1e-9);
-                var e2e0_execution_time = e2eS0 + (e2eNS0 * 1e-9);
-                var alg0_execution_time = algS0 + (algNS0 * 1e-9);
-
-                if(e2e_speedup_by_problem_size.hasOwnProperty(size))
-                    e2e_speedup_by_problem_size[size] += (e2e0_execution_time / e2e_execution_time);
-                else
-                    e2e_speedup_by_problem_size[size] = (e2e0_execution_time / e2e_execution_time);
-                if(alg_speedup_by_problem_size.hasOwnProperty(size))
-                    alg_speedup_by_problem_size[size] += (alg0_execution_time / alg_execution_time);
-                else
-                    alg_speedup_by_problem_size[size] = (alg0_execution_time / alg_execution_time);
-            }
-        }
-
-        for(var size in e2e_speedup_by_problem_size)
-            e2e_speedup_by_problem_size[size] /= count;
-        for(var size in alg_speedup_by_problem_size)
-            alg_speedup_by_problem_size[size] /= count;
-
-        return {
-            e2e: e2e_speedup_by_problem_size,
-            alg: alg_speedup_by_problem_size
-        };
-    }
-    */
 
     averaged_speedup(number, number_for_serial) {
         var e2e_speedup_by_problem_size = {};
@@ -264,7 +249,7 @@ export default class MainController {
     }
 
     // Data Fetching Functions =============================================
-    
+
     fetch_problems() {
         this.$http
             .get('/api/category/' + this.selected_category._id + '/problem')
@@ -279,7 +264,11 @@ export default class MainController {
         this.$http
             .get('/api/machine')
             .then((response) => {
-                this.machines = response.data;
+                var machines = response.data;
+                this.machines = {};
+                for (var i in machines) {
+                    this.machines[machines[i]._id] = machines[i];
+                }
             }, (error) => {
                 console.log(error);
             });
@@ -302,115 +291,245 @@ export default class MainController {
                 .get('/api/approach/' + this.approaches[i]._id + '/number')
                 .then((response) => {
                     var numbers = response.data;
-                    var numbers_grouped_by_thread_count = _.groupBy(numbers, function(number) {
-                        return number.p;
-                    })
-                    this.approaches[i].numbers_by_threads = numbers_grouped_by_thread_count;
-                    for (var j in this.approaches[i].numbers_by_threads) {
-                        this.approaches[i].numbers_by_threads[j] = {
-                            numbers: this.approaches[i].numbers_by_threads[j],
+                    var unique_machine_ID = _.uniq(_.map(numbers, 'machine_id'));
+                    var unique_thread_counts = _.uniq(_.map(numbers, 'p'));
+
+                    this.approaches[i].machine_plots = {};
+                    this.approaches[i].thread_plots = {};
+                    this.approaches[i].numbers = numbers;
+
+                    for (var j in unique_machine_ID) {
+                        this.approaches[i].machine_plots[unique_machine_ID[j]] = {
                             plot: false
-                        };
+                        }
                     }
+
+                    for (var j in unique_thread_counts) {
+                        this.approaches[i].thread_plots[unique_thread_counts[j]] = {
+                            plot: false
+                        }
+                    }
+                    this.approaches[i].plot_e2e = false;
+                    this.approaches[i].plot_alg = false;
                 });
-            this.approaches[i].plot_e2e = false;
-            this.approaches[i].plot_alg = true;
         }
     }
 
-
     // Table related functions =============================================
 
-    toggle_number_in_table(approach_index, nthreads) {
+    add_e2e_in_table(approach_index) {
         var approach = this.approaches[approach_index];
-        var number = this.approaches[approach_index].numbers_by_threads[nthreads].numbers;
-        var number_plotted = this.approaches[approach_index].numbers_by_threads[nthreads].plot;
+        for (var nthreads in approach.thread_plots) {
+            if (approach.thread_plots[nthreads].plot) {
+                for (var machine_id in approach.machine_plots) {
+                    if (approach.machine_plots[machine_id].plot) {
+                        this.add_number_in_table(approach_index, nthreads, machine_id, 'e2e');
+                    }
+                }
+            }
+        }
+    }
 
-        // If number has been added to table
-        if (number_plotted) {
-            var execution_time = this.averaged_execution_time(number);
-            var speedup = this.averaged_speedup(number, this.approaches[approach_index].numbers_by_threads[0].numbers);
+    remove_e2e_from_table(approach_index) {
+        var approach = this.approaches[approach_index], numCol = this.execution_time_data.getNumberOfColumns();
+        for (var nthreads in approach.thread_plots) {
+            if (approach.thread_plots[nthreads].plot) {
+                for (var machine_id in approach.machine_plots) {
+                    if (approach.machine_plots[machine_id].plot) {
+                        for(var j = 1; j < numCol; j++) {
+                            if(this.execution_time_data.getColumnId(j)==this.getID(approach_index, nthreads, machine_id, 'e2e')) {
+                                this.execution_time_data.removeColumn(j);
+                                this.speedup_data.removeColumn(j);
+                                numCol--;
+                                break;
+                            }
+                        }   
+                    }
+                }
+            }
+        }
+    }
+
+    add_alg_in_table(approach_index) {
+        var approach = this.approaches[approach_index];
+        for (var nthreads in approach.thread_plots) {
+            if (approach.thread_plots[nthreads].plot) {
+                for (var machine_id in approach.machine_plots) {
+                    if (approach.machine_plots[machine_id].plot) {
+                        this.add_number_in_table(approach_index, nthreads, machine_id, 'alg');
+                    }
+                }
+            }
+        }
+    }
+
+    remove_alg_from_table(approach_index) {
+        var approach = this.approaches[approach_index], numCol = this.execution_time_data.getNumberOfColumns();
+        for (var nthreads in approach.thread_plots) {
+            if (approach.thread_plots[nthreads].plot) {
+                for (var machine_id in approach.machine_plots) {
+                    if (approach.machine_plots[machine_id].plot) {
+                        for(var j = 1; j < numCol; j++) {
+                            if(this.execution_time_data.getColumnId(j)==this.getID(approach_index, nthreads, machine_id, 'alg')) {
+                                this.execution_time_data.removeColumn(j);
+                                this.speedup_data.removeColumn(j);
+                                numCol--;
+                                break;
+                            }
+                        }   
+                    }
+                }
+            }
+        }
+    }
+
+    add_thread_in_table(approach_index, nthreads) {
+        var approach = this.approaches[approach_index];
+        for(var i in approach.machine_plots) {
+            if(approach.machine_plots[i].plot) {
+                if(approach.plot_e2e)
+                    this.add_number_in_table(approach_index, nthreads, i, 'e2e');
+                if(approach.plot_alg)
+                    this.add_number_in_table(approach_index, nthreads, i, 'alg');
+            }
+        }
+    }
+
+    remove_thread_from_table(approach_index, nthreads) {
+        var approach = this.approaches[approach_index], numCol = this.execution_time_data.getNumberOfColumns();
+        if(approach.plot_e2e) {
+            for(var i in approach.machine_plots) {
+                if(approach.machine_plots[i].plot) {
+                    for(var j = 1; j < numCol; j++) {
+                        if(this.execution_time_data.getColumnId(j)==this.getID(approach_index, nthreads, i, 'e2e')) {
+                            this.execution_time_data.removeColumn(j);
+                            this.speedup_data.removeColumn(j);
+                            numCol--;
+                            break;
+                        }
+                    }
+                }
+            }    
+        }
+
+        if(approach.plot_alg) {
+            for(var i in approach.machine_plots) {
+                if(approach.machine_plots[i].plot) {
+                    for(var j = 1; j < numCol; j++) {
+                        if(this.execution_time_data.getColumnId(j)==this.getID(approach_index, nthreads, i, 'alg')) {
+                            this.execution_time_data.removeColumn(j);
+                            this.speedup_data.removeColumn(j);
+                            numCol--;
+                            break;
+                        }
+                    }
+                }
+            }
+        }        
+    }
+
+    add_machine_in_table(approach_index, machine_id) {
+        var approach = this.approaches[approach_index];
+        for(var i in approach.thread_plots) {
+            if(approach.thread_plots[i].plot) {
+                if(approach.plot_e2e)
+                    this.add_number_in_table(approach_index, i, machine_id, 'e2e');
+                if(approach.plot_alg)
+                    this.add_number_in_table(approach_index, i, machine_id, 'alg');
+            }
+        }
+    }
+
+    remove_machine_from_table(approach_index, machine_id) {
+        var approach = this.approaches[approach_index], numCol = this.execution_time_data.getNumberOfColumns();
+        if(approach.plot_e2e) {
+            for(var i in approach.thread_plots) {
+                if(approach.thread_plots[i].plot) {
+                    for(var j = 1; j < numCol; j++) {
+                        if(this.execution_time_data.getColumnId(j)==this.getID(approach_index, i, machine_id, 'e2e')) {
+                            this.execution_time_data.removeColumn(j);
+                            this.speedup_data.removeColumn(j);
+                            numCol--;
+                            break;
+                        }
+                    }
+                }
+            }    
+        }
+
+        if(approach.plot_alg) {
+            for(var i in approach.thread_plots) {
+                if(approach.thread_plots[i].plot) {
+                    for(var j = 1; j < numCol; j++) {
+                        if(this.execution_time_data.getColumnId(j)==this.getID(approach_index, i, machine_id, 'alg')) {
+                            this.execution_time_data.removeColumn(j);
+                            this.speedup_data.removeColumn(j);
+                            numCol--;
+                            break;
+                        }
+                    }
+                }
+            }
+        }   
+    }
+
+    add_number_in_table(approach_index, nthreads, machine_id, e2e_or_alg) {
+        var approach = this.approaches[approach_index];
+        var number = _.filter(approach.numbers, function(number) {
+            return (number.p == nthreads) && (number.machine_id == machine_id);
+        });
+        var serialnumbers = _.filter(approach.numbers, function(number) {
+            return (number.p == 0) && (number.machine_id == machine_id);
+        })
+        var execution_time = this.averaged_execution_time(number);
+        var speedup = this.averaged_speedup(number, serialnumbers);
+
+
+        if (e2e_or_alg=='e2e') {
+            var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', this.getLabel(approach_index, nthreads, machine_id, 'e2e'), this.getID(approach_index, nthreads, machine_id, 'e2e'));
+            var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', this.getLabel(approach_index, nthreads, machine_id, 'e2e'), this.getID(approach_index, nthreads, machine_id, 'e2e'));
 
             var columns_from_table1 = [];
             for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
                 columns_from_table1.push(x + 1);
             }
 
-            if (approach.plot_e2e) {
-                var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', 'E2E Appr. ' + approach_index + ', P ' + nthreads, 'e2e_exec_' + approach_index + '_' + nthreads);
-                var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', 'E2E Appr. ' + approach_index + ', P ' + nthreads, 'e2e_speedup_' + approach_index + '_' + nthreads);
+            if (this.execution_time_data.getNumberOfColumns() < 2)
+                this.execution_time_data = e2e_execution_time_table;
+            else
+                this.execution_time_data = google.visualization.data.join(this.execution_time_data, e2e_execution_time_table, 'full', [
+                    [0, 0]
+                ], columns_from_table1, [1]);
 
-                var columns_from_table1 = [];
-                for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
-                    columns_from_table1.push(x + 1);
-                }
+            if (this.speedup_data.getNumberOfColumns() < 2)
+                this.speedup_data = e2e_speedup_table;
+            else
+                this.speedup_data = google.visualization.data.join(this.speedup_data, e2e_speedup_table, 'full', [
+                    [0, 0]
+                ], columns_from_table1, [1]);
+        } else if (e2e_or_alg=='alg') {
+            var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', this.getLabel(approach_index, nthreads, machine_id, 'alg'), this.getID(approach_index, nthreads, machine_id, 'alg'));
+            var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', this.getLabel(approach_index, nthreads, machine_id, 'alg'), this.getID(approach_index, nthreads, machine_id, 'alg'));
 
-                if (this.execution_time_data.getNumberOfColumns() < 2)
-                    this.execution_time_data = e2e_execution_time_table;
-                else
-                    this.execution_time_data = google.visualization.data.join(this.execution_time_data, e2e_execution_time_table, 'full', [
-                        [0, 0]
-                    ], columns_from_table1, [1]);
-
-                if (this.speedup_data.getNumberOfColumns() < 2)
-                    this.speedup_data = e2e_speedup_table;
-                else
-                    this.speedup_data = google.visualization.data.join(this.speedup_data, e2e_speedup_table, 'full', [
-                        [0, 0]
-                    ], columns_from_table1, [1]);
+            var columns_from_table1 = [];
+            for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
+                columns_from_table1.push(x + 1);
             }
 
-            if (approach.plot_alg) {
-                var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', 'ALG Appr. ' + approach_index + ', P ' + nthreads, 'alg_exec_' + approach_index + '_' + nthreads);
-                var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', 'ALG Appr. ' + approach_index + ', P ' + nthreads, 'alg_speedup_' + approach_index + '_' + nthreads);
+            if (this.execution_time_data.getNumberOfColumns() < 2)
+                this.execution_time_data = alg_execution_time_table;
+            else
+                this.execution_time_data = google.visualization.data.join(this.execution_time_data, alg_execution_time_table, 'full', [
+                    [0, 0]
+                ], columns_from_table1, [1]);
 
-                var columns_from_table1 = [];
-                for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
-                    columns_from_table1.push(x + 1);
-                }
-
-                if (this.execution_time_data.getNumberOfColumns() < 2)
-                    this.execution_time_data = alg_execution_time_table;
-                else
-                    this.execution_time_data = google.visualization.data.join(this.execution_time_data, alg_execution_time_table, 'full', [
-                        [0, 0]
-                    ], columns_from_table1, [1]);
-
-                if (this.speedup_data.getNumberOfColumns() < 2)
-                    this.speedup_data = alg_speedup_table;
-                else
-                    this.speedup_data = google.visualization.data.join(this.speedup_data, alg_speedup_table, 'full', [
-                        [0, 0]
-                    ], columns_from_table1, [1]);
-            }
+            if (this.speedup_data.getNumberOfColumns() < 2)
+                this.speedup_data = alg_speedup_table;
+            else
+                this.speedup_data = google.visualization.data.join(this.speedup_data, alg_speedup_table, 'full', [
+                    [0, 0]
+                ], columns_from_table1, [1]);
         }
-        // If number has been removed from table
-        else {
-            for (var i = 0; i < this.execution_time_data.getNumberOfColumns(); i++) {
-                console.log(this.execution_time_data.getColumnId(i));
-                if (this.execution_time_data.getColumnId(i) == ('alg_exec_' + approach_index + '_' + nthreads)) {
-                    this.execution_time_data.removeColumn(i);
-                    i--;
-                }
-                if (this.execution_time_data.getColumnId(i) == ('e2e_exec_' + approach_index + '_' + nthreads)) {
-                    this.execution_time_data.removeColumn(i);
-                    i--;
-                }
-            }
-            for (var i = 0; i < this.speedup_data.getNumberOfColumns(); i++) {
-                console.log(this.speedup_data.getColumnId(i));
-                if (this.speedup_data.getColumnId(i) == ('alg_speedup_' + approach_index + '_' + nthreads)) {
-                    this.speedup_data.removeColumn(i);
-                    i--;
-                }
-                if (this.speedup_data.getColumnId(i) == ('e2e_speedup_' + approach_index + '_' + nthreads)) {
-                    this.speedup_data.removeColumn(i);
-                    i--;
-                }
-            }
-        }
-
-        this.refresh_chart(this.active_chart);
     }
 
     object_to_table(object, keylabel, keyid, vallabel, valid) {
@@ -425,41 +544,43 @@ export default class MainController {
         return table;
     }
 
-    toggle_e2e_alg(approach_index) {
-        var approach = this.approaches[approach_index];
+    // Label & ID related functions =============================================
+    getLabel(approach_index, nthreads, machine_id, e2e_or_alg) {
+        var part1 = '', part2 = '', part3 = '', part4 = '';
+        if(e2e_or_alg=='e2e')
+            part1 = 'E2E ';
+        else
+            part1 = 'ALG ';
+        part2 = 'Appr. ' + approach_index + ' ';
+        part3 = 'P ' + nthreads + ' ';
+        part4 = 'M ' + this.machines[machine_id].machine_file;
 
-        for (var i = 0; i < this.execution_time_data.getNumberOfColumns(); i++) {
-            var id = this.execution_time_data.getColumnId(i).split('_');
-            if (parseInt(id[2]) == parseInt(approach_index)) {
-                this.execution_time_data.removeColumn(i);
-                i -= 1;
-            }
-        }
-
-        for (var i = 0; i < this.speedup_data.getNumberOfColumns(); i++) {
-            var id = this.speedup_data.getColumnId(i).split('_');
-            if (parseInt(id[2]) == parseInt(approach_index)) {
-                this.speedup_data.removeColumn(i);
-                i -= 1;
-            }
-        }
-
-        for (var nthreads in approach.numbers_by_threads) {
-            console.log(nthreads);
-            this.toggle_number_in_table(approach_index, nthreads);
-        }
+        return part1 + part2 + part3 + part4;
     }
 
+    getID(approach_index, nthreads, machine_id, e2e_or_alg, table_type) {
+        var part1 = '', part2 = '', part3 = '', part4 = '';
+        
+        if(e2e_or_alg=='e2e')
+            part1 = 'e2e_';
+        else
+            part1 = 'alg_';
+        part2 = approach_index + '_';
+        part3 = nthreads + '_';
+        part4 = machine_id;
+
+        return part1 + part2 + part3 + part4;
+    }
 
     // Chart related functions =============================================
 
     chart_option_selection() {
 
-        if(this.active_chart=='timeseries') {
+        if (this.active_chart == 'timeseries') {
             _.merge(this.chart_options, this.execution_time_chart_options);
         }
 
-        if(this.active_chart=='speedup') {
+        if (this.active_chart == 'speedup') {
             _.merge(this.chart_options, this.speedup_chart_options);
         }
 
@@ -489,8 +610,7 @@ export default class MainController {
         if (data.getNumberOfColumns() > 1) {
             this.chart_option_selection();
             this.chart.draw(data, this.chart_options);
-        }
-        else {
+        } else {
             var dummy_data = new google.visualization.DataTable();
             dummy_data.addColumn('number', 'd1');
             dummy_data.addColumn('number', 'd2');
