@@ -64,7 +64,12 @@ export default class MainController {
                     stroke: '#000',
                     strokeWidth: 1
                 }
-            }
+            },
+            crosshair: {
+                color: 'black',
+                trigger: 'both'
+            },
+            selectionMode: 'multiple'
         };
 
         this.execution_time_chart_options = {
