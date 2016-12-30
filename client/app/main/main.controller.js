@@ -22,10 +22,16 @@ export default class MainController {
     execution_time_data = {};
     speedup_data = {};
     karp_flatt_data = {};
+
+    // Chart options
     chart = {};
     chart_image = {};
     chart_options = {};
+    execution_time_chart_options = {};
+    speedup_chart_options = {};
+    karpflatt_chart_options = {};
     active_chart = '';
+
 
     /*@ngInject*/
     constructor($http) {
@@ -39,10 +45,8 @@ export default class MainController {
         });
 
         this.chart_options = {
-            title: 'Number of threads vs time',
             titlePosition: 'in',
             height: 600,
-            // curveType: 'function',
             pointShape: 'circle',
             pointsVisible: true,
             explorer: {
@@ -50,18 +54,46 @@ export default class MainController {
                 maxZoomOut: 1
             },
             hAxis: {
-                title: 'Problem size',
                 logScale: true
             },
             vAxis: {
-                title: 'Execution time',
                 logScale: false
             },
             chartArea: {
                 backgroundColor: {
-                    stroke: '#3F51B5',
-                    strokeWidth: '1'
-                },
+                    stroke: '#000',
+                    strokeWidth: 1
+                }
+            }
+        };
+
+        this.execution_time_chart_options = {
+            title: 'Problem size vs. Execution time',
+            hAxis: {
+                title: 'Problem size'
+            }, 
+            vAxis: {
+                title: 'Execution time'
+            }
+        };
+
+        this.speedup_chart_options = {
+            title: 'Problem size vs. Speedup',
+            hAxis: {
+                title: 'Problem size'
+            }, 
+            vAxis: {
+                title: 'Speedup'
+            }
+        };
+
+        this.karpflatt_chart_options = {
+            title: 'Problem size vs. Karp Flatt coefficient',
+            hAxis: {
+                title: 'Problem size'
+            }, 
+            vAxis: {
+                title: 'Karp flatt coefficient'
             }
         };
 
@@ -79,7 +111,6 @@ export default class MainController {
         this.refresh_chart(this.active_chart);
     }
 
-    // Select category of problems
     select_category(selected_category) {
         // If category has changed,
         if (this.selected_category != selected_category) {
@@ -93,7 +124,6 @@ export default class MainController {
         }
     }
 
-    // Select problem whose solutions you want to compare
     select_problem(selected_problem) {
         // If problem has changed
         if (this.selected_problem != selected_problem) {
@@ -113,7 +143,123 @@ export default class MainController {
         this.machine_approach_view = view;
     }
 
-    // Fetch problems corresponding to category and assign to this.problems
+    // Computation functions =============================================
+
+    averaged_execution_time(number) {
+        var e2e_execution_time_by_problem_size = {};
+        var alg_execution_time_by_problem_size = {};
+
+        var number_grouped_by_problem_size = _.groupBy(number, function(x) {
+            return x.n });
+        for (var size in number_grouped_by_problem_size) {
+            var e2e_averaged_execution_time = 0;
+            var alg_averaged_execution_time = 0;
+            var count = 0;
+            for (var i in number_grouped_by_problem_size[size]) {
+                count++;
+                var e2eS = number_grouped_by_problem_size[size][i].e2eS;
+                var algS = number_grouped_by_problem_size[size][i].algS;
+                var e2eNS = number_grouped_by_problem_size[size][i].e2eNS;
+                var algNS = number_grouped_by_problem_size[size][i].algNS;
+
+                e2e_averaged_execution_time += (e2eS + (e2eNS * 1e-9))
+                alg_averaged_execution_time += (algS + (algNS * 1e-9))
+            }
+            e2e_averaged_execution_time /= count;
+            alg_averaged_execution_time /= count;
+
+            e2e_execution_time_by_problem_size[size] = e2e_averaged_execution_time;
+            alg_execution_time_by_problem_size[size] = alg_averaged_execution_time;
+        }
+
+        return {
+            e2e: e2e_execution_time_by_problem_size,
+            alg: alg_execution_time_by_problem_size
+        };
+    }
+
+    /*
+    averaged_speedup(number, number_for_serial) {
+        var e2e_speedup_by_problem_size = {};
+        var alg_speedup_by_problem_size = {};
+
+        var number_grouped_by_run = _.groupBy(number, function(x) {return x.run_id});
+        var number_serial_grouped_by_run = _.groupBy(number_for_serial, function(x) {return x.run_id});
+
+        var count = 0;
+        for(var run in number_grouped_by_run) {
+            count++;
+            for(var i in number_grouped_by_run[run]) {
+                count++;
+
+                var size = number_grouped_by_run[run][i].n;
+
+                var e2eS = number_grouped_by_run[run][i].e2eS;
+                var algS = number_grouped_by_run[run][i].algS;
+                var e2eNS = number_grouped_by_run[run][i].e2eNS;
+                var algNS = number_grouped_by_run[run][i].algNS;
+
+                var e2eS0 = number_serial_grouped_by_run[run][i].e2eS;
+                var algS0 = number_serial_grouped_by_run[run][i].algS;
+                var e2eNS0 = number_serial_grouped_by_run[run][i].e2eNS;
+                var algNS0 = number_serial_grouped_by_run[run][i].algNS;
+
+                var e2e_execution_time = e2eS + (e2eNS * 1e-9);
+                var alg_execution_time = algS + (algNS * 1e-9);
+                var e2e0_execution_time = e2eS0 + (e2eNS0 * 1e-9);
+                var alg0_execution_time = algS0 + (algNS0 * 1e-9);
+
+                if(e2e_speedup_by_problem_size.hasOwnProperty(size))
+                    e2e_speedup_by_problem_size[size] += (e2e0_execution_time / e2e_execution_time);
+                else
+                    e2e_speedup_by_problem_size[size] = (e2e0_execution_time / e2e_execution_time);
+                if(alg_speedup_by_problem_size.hasOwnProperty(size))
+                    alg_speedup_by_problem_size[size] += (alg0_execution_time / alg_execution_time);
+                else
+                    alg_speedup_by_problem_size[size] = (alg0_execution_time / alg_execution_time);
+            }
+        }
+
+        for(var size in e2e_speedup_by_problem_size)
+            e2e_speedup_by_problem_size[size] /= count;
+        for(var size in alg_speedup_by_problem_size)
+            alg_speedup_by_problem_size[size] /= count;
+
+        return {
+            e2e: e2e_speedup_by_problem_size,
+            alg: alg_speedup_by_problem_size
+        };
+    }
+    */
+
+    averaged_speedup(number, number_for_serial) {
+        var e2e_speedup_by_problem_size = {};
+        var alg_speedup_by_problem_size = {};
+
+        var average_execution_time = this.averaged_execution_time(number);
+        var e2e_execution_time = average_execution_time.e2e;
+        var alg_execution_time = average_execution_time.alg;
+
+        var average_execution_time0 = this.averaged_execution_time(number_for_serial);
+        var e2e_execution_time0 = average_execution_time0.e2e;
+        var alg_execution_time0 = average_execution_time0.alg;
+
+        for (var size in e2e_execution_time) {
+            e2e_speedup_by_problem_size[size] = e2e_execution_time0[size] / e2e_execution_time[size];
+        }
+
+        for (var size in alg_execution_time) {
+            alg_speedup_by_problem_size[size] = alg_execution_time0[size] / alg_execution_time[size];
+        }
+
+        return {
+            e2e: e2e_speedup_by_problem_size,
+            alg: alg_speedup_by_problem_size
+        };
+    }
+
+    // Data Fetching Functions =============================================
+    
     fetch_problems() {
         this.$http
             .get('/api/category/' + this.selected_category._id + '/problem')
@@ -124,7 +270,6 @@ export default class MainController {
             });
     }
 
-    // Fetch machines and assign to this.machines
     fetch_machine_data() {
         this.$http
             .get('/api/machine')
@@ -135,7 +280,6 @@ export default class MainController {
             });
     }
 
-    // Fetch approaches corresponding to problem and assign to this.approaches
     fetch_approach_data() {
         this.$http
             .get('/api/problem/' + this.selected_problem._id + '/approach')
@@ -147,7 +291,6 @@ export default class MainController {
             });
     }
 
-    // Fetch numbers corresponding to approach and assign inside this.approaches
     fetch_number_data() {
         for (var i in this.approaches) {
             this.$http
@@ -170,6 +313,9 @@ export default class MainController {
         }
     }
 
+
+    // Table related functions =============================================
+
     toggle_number_in_table(approach_index, nthreads) {
         var approach = this.approaches[approach_index];
         var number = this.approaches[approach_index].numbers_by_threads[nthreads].numbers;
@@ -186,8 +332,8 @@ export default class MainController {
             }
 
             if (approach.plot_e2e) {
-                var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', 'Appr. ' + approach_index + ', P ' + nthreads, 'e2e_exec_' + approach_index + '_' + nthreads);
-                var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', 'Appr. ' + approach_index + ', P ' + nthreads, 'e2e_speedup_' + approach_index + '_' + nthreads);
+                var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', 'E2E Appr. ' + approach_index + ', P ' + nthreads, 'e2e_exec_' + approach_index + '_' + nthreads);
+                var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', 'E2E Appr. ' + approach_index + ', P ' + nthreads, 'e2e_speedup_' + approach_index + '_' + nthreads);
 
                 var columns_from_table1 = [];
                 for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
@@ -210,8 +356,8 @@ export default class MainController {
             }
 
             if (approach.plot_alg) {
-                var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', 'Appr. ' + approach_index + ', P ' + nthreads, 'alg_exec_' + approach_index + '_' + nthreads);
-                var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', 'Appr. ' + approach_index + ', P ' + nthreads, 'alg_speedup_' + approach_index + '_' + nthreads);
+                var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', 'ALG Appr. ' + approach_index + ', P ' + nthreads, 'alg_exec_' + approach_index + '_' + nthreads);
+                var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', 'ALG Appr. ' + approach_index + ', P ' + nthreads, 'alg_speedup_' + approach_index + '_' + nthreads);
 
                 var columns_from_table1 = [];
                 for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
@@ -262,118 +408,6 @@ export default class MainController {
         this.refresh_chart(this.active_chart);
     }
 
-    averaged_execution_time(number) {
-        var e2e_execution_time_by_problem_size = {};
-        var alg_execution_time_by_problem_size = {};
-
-        var number_grouped_by_problem_size = _.groupBy(number, function(x) {
-            return x.n });
-        for (var size in number_grouped_by_problem_size) {
-            var e2e_averaged_execution_time = 0;
-            var alg_averaged_execution_time = 0;
-            var count = 0;
-            for (var i in number_grouped_by_problem_size[size]) {
-                count++;
-                var e2eS = number_grouped_by_problem_size[size][i].e2eS;
-                var algS = number_grouped_by_problem_size[size][i].algS;
-                var e2eNS = number_grouped_by_problem_size[size][i].e2eNS;
-                var algNS = number_grouped_by_problem_size[size][i].algNS;
-
-                e2e_averaged_execution_time += (e2eS + (e2eNS * 1e-9))
-                alg_averaged_execution_time += (algS + (algNS * 1e-9))
-            }
-            e2e_averaged_execution_time /= count;
-            alg_averaged_execution_time /= count;
-
-            e2e_execution_time_by_problem_size[size] = e2e_averaged_execution_time;
-            alg_execution_time_by_problem_size[size] = alg_averaged_execution_time;
-        }
-
-        return {
-            e2e: e2e_execution_time_by_problem_size,
-            alg: alg_execution_time_by_problem_size
-        };
-    }
-
-    // Tentative averaged speedup
-    /*averaged_speedup(number, number_for_serial) {
-        var e2e_speedup_by_problem_size = {};
-        var alg_speedup_by_problem_size = {};
-
-        var number_grouped_by_run = _.groupBy(number, function(x) {return x.run_id});
-        var number_serial_grouped_by_run = _.groupBy(number_for_serial, function(x) {return x.run_id});
-
-        var count = 0;
-        for(var run in number_grouped_by_run) {
-            count++;
-            for(var i in number_grouped_by_run[run]) {
-                count++;
-
-                var size = number_grouped_by_run[run][i].n;
-
-                var e2eS = number_grouped_by_run[run][i].e2eS;
-                var algS = number_grouped_by_run[run][i].algS;
-                var e2eNS = number_grouped_by_run[run][i].e2eNS;
-                var algNS = number_grouped_by_run[run][i].algNS;
-
-                var e2eS0 = number_serial_grouped_by_run[run][i].e2eS;
-                var algS0 = number_serial_grouped_by_run[run][i].algS;
-                var e2eNS0 = number_serial_grouped_by_run[run][i].e2eNS;
-                var algNS0 = number_serial_grouped_by_run[run][i].algNS;
-
-                var e2e_execution_time = e2eS + (e2eNS * 1e-9);
-                var alg_execution_time = algS + (algNS * 1e-9);
-                var e2e0_execution_time = e2eS0 + (e2eNS0 * 1e-9);
-                var alg0_execution_time = algS0 + (algNS0 * 1e-9);
-
-                if(e2e_speedup_by_problem_size.hasOwnProperty(size))
-                    e2e_speedup_by_problem_size[size] += (e2e0_execution_time / e2e_execution_time);
-                else
-                    e2e_speedup_by_problem_size[size] = (e2e0_execution_time / e2e_execution_time);
-                if(alg_speedup_by_problem_size.hasOwnProperty(size))
-                    alg_speedup_by_problem_size[size] += (alg0_execution_time / alg_execution_time);
-                else
-                    alg_speedup_by_problem_size[size] = (alg0_execution_time / alg_execution_time);
-            }
-        }
-
-        for(var size in e2e_speedup_by_problem_size)
-            e2e_speedup_by_problem_size[size] /= count;
-        for(var size in alg_speedup_by_problem_size)
-            alg_speedup_by_problem_size[size] /= count;
-
-        return {
-            e2e: e2e_speedup_by_problem_size,
-            alg: alg_speedup_by_problem_size
-        };
-    }*/
-
-    averaged_speedup(number, number_for_serial) {
-        var e2e_speedup_by_problem_size = {};
-        var alg_speedup_by_problem_size = {};
-
-        var average_execution_time = this.averaged_execution_time(number);
-        var e2e_execution_time = average_execution_time.e2e;
-        var alg_execution_time = average_execution_time.alg;
-
-        var average_execution_time0 = this.averaged_execution_time(number_for_serial);
-        var e2e_execution_time0 = average_execution_time0.e2e;
-        var alg_execution_time0 = average_execution_time0.alg;
-
-        for (var size in e2e_execution_time) {
-            e2e_speedup_by_problem_size[size] = e2e_execution_time0[size] / e2e_execution_time[size];
-        }
-
-        for (var size in alg_execution_time) {
-            alg_speedup_by_problem_size[size] = alg_execution_time0[size] / alg_execution_time[size];
-        }
-
-        return {
-            e2e: e2e_speedup_by_problem_size,
-            alg: alg_speedup_by_problem_size
-        };
-    }
-
     object_to_table(object, keylabel, keyid, vallabel, valid) {
         var table = new google.visualization.DataTable();
         var rows = [];
@@ -411,6 +445,24 @@ export default class MainController {
         }
     }
 
+
+    // Chart related functions =============================================
+
+    chart_option_selection() {
+
+        if(this.active_chart=='timeseries') {
+            _.merge(this.chart_options, this.execution_time_chart_options);
+        }
+
+        if(this.active_chart=='speedup') {
+            _.merge(this.chart_options, this.speedup_chart_options);
+        }
+
+        // if(this.active_chart=='karpflatt') {
+        //     _.merge(this.chart_options, this.karpflatt_chart_options);
+        // }
+    }
+
     refresh_chart(type) {
         if (type != this.active_chart) {
             this.active_chart = type;
@@ -429,8 +481,10 @@ export default class MainController {
             default:
                 data = new google.visualization.DataTable();
         }
-        if (data.getNumberOfColumns() > 1)
+        if (data.getNumberOfColumns() > 1) {
+            this.chart_option_selection();
             this.chart.draw(data, this.chart_options);
+        }
         else {
             var dummy_data = new google.visualization.DataTable();
             dummy_data.addColumn('number', 'd1');
