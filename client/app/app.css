@@ -40,6 +40,7 @@
 
 /* inject:css */
 @import 'admin/admin.css';
+@import 'landing/landing.css';
 @import 'main/main.css';
 @import '../components/footer/footer.css';
 @import '../components/oauth-buttons/oauth-buttons.css';
