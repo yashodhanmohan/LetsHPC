@@ -1,3 +1,4 @@
+<!-- <script type="text/javascript" src="assets/angular-bootstrap-multiselect/js/angular-bootstrap-multiselect.min.js"></script> -->
 <div class="container-fluid">
     <div class="row">
         <div class="row pad-up">
@@ -31,39 +32,57 @@
             </div>
         </div>
         <div class="row pad-up">
-            <div class="col-md-12">
+            <div class="col-md-12" ng-if="main.data_fetch_complete">
                 <ul class="col-md-offset-5 col-md-4 nav nav-pills">
                     <li role="presentation" ng-class="{active: main.machine_approach_view=='machine'}"><a href="#" ng-click="main.toggle_machine_approach('machine')">Compare machines</a></li>
                     <li role="presentation" ng-class="{active: main.machine_approach_view=='approach'}"><a href="#" ng-click="main.toggle_machine_approach('approach')">Compare approaches</a></li>
                 </ul>
                 <ul class="list-inline pad-up col-md-12" ng-if="main.machine_approach_view=='machine'">
-                    <li ng-repeat="machine in main.machines" class="list-group-item col-md-6">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                    <input type="checkbox" aria-label="...">
-                                </span>
-                            <input type="text" class="form-control" aria-label="..." disabled value="{{machine.machine_file}}">
+                    <li ng-repeat="(machine_id, machine) in main.machines" class="list-group-item col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <multiselect ng-model="machine.selected_threads" options="machine.unique_thread_counts" show-select-all="true" show-unselect-all="true"></multiselect>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" disabled value="{{$index +' '+ machine.machine_file}}"></input>
+                            </div>
+                            <div class="col-md-2">
+                                <center>
+                                    E2E<input type="checkbox" ng-model="machine.plot_e2e">
+                                    ALG<input type="checkbox" ng-model="machine.plot_alg">
+                                </center>
+                            </div>
+                            <div class="col-md-3">
+                                <multiselect ng-model="machine.selected_approaches" options="machine.unique_approaches" id-prop="_id" display-prop="desc" selection-limit="1"></multiselect>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-default btn-primary" ng-click="main.update_machine_on_chart(machine_id)">Update</button>
+                            </div>
                         </div>
                     </li>
                 </ul>
                 <ul class="list-inline pad-up col-md-12" ng-if="main.machine_approach_view=='approach'">
-                    <li ng-repeat="approach in main.approaches" class="list-group-item col-md-12">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <span ng-repeat="(nthreads, nthreadi) in approach.thread_plots">
-                                    {{nthreads}}<input type="checkbox" ng-model="nthreadi.plot" ng-change="main.toggle_thread($parent.$index, nthreads)">
-                                </span>
-                            </span>
-                            <input type="text" class="form-control" disabled value="{{$index +' '+ approach.desc}}"></input>
-                            <span class="input-group-addon">
-                                E2E<input type="checkbox" ng-model="approach.plot_e2e" ng-change="main.toggle_e2e($index)">
-                                ALG<input type="checkbox" ng-model="approach.plot_alg" ng-change="main.toggle_alg($index)">
-                            </span>
-                            <span class="input-group-addon">
-                                <span ng-repeat="(machineid, machinei) in approach.machine_plots">
-                                    {{main.machines[machineid].machine_file}}<input type="checkbox" ng-model="machinei.plot" ng-change="main.toggle_machine($parent.$index, machineid)">
-                                </span>
-                            </span>
+                    <li ng-repeat="(approach_id, approach) in main.approaches" class="list-group-item col-md-12">
+                        <!-- {{approach_id}} {{approach}} -->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <multiselect ng-model="approach.selected_threads" options="approach.unique_thread_counts" show-select-all="true" show-unselect-all="true"></multiselect>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" disabled value="{{$index +' '+ approach.desc}}"></input>
+                            </div>
+                            <div class="col-md-2">
+                                <center>
+                                    E2E<input type="checkbox" ng-model="approach.plot_e2e">
+                                    ALG<input type="checkbox" ng-model="approach.plot_alg">
+                                </center>
+                            </div>
+                            <div class="col-md-3">
+                                <multiselect ng-model="approach.selected_machines" options="approach.unique_machines" id-prop="_id" display-prop="machine_file" selection-limit="1"></multiselect>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-default btn-primary" ng-click="main.update_approach_on_chart(approach_id)">Update</button>
+                            </div>
                         </div>
                     </li>
                 </ul>

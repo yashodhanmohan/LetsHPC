@@ -23,6 +23,7 @@ import footer from '../components/footer/footer.component';
 import main from './main';
 import constants from './app.constants';
 import util from '../components/util/util.module';
+import btorfs_multiselect from '../assets/angular-bootstrap-multiselect/js/angular-bootstrap-multiselect.min';
 
 import './app.css';
 
@@ -31,7 +32,7 @@ google.load('visualization', '1', {
 });
 
 angular.module('yashwantProjectApp', [ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, _Auth, account,
-        admin, navbar, footer, main, constants, util
+        admin, navbar, footer, main, constants, util, 'btorfs.multiselect'
     ])
     .config(routeConfig)
     .run(function($rootScope, $location, Auth) {
