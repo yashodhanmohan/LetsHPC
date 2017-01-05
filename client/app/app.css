@@ -55,6 +55,8 @@ body {
 
 @import 'admin/admin.css';
 
+@import 'customdata/customdata.css';
+
 @import 'landing/landing.css';
 
 @import 'main/main.css';

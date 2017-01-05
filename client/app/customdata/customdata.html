@@ -1,0 +1,91 @@
+<navbar></navbar>
+<div class="container-fluid">
+    <div class="row">
+        <div class="row pad-up">
+            <center>
+                <div class="col-md-2 col-md-offset-5 well">
+                    Upload CSV file:&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="btn btn-primary btn-file">
+                        Upload <input type="file" style="display: none;" onchange="angular.element(this).scope().custom.read_file(this.files)">
+                    </label>
+                </div>
+            </center>
+        </div>
+        <div class="row pad-up" ng-if="custom.low_p">
+            <center>
+                <div class="col-md-10 col-md-offset-1 well">
+                    <span class="text-danger">Warning: Even though a chart will be plotted, the data has too low thread count variation to make credible analysis. Consider running your approach for more thread counts.</span>
+                </div>
+            </center>
+        </div>
+        <div class="row pad-up" ng-if="custom.low_n">
+            <center>
+                <div class="col-md-10 col-md-offset-1 well">
+                    <span class="text-danger">Warning: Even though a chart will be plotted, the data has too low size variation to make credible analysis. Consider running your approach for more sizes.</span>
+                </div>
+            </center>
+        </div>
+        <div class="row pad-up" ng-if="custom.low_runs">
+            <center>
+                <div class="col-md-10 col-md-offset-1 well">
+                    <span class="text-danger">Warning: Even though a chart will be plotted, the data has too low run variation to make credible analysis. Consider running your approach for more runs to average out the noise.</span>
+                </div>
+            </center>
+        </div>
+        <div class="row pad-up" ng-if="custom.no_serial">
+            <center>
+                <div class="col-md-10 col-md-offset-1 well">
+                    <span class="text-danger">Error: The data does not contain runs for 0 thread counts which represent serial execution of the data. Since speedup is calculated based on the execution time of the serial code, no speedup plot will be available. Execution time plots are available normally. Add data for 0 thread count to activate speedup plots</span>
+                </div>
+            </center>
+        </div>
+        <div class="row pad-up">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 well">
+                    <div id="chart_div" />
+                    <div class="overlay">
+                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2 well">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: custom.chart_options.hAxis.logScale}" ng-click="custom.chart_options.hAxis.logScale=true; custom.refresh_chart(custom.active_chart)">X-axis: Log</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !custom.chart_options.hAxis.logScale}" ng-click="custom.chart_options.hAxis.logScale=false; custom.refresh_chart(custom.active_chart)">X-axis: Linear</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 well">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: custom.chart_options.vAxis.logScale}" ng-click="custom.chart_options.vAxis.logScale=true; custom.refresh_chart(custom.active_chart)">Y-axis: Log</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !custom.chart_options.vAxis.logScale}" ng-click="custom.chart_options.vAxis.logScale=false; custom.refresh_chart(custom.active_chart)">Y-axis: Linear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 well">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-default btn-block" ng-class="{active: custom.active_chart=='karpflatt'}" ng-click="custom.refresh_chart('karpflatt')" disabled="disabled">Karp-Flatt metric</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-default btn-block" ng-class="{active: custom.active_chart=='speedup'}" ng-click="custom.refresh_chart('speedup')">Speedup</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-default btn-block" ng-class="{active: custom.active_chart=='timeseries'}" ng-click="custom.refresh_chart('timeseries')">Time series</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary btn-block" ng-click="custom.export_chart()">Export Graph</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

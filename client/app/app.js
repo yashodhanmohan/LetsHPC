@@ -16,6 +16,7 @@ import _Auth from '../components/auth/auth.module';
 import landing from './landing';
 import main from './main';
 import reportgenerator from './reportgenerator';
+import customdata from './customdata';
 import account from './account';
 import admin from './admin';
 import navbar from '../components/navbar/navbar.component';
@@ -30,22 +31,22 @@ google.load('visualization', '1', {
     packages: ['corechart']
 });
 
-angular.module('yashwantProjectApp', [ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, _Auth, landing, main, reportgenerator, account,
+angular.module('yashwantProjectApp', [ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, _Auth, landing, main, reportgenerator, customdata, account,
         admin, navbar, footer, constants, util, 'btorfs.multiselect'
     ])
-    .config(routeConfig);
-    // .run(function($rootScope, $location, Auth) {
-    //     'ngInject';
-    //     // Redirect to login if route requires auth and you're not logged in
+    .config(routeConfig)
+    .run(function($rootScope, $location, Auth) {
+        'ngInject';
+        // Redirect to login if route requires auth and you're not logged in
 
-    //     $rootScope.$on('$stateChangeStart', function(event, next) {
-    //         Auth.isLoggedIn(function(loggedIn) {
-    //             if (next.authenticate && !loggedIn) {
-    //                 $location.path('/login');
-    //             }
-    //         });
-    //     });
-    // });
+        $rootScope.$on('$stateChangeStart', function(event, next) {
+            Auth.isLoggedIn(function(loggedIn) {
+                if (next.authenticate && !loggedIn) {
+                    $location.path('/login');
+                }
+            });
+        });
+    });
 
 angular.element(document)
     .ready(() => {
