@@ -1,0 +1,352 @@
+<div>
+    <navbar></navbar>
+    <div class="container">
+        <div class="col-md-12 text-center">
+            <h2>Report Generator</h2>
+        </div>
+    </div>
+    <hr class="star-primary">
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="form-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <a href="#trivial" data-toggle="collapse">Trivial Data</a>
+                    </div>
+                    <div id="trivial" class="panel-body collapse">
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="BCDSI"><h4>Serial Implementation</h4></label>
+                        </div>
+                        <div id="BCDSI" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iBCDSI" name="BCDSI" type="text" placeholder="Brief and clear description about the serial implementation" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional explanation block</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="BCSPI"><h4>Implementation of Approach</h4></label>
+                        </div>
+                        <div id="BCSPI" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iBCSPI" name="BCSPI" type="text" placeholder="Brief and clear description about the implementation of the approach (Parallelization strategy, Mapping of computation to threads)" class="form-control input-lg"></textarea>
+                                <span class="help-block" style="right: 0px;">Optional explanation block</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <a href="#CoAnRe" data-toggle="collapse">Complexity and Analysis Related</a>
+                    </div>
+                    <div id="CoAnRe" class="panel-body collapse">
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="CoSeCo"><h4>Complexity of serial code</h4></label>
+                        </div>
+                        <div id="CoSeCo" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iCoSeCo" name="CoSeCo" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="CoPaCo"><h4>Complexity of parallel code</h4></label>
+                        </div>
+                        <div id="CoPaCo" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iCoPaCo" name="CoPaCo" type="text" placeholder="Complexity of parallel code (split as needed into work, step, etc.)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="CoPa"><h4>Cost of Parallel Algorithm</h4></label>
+                        </div>
+                        <div id="CoPa" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iCoPa" name="CoPa" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="ThSpu"><h4>Theoretical Speedup</h4></label>
+                        </div>
+                        <div id="ThSpu" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iThSpu" name="ThSpu" type="text" placeholder="Theoretical Speedup (using asymptotic analysis, etc.)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="EstSerFra"><h4>Estimated Serial Fraction</h4></label>
+                        </div>
+                        <div id="EstSerFra" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iEstSerFra" name="EstSerFra" type="text" placeholder="Estimated Serial Fraction (you can use gprof, theoretical estimates, using FLOP, (e2e-alg)/e2e)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="Tub"><h4>Tight upper bound based on Amdahl's Law</h4></label>
+                        </div>
+                        <div id="Tub" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iTub" name="Tub" type="text" placeholder="Tight upper bound based on Amdahl's Law (using data from previous question)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="NuMA"><h4>Number of memory accesses</h4></label>
+                        </div>
+                        <div id="NuMA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iNuMA" name="NuMA" type="text" placeholder="Number of memory accesses (load and store using counters)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="NoCom"><h4>Number of computations</h4></label>
+                        </div>
+                        <div id="NoCom" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iNoCom" name="NoCom" type="text" placeholder="Number of computations (in FLOP using counters)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <a href="#CuBaAn" data-toggle="collapse">Curve Based Analysis</a>
+                    </div>
+                    <div id="CuBaAn" class="panel-body collapse">
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="TCRAProc"><h4>Time Curve analysis</h4></label>
+                        </div>
+                        <div id="TCRAProc" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iTCRAProc" name="TCRAProc" type="text" placeholder="Time Curve related analysis (as no. of processor increases)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="TCRAProSize"><h4>Time Curve analysis</h4></label>
+                        </div>
+                        <div id="TCRAProSize" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iTCRAProSize" name="TCRAProSize" type="text" placeholder="Time Curve related analysis (as problem size increases, also for serial)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="SCRA"><h4>Speedup Curve analysis</h4></label>
+                        </div>
+                        <div id="SCRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iSCRA" name="SCRA" type="text" placeholder="Speedup Curve related analysis (as problem size and no. of processors increase)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="ECRA"><h4>Efficiency Curve analysis</h4></label>
+                        </div>
+                        <div id="ECRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iECRA" name="ECRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="KFRA"><h4>Karp-Flatt metric analysis</h4></label>
+                        </div>
+                        <div id="KFRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iKFRA" name="KFRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <a href="#FuDeAn" data-toggle="collapse">Further Detailed Analysis</a>
+                    </div>
+                    <div id="FuDeAn" class="panel-body collapse">
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="MSPO"><h4>Major serial and parallel overheads</h4></label>
+                        </div>
+                        <div id="MSPO" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iMSPO" name="MSPO" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="MWRA"><h4>Memory wall analysis</h4></label>
+                        </div>
+                        <div id="MWRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iMWRA" name="MWRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="CCRA"><h4>Cache coherence analysis</h4></label>
+                        </div>
+                        <div id="CCRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iCCRA" name="CCRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="FSRA"><h4>False sharing analysis</h4></label>
+                        </div>
+                        <div id="FSRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iFSRA" name="FSRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="SraRA"><h4>Scheduling analysis</h4></label>
+                        </div>
+                        <div id="SraRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iSraRA" name="SraRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="LBRA"><h4>Load balance analysis</h4></label>
+                        </div>
+                        <div id="LBRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iLBRA" name="LBRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="SyncRA"><h4>Synchronisation analysis</h4></label>
+                        </div>
+                        <div id="SyncRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iSyncRA" name="SyncRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="GRA"><h4>Granularity analysis</h4></label>
+                        </div>
+                        <div id="GRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iGRA" name="GRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="ScaRA"><h4>Scalability analysis</h4></label>
+                        </div>
+                        <div id="ScaRA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iScaRA" name="ScaRA" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <a href="#AddAna" data-toggle="collapse">Additional Approach Analysis</a>
+                    </div>
+                    <div id="AddAna" class="panel-body collapse">
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="AOC"><h4>Further Analysis</h4></label>
+                        </div>
+                        <div id="AOC" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iAOC" name="AOC" type="text" placeholder="Analysis of any other concepts/factors you think were important in your problem-approach combination" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="CBMB"><h4>Further details</h4></label>
+                        </div>
+                        <div id="CBMB" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iCBMB" name="CBMB" type="text" placeholder=" (Code balance , machine balance analysis, how much of peak performance achieved in terms of %age)" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="ADDADA"><h4>Advantages/Disadvantages</h4></label>
+                        </div>
+                        <div id="ADDADA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iADDADA" name="ADDADA" type="text" placeholder="Advantages/Disadvantages of your approach" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="DFIA"><h4>Difficulties</h4></label>
+                        </div>
+                        <div id="DFIA" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iDFIA" name="DFIA" type="text" placeholder="Difficulties faced while implementing this approach" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-md-10 col-md-offset-1 control-label" for="AAC"><h4>Any additional comments</h4></label>
+                        </div>
+                        <div id="AAC" class="row collapse-in">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <textarea id="iAAC" name="AAC" type="text" placeholder="" class="form-control input-lg"></textarea>
+                                <span class="help-block">Optional Explanation block</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-3">
+                    <button type="button" onclick="generateFullName()" class="btn btn-success">Generate Report Tex File</button>
+                </div>
+                <div class="col-md-3 col-md-offset-1">
+                    <button type="button" class="btn btn-danger">Clear Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+</div>

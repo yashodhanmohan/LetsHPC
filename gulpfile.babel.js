@@ -18,6 +18,7 @@ import {protractor, webdriver_update} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
 import webpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
+import browsersync from 'browser-sync';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -290,7 +291,7 @@ gulp.task('clean:tmp', () => del(['.tmp/**/*'], {dot: true}));
 
 gulp.task('start:client', cb => {
     whenServerReady(() => {
-        open('http://localhost:' + config.port);
+        open('http://localhost:' + config.browserSyncPort);
         cb();
     });
 });
@@ -326,6 +327,9 @@ gulp.task('watch', () => {
     plugins.watch(_.union(paths.server.test.unit, paths.server.test.integration))
         .pipe(plugins.plumber())
         .pipe(lintServerTestScripts());
+
+    plugins.watch(paths.client.views)
+        .on("change", browsersync.reload);
 });
 
 gulp.task('serve', cb => {

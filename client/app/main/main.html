@@ -1,4 +1,4 @@
-<!-- <script type="text/javascript" src="assets/angular-bootstrap-multiselect/js/angular-bootstrap-multiselect.min.js"></script> -->
+<navbar></navbar>
 <div class="container-fluid">
     <div class="row">
         <div class="row pad-up">
@@ -34,8 +34,8 @@
         <div class="row pad-up">
             <div class="col-md-12" ng-if="main.data_fetch_complete">
                 <ul class="col-md-offset-5 col-md-4 nav nav-pills">
-                    <li role="presentation" ng-class="{active: main.machine_approach_view=='machine'}"><a href="#" ng-click="main.toggle_machine_approach('machine')">Compare machines</a></li>
-                    <li role="presentation" ng-class="{active: main.machine_approach_view=='approach'}"><a href="#" ng-click="main.toggle_machine_approach('approach')">Compare approaches</a></li>
+                    <li class="nav-item" role="presentation" ng-class="{active: main.machine_approach_view=='machine'}"><a class="nav-link" href="#" ng-click="main.toggle_machine_approach('machine')" style="color: black;">Compare machines</a></li>
+                    <li class="nav-item" role="presentation" ng-class="{active: main.machine_approach_view=='approach'}"><a class="nav-link" href="#" ng-click="main.toggle_machine_approach('approach')" style="color: black;">Compare approaches</a></li>
                 </ul>
                 <ul class="list-inline pad-up col-md-12" ng-if="main.machine_approach_view=='machine'">
                     <li ng-repeat="(machine_id, machine) in main.machines" class="list-group-item col-md-12">
@@ -48,8 +48,8 @@
                             </div>
                             <div class="col-md-2">
                                 <center>
-                                    E2E<input type="checkbox" ng-model="machine.plot_e2e">
-                                    ALG<input type="checkbox" ng-model="machine.plot_alg">
+                                    E2E<input type="checkbox" ng-model="machine.plot_e2e"> ALG
+                                    <input type="checkbox" ng-model="machine.plot_alg">
                                 </center>
                             </div>
                             <div class="col-md-3">
@@ -73,8 +73,8 @@
                             </div>
                             <div class="col-md-2">
                                 <center>
-                                    E2E<input type="checkbox" ng-model="approach.plot_e2e">
-                                    ALG<input type="checkbox" ng-model="approach.plot_alg">
+                                    E2E<input type="checkbox" ng-model="approach.plot_e2e"> ALG
+                                    <input type="checkbox" ng-model="approach.plot_alg">
                                 </center>
                             </div>
                             <div class="col-md-3">
@@ -132,7 +132,7 @@
                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries')">Time series</button>
                 </div>
                 <div class="col-md-3">
-                    <a href="{{main.chart_image}}" class="btn btn-primary btn-block" download="image.png">Export Graph</a>
+                    <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart()">Export Graph</a>
                 </div>
             </div>
         </div>

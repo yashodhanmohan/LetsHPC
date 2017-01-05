@@ -1,6 +1,3 @@
-import angular from 'angular';
-const ngRoute = require('angular-route');
-import routing from './main.routes';
 import _ from 'lodash';
 
 export default class MainController {
@@ -9,7 +6,7 @@ export default class MainController {
     categories = [];
     selected_category = '';
 
-    // Problem selection menu 
+    // Problem selection menu
     problems = [];
     selected_problem = '';
 
@@ -35,6 +32,8 @@ export default class MainController {
 
     /*@ngInject*/
     constructor($http) {
+        console.log('Main Controller');
+
         this.$http = $http;
 
         this.selection = [];
@@ -161,8 +160,8 @@ export default class MainController {
     update_approach_on_chart(approach_id) {
         var approach = this.approaches[approach_id];
 
-        for(var i in approach.last_selected_threads) {
-            for(var j in approach.last_selected_machines) {
+        for (var i in approach.last_selected_threads) {
+            for (var j in approach.last_selected_machines) {
                 var nthreads = approach.last_selected_threads[i];
                 var machine_id = approach.last_selected_machines[j]._id;
                 this.remove_number_from_table(approach_id, nthreads, machine_id, 'e2e');
@@ -174,12 +173,12 @@ export default class MainController {
             for (var j in approach.selected_machines) {
                 var nthreads = approach.selected_threads[i];
                 var machine_id = approach.selected_machines[j]._id;
-                if(approach.plot_e2e)
+                if (approach.plot_e2e)
                     this.add_number_in_table(approach_id, nthreads, machine_id, 'e2e');
-                if(approach.plot_alg)
+                if (approach.plot_alg)
                     this.add_number_in_table(approach_id, nthreads, machine_id, 'alg');
             }
-        }            
+        }
 
         this.refresh_chart(this.active_chart);
 
@@ -190,8 +189,8 @@ export default class MainController {
     update_machine_on_chart(machine_id) {
         var machine = this.machines[machine_id];
 
-        for(var i in machine.last_selected_threads) {
-            for(var j in machine.last_selected_approaches) {
+        for (var i in machine.last_selected_threads) {
+            for (var j in machine.last_selected_approaches) {
                 var nthreads = machine.last_selected_threads[i];
                 var approach_id = machine.last_selected_approaches[j]._id;
                 this.remove_number_from_table(approach_id, nthreads, machine_id, 'e2e');
@@ -203,12 +202,12 @@ export default class MainController {
             for (var j in machine.selected_approaches) {
                 var nthreads = machine.selected_threads[i];
                 var approach_id = machine.selected_approaches[j]._id;
-                if(machine.plot_e2e)
+                if (machine.plot_e2e)
                     this.add_number_in_table(approach_id, nthreads, machine_id, 'e2e');
-                if(machine.plot_alg)
+                if (machine.plot_alg)
                     this.add_number_in_table(approach_id, nthreads, machine_id, 'alg');
             }
-        }            
+        }
 
         this.refresh_chart(this.active_chart);
 
@@ -325,56 +324,64 @@ export default class MainController {
     fetch_number_data() {
 
         this.$http
-                .get('/api/problem/' + this.selected_problem._id + '/number')
-                .then((response) => {
-                    var numbers = response.data;
-                    var numbers_grouped_by_approach_id = _.groupBy(numbers, 'approach_id');
-                    var numbers_grouped_by_machine_id = _.groupBy(numbers, 'machine_id');
-                    
-                    for(var i in this.approaches) {
-                        var nums = numbers_grouped_by_approach_id[i];
-                        var unique_machine_ID = _.map(_.uniq(_.map(nums, 'machine_id')), function(t) {return t.toString();});
-                        var unique_thread_counts = _.map(_.uniq(_.map(nums, 'p')), function(t) {return t.toString()});
+            .get('/api/problem/' + this.selected_problem._id + '/number')
+            .then((response) => {
+                var numbers = response.data;
+                var numbers_grouped_by_approach_id = _.groupBy(numbers, 'approach_id');
+                var numbers_grouped_by_machine_id = _.groupBy(numbers, 'machine_id');
 
-                        this.approaches[i].numbers = nums;
-                        this.approaches[i].unique_thread_counts = unique_thread_counts;
-                        this.approaches[i].unique_machine_ID = unique_machine_ID;
-                        this.approaches[i].unique_machines = [];
-                        this.approaches[i].selected_machines = [];
-                        this.approaches[i].selected_threads = [];
-                        this.approaches[i].last_selected_machines = [];
-                        this.approaches[i].last_selected_threads = [];
+                for (var i in this.approaches) {
+                    var nums = numbers_grouped_by_approach_id[i];
+                    var unique_machine_ID = _.map(_.uniq(_.map(nums, 'machine_id')), function(t) {
+                        return t.toString();
+                    });
+                    var unique_thread_counts = _.map(_.uniq(_.map(nums, 'p')), function(t) {
+                        return t.toString()
+                    });
 
-                        for (var j in unique_machine_ID) {
-                            this.approaches[i].unique_machines.push(this.ro_machines[unique_machine_ID[j]]);
-                        }
+                    this.approaches[i].numbers = nums;
+                    this.approaches[i].unique_thread_counts = unique_thread_counts;
+                    this.approaches[i].unique_machine_ID = unique_machine_ID;
+                    this.approaches[i].unique_machines = [];
+                    this.approaches[i].selected_machines = [];
+                    this.approaches[i].selected_threads = [];
+                    this.approaches[i].last_selected_machines = [];
+                    this.approaches[i].last_selected_threads = [];
 
-                        this.approaches[i].plot_e2e = false;
-                        this.approaches[i].plot_alg = false;
+                    for (var j in unique_machine_ID) {
+                        this.approaches[i].unique_machines.push(this.ro_machines[unique_machine_ID[j]]);
                     }
 
-                    for(var i in this.machines) {
-                        var nums = numbers_grouped_by_machine_id[i];
-                        var unique_approach_ID = _.map(_.uniq(_.map(nums, 'approach_id')), function(t) {return t.toString();});
-                        var unique_thread_counts = _.map(_.uniq(_.map(nums, 'p')), function(t) {return t.toString()});
+                    this.approaches[i].plot_e2e = false;
+                    this.approaches[i].plot_alg = false;
+                }
 
-                        this.machines[i].numbers = nums;
-                        this.machines[i].unique_thread_counts = unique_thread_counts;
-                        this.machines[i].unique_approach_ID = unique_approach_ID;
-                        this.machines[i].unique_approaches = [];
-                        this.machines[i].selected_approaches = [];
-                        this.machines[i].selected_threads = [];
-                        this.machines[i].last_selected_approaches = [];
-                        this.machines[i].last_selected_threads = [];
+                for (var i in this.machines) {
+                    var nums = numbers_grouped_by_machine_id[i];
+                    var unique_approach_ID = _.map(_.uniq(_.map(nums, 'approach_id')), function(t) {
+                        return t.toString();
+                    });
+                    var unique_thread_counts = _.map(_.uniq(_.map(nums, 'p')), function(t) {
+                        return t.toString()
+                    });
 
-                        for (var j in unique_approach_ID) {
-                            this.machines[i].unique_approaches.push(this.ro_approaches[unique_approach_ID[j]]);
-                        }
+                    this.machines[i].numbers = nums;
+                    this.machines[i].unique_thread_counts = unique_thread_counts;
+                    this.machines[i].unique_approach_ID = unique_approach_ID;
+                    this.machines[i].unique_approaches = [];
+                    this.machines[i].selected_approaches = [];
+                    this.machines[i].selected_threads = [];
+                    this.machines[i].last_selected_approaches = [];
+                    this.machines[i].last_selected_threads = [];
 
-                        this.machines[i].plot_e2e = false;
-                        this.machines[i].plot_alg = false;
+                    for (var j in unique_approach_ID) {
+                        this.machines[i].unique_approaches.push(this.ro_approaches[unique_approach_ID[j]]);
                     }
-                });
+
+                    this.machines[i].plot_e2e = false;
+                    this.machines[i].plot_alg = false;
+                }
+            });
         this.data_fetch_complete = true;
     }
 
@@ -542,5 +549,12 @@ export default class MainController {
             dummy_data.addRow([0, 0]);
             this.chart.draw(dummy_data, this.chart_options);
         }
+    }
+
+    export_chart() {
+        var download = document.createElement('a');
+        download.href = this.chart_image;
+        download.download = 'image.png';
+        download.click();
     }
 }

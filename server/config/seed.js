@@ -30,7 +30,6 @@ User.find({})
                 password: 'pabloescobar',
                 position: 'Student'
             });
-        console.log('finished populating User');
     });
 
 // Create categories
@@ -49,7 +48,6 @@ Category.find({})
                 name: 'Matrix Related',
                 desc: 'Matrix Related Operations'
             });
-        console.log('finished populating Category');
     });
 
 // Create problems
@@ -70,7 +68,6 @@ Problem.find({})
                 name: 'Matrix Multiplication',
                 desc: 'This is a test matrix multiplication'
             });
-        console.log('finished populating Problem');
     });
 
 // Create machines
@@ -91,7 +88,6 @@ Machine.find({}).remove()
                 _id: '5861484d2c3e861ba6b380f6',
                 machine_file: '/path/to/file3'
             });
-        console.log('finished populating Machine');
     });
 
 // Create approaches
@@ -113,7 +109,6 @@ Approach.find({}).remove()
                 category_id: category2,
                 desc: 'Tree based approach'
             });
-        console.log('finished populating Approach');
     });
 
 // Create numbers
@@ -29371,6 +29366,7 @@ Numbers.find({}).remove()
                 algNS: 268832168
             })
             .then(() => {
-                console.log('finished populating Numbers');
             });
     });
+
+console.log('Seed database populated');

@@ -1,10 +1,16 @@
 @import '../assets/bootstrap/css/bootstrap.min.css';
 @import '../assets/bootstrap-multiselect/css/bootstrap-multiselect.min.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 /**
  * App-wide Styles
  */
 
- .list-group-item {
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.list-group-item {
     float: left;
 }
 
@@ -27,6 +33,12 @@
     padding-left: 5%
 }
 
+
+::selection {
+    background-color: #3F51B5;
+    color: white;
+}
+
 /* Responsive: Portrait tablets and up */
 
 @media screen and (min-width: 768px) {
@@ -38,10 +50,19 @@
 
 /* Component styles are injected through gulp */
 
+
 /* inject:css */
+
 @import 'admin/admin.css';
+
 @import 'landing/landing.css';
+
 @import 'main/main.css';
+
+@import 'reportgenerator/reportgenerator.css';
+
 @import '../components/footer/footer.css';
+
 @import '../components/oauth-buttons/oauth-buttons.css';
+
 /* endinject */
