@@ -32,7 +32,6 @@ export default class MainController {
 
     /*@ngInject*/
     constructor($http) {
-        console.log('Main Controller');
 
         this.$http = $http;
 

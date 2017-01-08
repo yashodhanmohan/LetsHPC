@@ -1,0 +1,139 @@
+<navbar></navbar>
+<div class="container-fluid">
+    <!-- Add a problem -->
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 well">
+            <h4>Add Problem</h4>
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="category">Category Selection</label>
+                    <div class="input-group" id="category">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Category <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="category in dataentry.add_problem.categories"><a href="#" ng-click="dataentry.add_problem.selected_category = category;">{{category.name}}</a></li>
+                            </ul>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Category" value="{{dataentry.add_problem.selected_category.name}}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="input-group col-md-12">
+                        <label for="problemName">Name</label>
+                        <input type="text" class="form-control" id="problemName" ng-model="dataentry.add_problem.name" placeholder="Enter a distinctive problem name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row pad-up">
+                <div class="form-group col-md-12">
+                    <label for="problemDesc">Problem Description</label>
+                    <textarea class="form-control" rows="5" id="problemDesc" ng-model="dataentry.add_problem.desc" placeholder="Enter an elaborate problem description" required/>
+                </div>
+            </div>
+            <div class="row pad-up animate-if" ng-if="dataentry.add_problem.invalid">
+                <center class="text-danger">
+                    *{{dataentry.add_problem.invalid_hint}}
+                </center>
+            </div>
+            <div class="row pad-up">
+                <div class="col-md-2 col-md-offset-10">
+                    <button type="button" class="btn btn-primary btn-default" ng-click="dataentry.submit_problem()">Add Problem</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add a machine -->
+    <div class="row pad-up" ng-model="dataentry.add_machine">
+        <div class="col-md-10 col-md-offset-1 well">
+            <h4>Add Machine</h4>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <center>
+                        <label class="btn btn-primary btn-file">
+                            Upload "lscpu" output <input type="file" style="display: none;" ng-model="dataentry.add_machine.file" onchange="angular.element(this).scope().dataentry.read_machine_file(this.files)">
+                        </label>
+                    </center>
+                </div>
+            </div>
+            <div class="row pad-up">
+                <div class="col-md-6 col-md-offset-3">
+                    <center>
+                        OR
+                    </center>
+                </div>
+            </div>
+            <div class="row pad-up">
+                <div class="col-md-12">
+                    <div class="form-group col-md-12">
+                        <textarea class="form-control" ng-model="dataentry.add_machine.output" rows="10" id="lscpuOutput" placeholder="Paste the output of the 'lscpu' command" />
+                    </div>
+                </div>
+            </div>
+            <div class="row pad-up" ng-if="dataentry.add_machine.invalid">
+                <center class="text-danger">
+                    *{{dataentry.add_machine.invalid_hint}}
+                </center>
+            </div>
+            <div class="row pad-up">
+                <div class="col-md-2 col-md-offset-10">
+                    <button type="button" class="btn btn-primary btn-default" ng-click="dataentry.submit_machine()">Add Machine</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add an approach -->
+    <div class="row pad-up" ng-model="dataentry.add_approach">
+        <div class="col-md-10 col-md-offset-1 well">
+            <h4>Add approach</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="mace">Category Selection</label>
+                    <div class="input-group" id="mace">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="category in dataentry.add_approach.categories"><a ng-href="#" ng-click="dataentry.select_category(category, dataentry.add_approach)">{{category.name}}</a></li>
+                            </ul>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Category" value="{{dataentry.add_approach.selected_category.name}}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="machine">Problem Selection</label>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Problem <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="problem in dataentry.add_approach.problems"><a href="#" ng-click="dataentry.add_approach.selected_problem = problem">{{problem.name}}</a></li>
+                            </ul>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Problem" value="{{dataentry.add_approach.selected_problem.name}}" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row pad-up">
+                <div class="col-md-6">
+                    <label for="machine">Machine Selection</label>
+                    <div class="input-group" id="machine">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Machine <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="machine in dataentry.add_approach.machines"><a href="#" ng-click="dataentry.add_approach.selected_machine = machine">{{machine.machine_file}}</a></li>
+                            </ul>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Machine" value="{{dataentry.add_approach.selected_machine.machine_file}}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="machine">Upload CSV file</label>
+                    <center>
+                        <label class="btn btn-primary btn-file">
+                            Upload <input type="file" style="display: none;" onchange="angular.element(this).scope().custom.read_file(this.files)">
+                        </label>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

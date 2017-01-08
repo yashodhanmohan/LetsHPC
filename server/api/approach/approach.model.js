@@ -3,9 +3,7 @@
 import mongoose from 'mongoose';
 
 var Approach = new mongoose.Schema({
-    user_id : String,
-    user_id_1: String,
-    user_id_2: String,
+    user_id : [String],
     problem_id: String,
     category_id: String,
     descS: String,
