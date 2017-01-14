@@ -1,0 +1,19 @@
+#navbar-navbar {
+    background-color: #FFFFFF;
+    font-weight: 900;
+    font-size: 1.125em;
+    margin-bottom: 0px;
+    border: none;
+}
+
+.navbar-nav-brand-link {
+    color: #1A237E;
+}
+
+.navbar-nav-link {
+    color: #1A237E;
+}
+
+.navbar-nav-link:hover {
+    color: #3F51B5;
+}

@@ -1,10 +1,16 @@
 @import '../assets/bootstrap/css/bootstrap.min.css';
-@import '../assets/bootstrap-multiselect/css/bootstrap-multiselect.min.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 /**
  * App-wide Styles
  */
+
+html {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -22,7 +28,15 @@ body {
 }
 
 .indigo {
-    background-color: #3F51B5;
+    background-color: #1A237E;
+}
+
+.white {
+    background-color: #FFFFFF;
+}
+
+.text-white {
+    color: #FFFFFF;
 }
 
 .pad-up {
@@ -33,11 +47,11 @@ body {
     padding-left: 5%
 }
 
-
 ::selection {
     background-color: #3F51B5;
     color: white;
 }
+
 
 /* Responsive: Portrait tablets and up */
 
@@ -57,6 +71,8 @@ body {
 
 @import 'customdata/customdata.css';
 
+@import 'dataentry/dataentry.css';
+
 @import 'landing/landing.css';
 
 @import 'main/main.css';
@@ -64,6 +80,8 @@ body {
 @import 'reportgenerator/reportgenerator.css';
 
 @import '../components/footer/footer.css';
+
+@import '../components/navbar/navbar.css';
 
 @import '../components/oauth-buttons/oauth-buttons.css';
 
