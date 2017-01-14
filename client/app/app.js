@@ -6,7 +6,9 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 const ngRoute = require('angular-route');
-import bootstrap from '../assets/bootstrap/js/bootstrap.min.js'
+import bootstrap from '../assets/bootstrap/js/bootstrap.min.js';
+// import bootstrapmaterial from '../assets/bootstrap-material/js/material.min.js';
+// import bootstrapmaterialripple from '../assets/bootstrap-material/js/ripples.min.js';
 
 import {
     routeConfig
