@@ -5,3 +5,23 @@
     right: 0px;
     top: 20px;
 }
+
+.main-hover-blue:hover {
+    background-color: #1A237E;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.main-hover-green:hover {
+    background-color: #3F51B5;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.main-blue {
+    background-color: #1A237E;
+    color: #FFFFFF;
+    font-weight: 900;
+}

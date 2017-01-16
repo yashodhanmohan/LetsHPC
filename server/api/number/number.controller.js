@@ -123,3 +123,10 @@ export function returnAllRows(req, res) {
         .catch(handleError(res));
 
 }
+
+export function return_by_problem(req, res) {
+    return Number.find({ problem_id: req.params.id})
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
