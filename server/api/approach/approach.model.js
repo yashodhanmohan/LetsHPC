@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 var Approach = new mongoose.Schema({
     user_id : [String],
+    approach_name : String, 
     problem_id: String,
     category_id: String,
     penv_id: String,
