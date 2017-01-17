@@ -119,7 +119,7 @@
                                         </center>
                                     </div>
                                     <div class="col-md-1">
-                                        <button class="btn btn-default btn-primary" ng-click="main.update_machine_on_chart(machine_id)">Update</button>
+                                        <button class="btn btn-default btn-primary" ng-click="main.cm.update_chart(machine)">Update</button>
                                     </div>
                                 </div>
                             </li>
@@ -139,20 +139,20 @@
                         <div class="col-md-4 col-md-offset-2 well">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=true; main.refresh_chart(main.active_chart, main.chart['cm'], main.cm.execution_time_data, main.cm.speedup_data, main.cm.karp_flatt_data)">X-axis: Log</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Log</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=false; main.refresh_chart(main.active_chart, main.chart['cm'], main.cm.execution_time_data, main.cm.speedup_data, main.cm.karp_flatt_data)">X-axis: Linear</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Linear</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 well">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=true; main.refresh_chart(main.active_chart, main.chart['cm'], main.cm.execution_time_data, main.cm.speedup_data, main.cm.karp_flatt_data)">Y-axis: Log</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Log</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=false; main.refresh_chart(main.active_chart, main.chart['cm'], main.cm.execution_time_data, main.cm.speedup_data, main.cm.karp_flatt_data)">Y-axis: Linear</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Linear</button>
                                 </div>
                             </div>
                         </div>
@@ -161,16 +161,16 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2 well">
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', main.chart['cm'], main.cm.execution_time_data, main.cm.speedup_data, main.cm.karp_flatt_data)" disabled="disabled">Karp-Flatt metric</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'cm')" disabled="disabled">Karp-Flatt metric</button>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', main.chart['cm'], main.cm.execution_time_data, main.cm.speedup_data, main.cm.karp_flatt_data)">{{main.ca}}Speedup</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'cm')">Speedup</button>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', main.chart['cm'], main.cm.execution_time_data, main.cm.speedup_data, main.cm.karp_flatt_data)">Time series</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Time series</button>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart()">Export Graph</a>
+                            <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('cm')">Export Graph</a>
                         </div>
                     </div>
                 </div>
@@ -250,20 +250,20 @@
                         <div class="col-md-4 col-md-offset-2 well">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=true; main.refresh_chart(main.active_chart, main.chart['ca'], main.ca.execution_time_data, main.ca.speedup_data, main.ca.karp_flatt_data)">X-axis: Log</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Log</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.hAxis.logScale}" ng-click="main.chart_options.hAxis.logScale=false; main.refresh_chart(main.active_chart, main.chart['ca'], main.ca.execution_time_data, main.ca.speedup_data, main.ca.karp_flatt_data)">X-axis: Linear</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Linear</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 well">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=true; main.refresh_chart(main.active_chart, main.chart['ca'], main.ca.execution_time_data, main.ca.speedup_data, main.ca.karp_flatt_data)">Y-axis: Log</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Log</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.chart_options.vAxis.logScale}" ng-click="main.chart_options.vAxis.logScale=false; main.refresh_chart(main.active_chart, main.chart['ca'], main.ca.execution_time_data, main.ca.speedup_data, main.ca.karp_flatt_data)">Y-axis: Linear</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Linear</button>
                                 </div>
                             </div>
                         </div>
@@ -272,16 +272,16 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2 well">
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', main.chart['ca'], main.ca.execution_time_data, main.ca.speedup_data, main.ca.karp_flatt_data)" disabled="disabled">Karp-Flatt metric</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'ca')" disabled="disabled">Karp-Flatt metric</button>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', main.chart['ca'], main.ca.execution_time_data, main.ca.speedup_data, main.ca.karp_flatt_data)">Speedup</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'ca')">Speedup</button>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', main.chart['ca'], main.ca.execution_time_data, main.ca.speedup_data, main.ca.karp_flatt_data)">Time series</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Time series</button>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart()">Export Graph</a>
+                            <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('ca')">Export Graph</a>
                         </div>
                     </div>
                 </div>

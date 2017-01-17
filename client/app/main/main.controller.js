@@ -2,34 +2,13 @@ import _ from 'lodash';
 
 export default class MainController {
 
-    // Category selection menu
     categories = [];
     selected_category = '';
 
-    // Problem selection menu
     problems = [];
     selected_problem = '';
 
-    // Machine comparison or Approach comparison
-    machine_approach_view = 'machine';
-    machines = [];
-    approaches = [];
-    selected_approaches = []
-
-    // Selected memory
     selected_memory = 'shared';
-
-    // Data
-
-
-    // Chart options
-    chart = {};
-    chart_image = {};
-    chart_options = {};
-    execution_time_chart_options = {};
-    speedup_chart_options = {};
-    karpflatt_chart_options = {};
-    active_chart = '';
 
     ca = {
         selected_approaches: [],
@@ -44,161 +23,9 @@ export default class MainController {
         speedup_data: {},
         karp_flatt_data: {},
 
-        update_machines: () => {
-            var selected_approach_ids = _.map(this.ca.selected_approaches, '_id');
-            this.ca.machines = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_approach_ids.indexOf(number.approach_id)!=-1;
-            }), 'machine_id')), (machine_id) => {
-                return _.find(this.machines, _.matchesProperty('_id', machine_id));
-            }), machine => {
-                return machine!=undefined;
-            });
-        },
-
-        update_penvs: () => {
-            var selected_approach_ids = _.map(this.ca.selected_approaches, '_id');
-            this.ca.penvs = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_approach_ids.indexOf(number.approach_id)!=-1;
-            }), 'penv_id')), (penv_id) => {
-                return _.find(this.penvs, _.matchesProperty('_id', penv_id));
-            }), penv => {
-                return penv!=undefined;
-            });
-        },
-
-        set_data: () => {
-            var selected_approach_ids = _.map(this.ca.selected_approaches, '_id')
-            this.ca.selected_numbers = _.filter(this.numbers, number => {
-                if(selected_approach_ids.indexOf(number.approach_id)!=-1 &&
-                   this.ca.selected_machine._id==number.machine_id
-                )
-                    return true;
-                else {
-                    return false;
-                }
-            });
-
-            _.forEach(this.ca.selected_approaches, (selected_approach) => {
-                selected_approach.unique_thread_counts = _.map(_.uniq(_.map(_.filter(this.ca.selected_numbers, selected_number => {
-                    return selected_number.approach_id==selected_approach._id;
-                }), 'p')), _.toString);
-                selected_approach.plot_e2e = false;
-                selected_approach.plot_alg = true;
-                selected_approach.last_selected_threads = [];
-            });
-
-            this.ca.data_set = true;
-        },
-
-        update_chart: (approach) => {
-            for (var i in approach.last_selected_threads) {
-                var nthreads = approach.last_selected_threads[i];
-                this.remove_number_from_table(this.ca.execution_time_data, this.ca.speedup_data, this.ca.karp_flatt_data, approach._id, nthreads, this.ca.selected_machine._id, 'e2e');
-                this.remove_number_from_table(this.ca.execution_time_data, this.ca.speedup_data, this.ca.karp_flatt_data, approach._id, nthreads, this.ca.selected_machine._id, 'alg');
-            }
-
-            var approach_numbers = _.filter(this.numbers, number => {
-                if(number.approach_id==approach._id)
-                    return true;
-                else
-                    return false;
-            })
-
-            for (var i in approach.selected_threads) {
-                var nthreads = approach.selected_threads[i];
-                if (approach.plot_e2e)
-                {
-                    var x = this.add_number_in_table(this.ca.execution_time_data, this.ca.speedup_data, this.ca.karp_flatt_data, approach._id, approach_numbers, nthreads, this.ca.selected_machine._id, 'e2e');
-                    this.ca.execution_time_data = x.edata;
-                    this.ca.speedup_data = x.sdata;
-                }
-                if (approach.plot_alg) {
-                    var x = this.add_number_in_table(this.ca.execution_time_data, this.ca.speedup_data, this.ca.karp_flatt_data, approach._id, approach_numbers, nthreads, this.ca.selected_machine._id, 'alg');
-                    this.ca.execution_time_data = x.edata;
-                    this.ca.speedup_data = x.sdata;
-                }
-            }
-
-            console.log(this.ca.execution_time_data.getNumberOfColumns());
-
-            this.refresh_chart(this.active_chart, this.chart['ca'], this.ca.execution_time_data, this.ca.speedup_data, this.ca.karp_flatt_data);
-
-            approach.last_selected_machines = _.cloneDeep(approach.selected_machines);
-            approach.last_selected_threads = _.cloneDeep(approach.selected_threads);
-        }
-    }
-
-    cm = {
-        selected_machines: [],
-        selected_approach: {},
-        selected_penv: {},
-
-        machines: [],
-        approaches: [],
-        penvs: [],
-
-        update_approaches: () => {
-            var selected_machine_ids = _.map(this.cm.selected_machines, '_id');
-            this.cm.approaches = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_machine_ids.indexOf(number.machine_id)!=-1;
-            }), 'approach_id')), (approach_id) => {
-                return _.find(this.approaches, _.matchesProperty('_id', approach_id));
-            }), approach => {
-                return approach!=undefined;
-            });
-        },
-
-        update_penvs: () => {
-            var selected_machine_ids = _.map(this.ca.selected_machines, '_id');
-            this.cm.penvs = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_machine_ids.indexOf(number.machine_id)!=-1;
-            }), 'penv_id')), (penv_id) => {
-                return _.find(this.penvs, _.matchesProperty('_id', penv_id));
-            }), penv => {
-                return penv!=undefined;
-            });
-        },
-
-        set_data: () => {
-            var selected_machine_ids = _.map(this.cm.selected_machines, '_id')
-            this.cm.selected_numbers = _.filter(this.numbers, number => {
-                if(selected_machine_ids.indexOf(number.machine_id)!=-1 &&
-                   this.cm.selected_approach._id==number.approach_id
-                )
-                    return true;
-                else {
-                    return false;
-                }
-            });
-
-            _.forEach(this.cm.selected_machines, (selected_machine) => {
-                selected_machine.unique_thread_counts = _.map(_.uniq(_.map(_.filter(this.cm.selected_numbers, selected_number => {
-                    return selected_number.machine_id==selected_machine._id;
-                }), 'p')), _.toString);
-                selected_machine.plot_e2e = false;
-                selected_machine.plot_alg = true;
-            });
-
-            this.cm.data_set = true;
-        }
-    }
-
-    /*@ngInject*/
-        constructor($http) {
-
-        this.$http = $http;
-
-        this.selection = [];
-
-
-        // Fetch categories
-        this.$http.get('/api/category').then((response) => {
-            this.categories = response.data;
-        }, (error) => {
-            console.log(error);
-        });
-
-        this.chart_options = {
+        chart: {},
+        chart_image: {},
+        chart_options: {
             titlePosition: 'in',
             height: 600,
             pointShape: 'circle',
@@ -224,9 +51,8 @@ export default class MainController {
                 trigger: 'both'
             },
             selectionMode: 'multiple'
-        };
-
-        this.execution_time_chart_options = {
+        },
+        execution_time_chart_options: {
             title: 'Problem size vs. Execution time',
             hAxis: {
                 title: 'Problem size'
@@ -234,9 +60,8 @@ export default class MainController {
             vAxis: {
                 title: 'Execution time'
             }
-        };
-
-        this.speedup_chart_options = {
+        },
+        speedup_chart_options: {
             title: 'Problem size vs. Speedup',
             hAxis: {
                 title: 'Problem size'
@@ -244,9 +69,8 @@ export default class MainController {
             vAxis: {
                 title: 'Speedup'
             }
-        };
-
-        this.karpflatt_chart_options = {
+        },
+        karpflatt_chart_options: {
             title: 'Problem size vs. Karp Flatt coefficient',
             hAxis: {
                 title: 'Problem size'
@@ -254,25 +78,268 @@ export default class MainController {
             vAxis: {
                 title: 'Karp flatt coefficient'
             }
-        };
+        },
+        active_chart: 'timeseries',
+
+        update_machines: () => {
+            var selected_approach_ids = _.map(this.ca.selected_approaches, '_id');
+            this.ca.machines = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
+                return selected_approach_ids.indexOf(number.approach_id)!=-1;
+            }), 'machine_id')), (machine_id) => {
+                return _.find(this.machines, _.matchesProperty('_id', machine_id));
+            }), machine => {
+                return machine!=undefined;
+            });
+        },
+
+        update_penvs: () => {
+            var selected_approach_ids = _.map(this.ca.selected_approaches, '_id');
+            this.ca.penvs = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
+                return selected_approach_ids.indexOf(number.approach_id)!=-1;
+            }), 'penv_id')), (penv_id) => {
+                return _.find(this.penvs, _.matchesProperty('_id', penv_id));
+            }), penv => {
+                return penv!=undefined;
+            });
+        },
+
+        set_data: () => {
+            this.ca.data_set = false;
+            var selected_approach_ids = _.map(this.ca.selected_approaches, '_id')
+
+            this.ca.selected_numbers = _.filter(this.numbers, number => {
+                if(selected_approach_ids.indexOf(number.approach_id)!=-1 && this.ca.selected_machine._id==number.machine_id)
+                    return true;
+                else {
+                    return false;
+                }
+            });
+
+            _.forEach(this.ca.selected_approaches, (selected_approach) => {
+                selected_approach.unique_thread_counts = _.map(_.uniq(_.map(_.filter(this.ca.selected_numbers, selected_number => {
+                    return selected_number.approach_id==selected_approach._id;
+                }), 'p')), _.toString);
+                selected_approach.plot_e2e = false;
+                selected_approach.plot_alg = true;
+                selected_approach.last_selected_threads = [];
+            });
+
+            this.ca.data_set = true;
+        },
+
+        update_chart: (approach) => {
+            for (var i in approach.last_selected_threads) {
+                var nthreads = approach.last_selected_threads[i];
+                this.remove_number_from_table('ca', approach._id, nthreads, this.ca.selected_machine._id, 'e2e');
+                this.remove_number_from_table('ca', approach._id, nthreads, this.ca.selected_machine._id, 'alg');
+            }
+
+            var approach_numbers = _.filter(this.numbers, number => {
+                if(number.approach_id==approach._id)
+                    return true;
+                else
+                    return false;
+            })
+
+            for (var i in approach.selected_threads) {
+                var nthreads = approach.selected_threads[i];
+                if (approach.plot_e2e)
+                    this.add_number_in_table('ca', approach._id, approach_numbers, nthreads, this.ca.selected_machine._id, 'e2e');
+                if (approach.plot_alg)
+                    this.add_number_in_table('ca', approach._id, approach_numbers, nthreads, this.ca.selected_machine._id, 'alg');
+            }
+
+            this.refresh_chart(this.active_chart, 'ca');
+
+            approach.last_selected_machines = _.cloneDeep(approach.selected_machines);
+            approach.last_selected_threads = _.cloneDeep(approach.selected_threads);
+        }
+    }
+
+    cm = {
+        selected_approach: {},
+        selected_machines: [],
+        selected_penv: {},
+
+        machines: [],
+        approaches: [],
+        penvs: [],
+
+        execution_time_data: {},
+        speedup_data: {},
+        karp_flatt_data: {},
+
+        chart: {},
+        chart_image: {},
+        chart_options: {
+            titlePosition: 'in',
+            height: 600,
+            pointShape: 'circle',
+            pointsVisible: true,
+            explorer: {
+                keepInBounds: true,
+                maxZoomOut: 1
+            },
+            hAxis: {
+                logScale: true
+            },
+            vAxis: {
+                logScale: false
+            },
+            chartArea: {
+                backgroundColor: {
+                    stroke: '#000',
+                    strokeWidth: 1
+                }
+            },
+            crosshair: {
+                color: 'black',
+                trigger: 'both'
+            },
+            selectionMode: 'multiple'
+        },
+        execution_time_chart_options: {
+            title: 'Problem size vs. Execution time',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Execution time'
+            }
+        },
+        speedup_chart_options: {
+            title: 'Problem size vs. Speedup',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Speedup'
+            }
+        },
+        karpflatt_chart_options: {
+            title: 'Problem size vs. Karp Flatt coefficient',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Karp flatt coefficient'
+            }
+        },
+        active_chart: 'timeseries',
+
+        update_approaches: () => {
+            var selected_machine_ids = _.map(this.cm.selected_machines, '_id');
+            this.cm.approaches = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
+                return selected_machine_ids.indexOf(number.machine_id)!=-1;
+            }), 'approach_id')), (approach_id) => {
+                return _.find(this.approaches, _.matchesProperty('_id', approach_id));
+            }), approach => {
+                return approach!=undefined;
+            });
+        },
+
+        update_penvs: () => {
+            var selected_machine_ids = _.map(this.ca.selected_machines, '_id');
+            this.ca.penvs = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
+                return selected_machine_ids.indexOf(number.machine_id)!=-1;
+            }), 'penv_id')), (penv_id) => {
+                return _.find(this.penvs, _.matchesProperty('_id', penv_id));
+            }), penv => {
+                return penv!=undefined;
+            });
+        },
+
+        set_data: () => {
+            this.cm.data_set = false;
+            var selected_machine_ids = _.map(this.cm.selected_machines, '_id')
+
+            this.cm.selected_numbers = _.filter(this.numbers, number => {
+                if(selected_machine_ids.indexOf(number.machine_id)!=-1 && this.cm.selected_approach._id==number.approach_id)
+                    return true;
+                else {
+                    return false;
+                }
+            });
+
+            _.forEach(this.cm.selected_machines, (selected_machine) => {
+                selected_machine.unique_thread_counts = _.map(_.uniq(_.map(_.filter(this.cm.selected_numbers, selected_number => {
+                    return selected_number.machine_id==selected_machine._id;
+                }), 'p')), _.toString);
+                console.log(selected_machine.unique_thread_counts);
+                selected_machine.plot_e2e = false;
+                selected_machine.plot_alg = true;
+                selected_machine.last_selected_threads = [];
+            });
+
+            this.cm.data_set = true;
+        },
+
+        update_chart: (machine) => {
+            for (var i in machine.last_selected_threads) {
+                var nthreads = machine.last_selected_threads[i];
+                this.remove_number_from_table('cm', this.cm.selected_approach._id, nthreads, machine._id, 'e2e');
+                this.remove_number_from_table('cm', this.cm.selected_approach._id, nthreads, machine._id, 'alg');
+            }
+
+            var machine_numbers = _.filter(this.numbers, number => {
+                if(number.machine_id==machine._id)
+                    return true;
+                else
+                    return false;
+            })
+
+            for (var i in machine.selected_threads) {
+                var nthreads = machine.selected_threads[i];
+                if (machine.plot_e2e)
+                    this.add_number_in_table('cm', this.cm.selected_approach._id, machine_numbers, nthreads, machine._id, 'e2e');
+                if (machine.plot_alg)
+                    this.add_number_in_table('cm', this.cm.selected_approach._id, machine_numbers, nthreads, machine._id, 'alg');
+            }
+
+            this.refresh_chart(this.cm.active_chart, 'cm');
+
+            approach.last_selected_machines = _.cloneDeep(approach.selected_machines);
+            approach.last_selected_threads = _.cloneDeep(approach.selected_threads);
+        }
+    }
+
+
+    /*@ngInject*/
+    constructor($http) {
+
+        this.$http = $http;
+
+        this.selection = [];
+
+
+        // Fetch categories
+        this.$http.get('/api/category').then((response) => {
+            this.categories = response.data;
+        }, (error) => {
+            console.log(error);
+        });
 
         this.ca.execution_time_data = new google.visualization.DataTable();
         this.ca.speedup_data = new google.visualization.DataTable();
         this.ca.karp_flatt_data = new google.visualization.DataTable();
+        this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
 
         this.cm.execution_time_data = new google.visualization.DataTable();
         this.cm.speedup_data = new google.visualization.DataTable();
         this.cm.karp_flatt_data = new google.visualization.DataTable();
+        this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
 
-        this.chart['cm'] = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
-        this.chart['ca'] = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
         // this.chart['cpe'] = new google.visualization.LineChart(document.getElementById('cpe_chart_div'));
 
-        _.forEach(this.chart, chart => {
-            google.visualization.events.addListener(chart, 'ready', () => {
-                this.chart_image = chart.getImageURI();
-            });
-        })
+        google.visualization.events.addListener(this.ca.chart, 'ready', () => {
+            this.ca.chart_image = chart.getImageURI();
+        });
+        google.visualization.events.addListener(this.cm.chart, 'ready', () => {
+            this.cm.chart_image = chart.getImageURI();
+        });
+        // google.visualization.events.addListener(this.cpe.chart, 'ready', () => {
+        //     this.cpe.chart_image = chart.getImageURI();
+        // });
 
         this.data_fetch_complete = false;
         this.active_chart = 'timeseries';
@@ -325,45 +392,16 @@ export default class MainController {
                         })
                 });
                 // Fetch penv by penv id
-                this.penvs = [];
-                this.penv_ids.map((penv_id) => {
-                    if(penv!=undefined)
-                        this.$http
-                            .get(`/api/penv/${penv_id}`)
-                            .then(response => {
-                                this.penvs.push(response.data);
-                            });
-                });
+                // this.penvs = [];
+                // this.penv_ids.map((penv_id) => {
+                //     if(penv!=undefined)
+                //         this.$http
+                //             .get(`/api/penv/${penv_id}`)
+                //             .then(response => {
+                //                 this.penvs.push(response.data);
+                //             });
+                // });
             })
-    }
-
-    update_machine_on_chart(machine_id) {
-        var machine = this.machines[machine_id];
-
-        for (var i in machine.last_selected_threads) {
-            for (var j in machine.last_selected_approaches) {
-                var nthreads = machine.last_selected_threads[i];
-                var approach_id = machine.last_selected_approaches[j]._id;
-                this.remove_number_from_table(approach_id, nthreads, machine_id, 'e2e');
-                this.remove_number_from_table(approach_id, nthreads, machine_id, 'alg');
-            }
-        }
-
-        for (var i in machine.selected_threads) {
-            for (var j in machine.selected_approaches) {
-                var nthreads = machine.selected_threads[i];
-                var approach_id = machine.selected_approaches[j]._id;
-                if (machine.plot_e2e)
-                    this.add_number_in_table(approach_id, nthreads, machine_id, 'e2e');
-                if (machine.plot_alg)
-                    this.add_number_in_table(approach_id, nthreads, machine_id, 'alg');
-            }
-        }
-
-        this.refresh_chart(this.active_chart);
-
-        machine.last_selected_approaches = _.cloneDeep(machine.selected_approaches);
-        machine.last_selected_threads = _.cloneDeep(machine.selected_threads);
     }
 
     // Computation functions =============================================
@@ -538,40 +576,44 @@ export default class MainController {
 
     // Table related functions =============================================
 
-    add_number_in_table(execution_time_data, speedup_data, karp_flatt_data, approach_id, approach_numbers, nthreads, machine_id, e2e_or_alg) {
-        var number = _.filter(approach_numbers, function(number) {
+    add_number_in_table(basis, approach_id, numbers, nthreads, machine_id, e2e_or_alg) {
+        var number = _.filter(numbers, function(number) {
             return (number.p == nthreads) && (number.machine_id == machine_id);
         });
-        var serialnumbers = _.filter(approach_numbers, function(number) {
+        var serialnumbers = _.filter(numbers, function(number) {
             return (number.p == 0) && (number.machine_id == machine_id);
         })
         var execution_time = this.averaged_execution_time(number);
         var speedup = this.averaged_speedup(number, serialnumbers);
 
+        var execution_time_data = this[basis].execution_time_data;
+        var speedup_data = this[basis].speedup_data;
+        var karp_flatt_data = this[basis].karp_flatt_data;
 
         if (e2e_or_alg == 'e2e') {
             var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
             var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
 
             var columns_from_table1 = [];
-            for (var x = 0; x < execution_time_data.getNumberOfColumns() - 1; x++) {
+            for (var x = 0; x < this[basis].execution_time_data.getNumberOfColumns() - 1; x++) {
                 columns_from_table1.push(x + 1);
             }
 
-            if (execution_time_data.getNumberOfColumns() < 2)
-                execution_time_data = e2e_execution_time_table;
+            if (this[basis].execution_time_data.getNumberOfColumns() < 2)
+                this[basis].execution_time_data = e2e_execution_time_table;
             else
-                execution_time_data = google.visualization.data.join(execution_time_data, e2e_execution_time_table, 'full', [
+                this[basis].execution_time_data = google.visualization.data.join(this[basis].execution_time_data, e2e_execution_time_table, 'full', [
                     [0, 0]
                 ], columns_from_table1, [1]);
 
             if (speedup_data.getNumberOfColumns() < 2)
-                speedup_data = e2e_speedup_table;
+                this[basis].speedup_data = e2e_speedup_table;
             else
-                speedup_data = google.visualization.data.join(speedup_data, e2e_speedup_table, 'full', [
+                this[basis].speedup_data = google.visualization.data.join(this[basis].speedup_data, e2e_speedup_table, 'full', [
                     [0, 0]
                 ], columns_from_table1, [1]);
-        } else if (e2e_or_alg == 'alg') {
+        }
+        else if (e2e_or_alg == 'alg') {
             var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
             var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
 
@@ -580,28 +622,27 @@ export default class MainController {
                 columns_from_table1.push(x + 1);
             }
 
-            if (execution_time_data.getNumberOfColumns() < 2)
-                execution_time_data = alg_execution_time_table;
+            if (this[basis].execution_time_data.getNumberOfColumns() < 2)
+                this[basis].execution_time_data = alg_execution_time_table;
             else
-                execution_time_data = google.visualization.data.join(execution_time_data, alg_execution_time_table, 'full', [
+                this[basis].execution_time_data = google.visualization.data.join(this[basis].execution_time_data, alg_execution_time_table, 'full', [
                     [0, 0]
                 ], columns_from_table1, [1]);
 
             if (speedup_data.getNumberOfColumns() < 2)
-                speedup_data = alg_speedup_table;
+                this[basis].speedup_data = alg_speedup_table;
             else
-                speedup_data = google.visualization.data.join(speedup_data, alg_speedup_table, 'full', [
+                this[basis].speedup_data = google.visualization.data.join(this[basis].speedup_data, alg_speedup_table, 'full', [
                     [0, 0]
                 ], columns_from_table1, [1]);
         }
-
-        return {
-            edata: execution_time_data,
-            sdata: speedup_data
-        }
     }
 
-    remove_number_from_table(execution_time_data, speedup_data, karp_flatt_data, approach_id, nthreads, machine_id, e2e_or_alg) {
+    remove_number_from_table(basis, approach_id, nthreads, machine_id, e2e_or_alg) {
+        var execution_time_data = this[basis].execution_time_data;
+        var speedup_data = this[basis].speedup_data;
+        var karp_flatt_data = this[basis].karp_flatt_data;
+
         var numCol = execution_time_data.getNumberOfColumns();
         for (var j = 1; j < numCol; j++) {
             if (execution_time_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
@@ -661,27 +702,31 @@ export default class MainController {
 
     // Chart related functions =============================================
 
-    chart_option_selection() {
+    chart_option_selection(basis) {
 
-        if (this.active_chart == 'timeseries') {
-            _.merge(this.chart_options, this.execution_time_chart_options);
+        if (this[basis].active_chart == 'timeseries') {
+            _.merge(this[basis].chart_options, this[basis].execution_time_chart_options);
         }
 
-        if (this.active_chart == 'speedup') {
-            _.merge(this.chart_options, this.speedup_chart_options);
+        if (this[basis].active_chart == 'speedup') {
+            _.merge(this[basis].chart_options, this[basis].speedup_chart_options);
         }
 
-        // if(this.active_chart=='karpflatt') {
-        //     _.merge(this.chart_options, this.karpflatt_chart_options);
+        // if(this[basis].active_chart=='karpflatt') {
+        //     _.merge(this[basis].chart_options, this[basis].karpflatt_chart_options);
         // }
     }
 
-    refresh_chart(type, chart, execution_time_data, speedup_data, karp_flatt_data) {
-        if (type != this.active_chart) {
-            this.active_chart = type;
+    refresh_chart(type, basis) {
+        if (type != this[basis].active_chart) {
+            this[basis].active_chart = type;
         }
         var data;
-        switch (this.active_chart) {
+        var execution_time_data = this[basis].execution_time_data;
+        var speedup_data = this[basis].speedup_data;
+        var karp_flatt_data = this[basis].karp_flatt_data;
+
+        switch (this[basis].active_chart) {
             case 'timeseries':
                 data = execution_time_data;
                 break;
@@ -694,21 +739,22 @@ export default class MainController {
             default:
                 data = new google.visualization.DataTable();
         }
+        this[basis].chart = new google.visualization.LineChart(document.getElementById(basis+'_chart_div'));
         if (data.getNumberOfColumns() > 1) {
-            this.chart_option_selection();
-            chart.draw(data, this.chart_options);
+            this.chart_option_selection(basis);
+            this[basis].chart.draw(data, this[basis].chart_options);
         } else {
             var dummy_data = new google.visualization.DataTable();
             dummy_data.addColumn('number', 'd1');
             dummy_data.addColumn('number', 'd2');
             dummy_data.addRow([0, 0]);
-            chart.draw(dummy_data, this.chart_options);
+            this[basis].chart.draw(dummy_data, this[basis].chart_options);
         }
     }
 
-    export_chart() {
+    export_chart(basis) {
         var download = document.createElement('a');
-        download.href = this.chart_image;
+        download.href = this[basis].chart_image;
         download.download = 'image.png';
         download.click();
     }
