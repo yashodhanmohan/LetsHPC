@@ -52,7 +52,7 @@ const paths = {
         }
     },
     karma: 'karma.conf.js',
-    dist: 'dist'
+    dist: '../LETsHPC'
 };
 
 /********************
@@ -464,9 +464,9 @@ gulp.task('build', cb => {
         ],
         'inject',
         'transpile:server',
-        [
-            'build:images'
-        ],
+        //[
+        //    'build:images'
+        //],
         [
             'copy:extras',
             'copy:assets',
@@ -478,7 +478,7 @@ gulp.task('build', cb => {
         cb);
 });
 
-gulp.task('clean:dist', () => del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true}));
+gulp.task('clean:dist', () => del([`${paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true, force:true}));
 
 gulp.task('build:images', () => {
     return gulp.src(paths.client.images)
