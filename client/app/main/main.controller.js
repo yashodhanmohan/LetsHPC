@@ -670,13 +670,13 @@ export default class MainController {
             part1 = 'E2E ';
         else
             part1 = 'ALG ';
-        part2 = 'Appr. ' + _.find(this.approaches, {
+        part2 = 'for ' + _.find(this.approaches, {
             _id: approach_id
         }).approach_name + ' - ';
         part3 = nthreads + ' threads ';
-        part4 = 'M ' + _.find(this.machines, {
+        part4 = '@ ' + _.find(this.machines, {
             _id: machine_id
-        }).machine_file;
+        }).model_name;
 
         return part1 + part2 + part3 + part4;
     }

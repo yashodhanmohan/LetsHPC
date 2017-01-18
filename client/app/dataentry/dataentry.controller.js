@@ -69,39 +69,44 @@ export default class DataEntryController {
         var filereader = new FileReader();
         filereader.onload = () => {
             this.add_machine.file_text = filereader.result;
+            this.add_machine.output = this.add_machine.file_text;
         }
         filereader.readAsText(file);
     }
 
     lscpu_file_text_to_object(file_text) {
         var lines = _.map(_.map(_.split(file_text.trim(), '\n'), function(line) { return _.split(line, ':')}), function(line) {return [line[0].trim(), line[1].trim()]});
-        var object = {
+        var object = {};
+        _.forEach(lines, function(line) {
+            object[line[0]] = line[1];
+        });
+        var response_object = {
             machine_file: 'xasdjhjfn',
-            architecture: lines[0][1],
-            cpu_opmode: lines[1][1],
-            byte_order: lines[2][1],
-            cpu_count: parseInt(lines[3][1]),
-            threads_per_core: parseInt(lines[5][1]),
-            cores_per_socket: parseInt(lines[6][1]),
-            socket_count: parseInt(lines[7][1]),
-            numa_node_count: parseInt(lines[8][1]),
-            vendor_id: lines[9][1],
-            cpu_family: lines[10][1],
-            model: lines[11][1],
-            model_name: lines[12][1],
-            stepping: parseInt(lines[13][1]),
-            cpu_mhz: parseFloat(lines[14][1]),
-            cpu_max_mhz: parseFloat(lines[15][1]),
-            cpu_min_mhz: parseFloat(lines[16][1]),
-            bogomips: parseFloat(lines[17][1]),
-            virtualization: lines[18][1],
-            L1d_cache: lines[19][1],
-            L1i_cache: lines[20][1],
-            L2_cache: lines[21][1],
-            L3_cache: lines[22][1],
-            flags: lines[23][1]
+            architecture: object['Architecture'],
+            cpu_opmode: object['CPU op-mode(s)'],
+            byte_order: object['Byte Order'],
+            cpu_count: parseInt(object['CPU(s)']),
+            threads_per_core: parseInt(object['Thread(s) per core']),
+            cores_per_socket: parseInt(object['Core(s) per socket']),
+            socket_count: parseInt(object['Socket(s)']),
+            numa_node_count: parseInt(object['NUMA node(s)']),
+            vendor_id: object['Vendor ID'],
+            cpu_family: object['CPU family'],
+            model: object['Model'],
+            model_name: object['Model name'],
+            stepping: parseInt(object['Stepping']),
+            cpu_mhz: parseFloat(object['CPU MHz']),
+            cpu_max_mhz: parseFloat(object['CPU max MHz']),
+            cpu_min_mhz: parseFloat(object['CPU min MHz']),
+            bogomips: parseFloat(object['BogoMIPS']),
+            virtualization: object['Virtualization'],
+            L1d_cache: object['L1d cache'],
+            L1i_cache: object['L1i cache'],
+            L2_cache: object['L2 cache'],
+            L3_cache: object['L3 cache'],
+            flags: object['Flags']
         };
-        return object;
+        return response_object;
     }
 
     submit_machine() {
