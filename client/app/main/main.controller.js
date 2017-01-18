@@ -10,6 +10,11 @@ export default class MainController {
 
     selected_memory = 'shared';
 
+    // Ready variables
+    problems_ready = false;
+    categories_ready = false;
+    peam_data_ready = false;
+
     ca = {
         selected_approaches: [],
         selected_machine: {},
@@ -84,22 +89,22 @@ export default class MainController {
         update_machines: () => {
             var selected_approach_ids = _.map(this.ca.selected_approaches, '_id');
             this.ca.machines = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_approach_ids.indexOf(number.approach_id)!=-1;
+                return selected_approach_ids.indexOf(number.approach_id) != -1;
             }), 'machine_id')), (machine_id) => {
                 return _.find(this.machines, _.matchesProperty('_id', machine_id));
             }), machine => {
-                return machine!=undefined;
+                return machine != undefined;
             });
         },
 
         update_penvs: () => {
             var selected_approach_ids = _.map(this.ca.selected_approaches, '_id');
             this.ca.penvs = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_approach_ids.indexOf(number.approach_id)!=-1;
+                return selected_approach_ids.indexOf(number.approach_id) != -1;
             }), 'penv_id')), (penv_id) => {
                 return _.find(this.penvs, _.matchesProperty('_id', penv_id));
             }), penv => {
-                return penv!=undefined;
+                return penv != undefined;
             });
         },
 
@@ -108,7 +113,7 @@ export default class MainController {
             var selected_approach_ids = _.map(this.ca.selected_approaches, '_id')
 
             this.ca.selected_numbers = _.filter(this.numbers, number => {
-                if(selected_approach_ids.indexOf(number.approach_id)!=-1 && this.ca.selected_machine._id==number.machine_id)
+                if (selected_approach_ids.indexOf(number.approach_id) != -1 && this.ca.selected_machine._id == number.machine_id)
                     return true;
                 else {
                     return false;
@@ -117,7 +122,7 @@ export default class MainController {
 
             _.forEach(this.ca.selected_approaches, (selected_approach) => {
                 selected_approach.unique_thread_counts = _.map(_.uniq(_.map(_.filter(this.ca.selected_numbers, selected_number => {
-                    return selected_number.approach_id==selected_approach._id;
+                    return selected_number.approach_id == selected_approach._id;
                 }), 'p')), _.toString);
                 selected_approach.plot_e2e = false;
                 selected_approach.plot_alg = true;
@@ -135,7 +140,7 @@ export default class MainController {
             }
 
             var approach_numbers = _.filter(this.numbers, number => {
-                if(number.approach_id==approach._id)
+                if (number.approach_id == approach._id)
                     return true;
                 else
                     return false;
@@ -230,22 +235,22 @@ export default class MainController {
         update_approaches: () => {
             var selected_machine_ids = _.map(this.cm.selected_machines, '_id');
             this.cm.approaches = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_machine_ids.indexOf(number.machine_id)!=-1;
+                return selected_machine_ids.indexOf(number.machine_id) != -1;
             }), 'approach_id')), (approach_id) => {
                 return _.find(this.approaches, _.matchesProperty('_id', approach_id));
             }), approach => {
-                return approach!=undefined;
+                return approach != undefined;
             });
         },
 
         update_penvs: () => {
             var selected_machine_ids = _.map(this.ca.selected_machines, '_id');
             this.ca.penvs = _.filter(_.map(_.uniq(_.map(_.filter(this.numbers, (number) => {
-                return selected_machine_ids.indexOf(number.machine_id)!=-1;
+                return selected_machine_ids.indexOf(number.machine_id) != -1;
             }), 'penv_id')), (penv_id) => {
                 return _.find(this.penvs, _.matchesProperty('_id', penv_id));
             }), penv => {
-                return penv!=undefined;
+                return penv != undefined;
             });
         },
 
@@ -254,7 +259,7 @@ export default class MainController {
             var selected_machine_ids = _.map(this.cm.selected_machines, '_id')
 
             this.cm.selected_numbers = _.filter(this.numbers, number => {
-                if(selected_machine_ids.indexOf(number.machine_id)!=-1 && this.cm.selected_approach._id==number.approach_id)
+                if (selected_machine_ids.indexOf(number.machine_id) != -1 && this.cm.selected_approach._id == number.approach_id)
                     return true;
                 else {
                     return false;
@@ -263,9 +268,8 @@ export default class MainController {
 
             _.forEach(this.cm.selected_machines, (selected_machine) => {
                 selected_machine.unique_thread_counts = _.map(_.uniq(_.map(_.filter(this.cm.selected_numbers, selected_number => {
-                    return selected_number.machine_id==selected_machine._id;
+                    return selected_number.machine_id == selected_machine._id;
                 }), 'p')), _.toString);
-                console.log(selected_machine.unique_thread_counts);
                 selected_machine.plot_e2e = false;
                 selected_machine.plot_alg = true;
                 selected_machine.last_selected_threads = [];
@@ -282,7 +286,7 @@ export default class MainController {
             }
 
             var machine_numbers = _.filter(this.numbers, number => {
-                if(number.machine_id==machine._id)
+                if (number.machine_id == machine._id)
                     return true;
                 else
                     return false;
@@ -298,8 +302,8 @@ export default class MainController {
 
             this.refresh_chart(this.cm.active_chart, 'cm');
 
-            approach.last_selected_machines = _.cloneDeep(approach.selected_machines);
-            approach.last_selected_threads = _.cloneDeep(approach.selected_threads);
+            machine.last_selected_machines = _.cloneDeep(machine.selected_approaches);
+            machine.last_selected_threads = _.cloneDeep(machine.selected_threads);
         }
     }
 
@@ -311,10 +315,11 @@ export default class MainController {
 
         this.selection = [];
 
-
         // Fetch categories
+        this.categories_ready = false;
         this.$http.get('/api/category').then((response) => {
             this.categories = response.data;
+            this.categories_ready = true;
         }, (error) => {
             console.log(error);
         });
@@ -322,37 +327,27 @@ export default class MainController {
         this.ca.execution_time_data = new google.visualization.DataTable();
         this.ca.speedup_data = new google.visualization.DataTable();
         this.ca.karp_flatt_data = new google.visualization.DataTable();
-        this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
 
         this.cm.execution_time_data = new google.visualization.DataTable();
         this.cm.speedup_data = new google.visualization.DataTable();
         this.cm.karp_flatt_data = new google.visualization.DataTable();
-        this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
-
-        // this.chart['cpe'] = new google.visualization.LineChart(document.getElementById('cpe_chart_div'));
-
-        google.visualization.events.addListener(this.ca.chart, 'ready', () => {
-            this.ca.chart_image = chart.getImageURI();
-        });
-        google.visualization.events.addListener(this.cm.chart, 'ready', () => {
-            this.cm.chart_image = chart.getImageURI();
-        });
-        // google.visualization.events.addListener(this.cpe.chart, 'ready', () => {
-        //     this.cpe.chart_image = chart.getImageURI();
-        // });
 
         this.data_fetch_complete = false;
         this.active_chart = 'timeseries';
 
-        this.compare = 'approaches';
-        // this.refresh_chart(this.active_chart);
+        this.compare = '';
+        this.activate_tooltip();
     }
 
     select_category(selected_category) {
         // If category has changed,
         if (this.selected_category != selected_category) {
             this.selected_category = selected_category;
-            this.fetch_problems();
+            this.problems_ready = false;
+            this.fetch_problems()
+                .then(() => {
+                    this.problems_ready = true;
+                });
         }
     }
 
@@ -366,6 +361,7 @@ export default class MainController {
     }
 
     get_problem_data() {
+        this.peam_data_ready = false;
         this.$http
             .get(`/api/number/problem/${this.selected_problem._id}`)
             .then((response) => {
@@ -401,6 +397,15 @@ export default class MainController {
                 //                 this.penvs.push(response.data);
                 //             });
                 // });
+                this.peam_data_ready = true;
+                this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
+                this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
+                google.visualization.events.addListener(this.ca.chart, 'ready', () => {
+                    this.ca.chart_image = chart.getImageURI();
+                });
+                google.visualization.events.addListener(this.cm.chart, 'ready', () => {
+                    this.cm.chart_image = chart.getImageURI();
+                });
             })
     }
 
@@ -612,8 +617,7 @@ export default class MainController {
                 this[basis].speedup_data = google.visualization.data.join(this[basis].speedup_data, e2e_speedup_table, 'full', [
                     [0, 0]
                 ], columns_from_table1, [1]);
-        }
-        else if (e2e_or_alg == 'alg') {
+        } else if (e2e_or_alg == 'alg') {
             var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
             var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
 
@@ -676,9 +680,13 @@ export default class MainController {
             part1 = 'E2E ';
         else
             part1 = 'ALG ';
-        part2 = 'Appr. ' + this.ro_approaches[approach_id].desc + ' ';
-        part3 = 'P ' + nthreads + ' ';
-        part4 = 'M ' + _.find(this.machines, {_id: machine_id}).machine_file;
+        part2 = 'Appr. ' + _.find(this.approaches, {
+            _id: approach_id
+        }).approach_name + ' - ';
+        part3 = nthreads + ' threads ';
+        part4 = 'M ' + _.find(this.machines, {
+            _id: machine_id
+        }).machine_file;
 
         return part1 + part2 + part3 + part4;
     }
@@ -739,7 +747,7 @@ export default class MainController {
             default:
                 data = new google.visualization.DataTable();
         }
-        this[basis].chart = new google.visualization.LineChart(document.getElementById(basis+'_chart_div'));
+        this[basis].chart = new google.visualization.LineChart(document.getElementById(basis + '_chart_div'));
         if (data.getNumberOfColumns() > 1) {
             this.chart_option_selection(basis);
             this[basis].chart.draw(data, this[basis].chart_options);
@@ -754,8 +762,15 @@ export default class MainController {
 
     export_chart(basis) {
         var download = document.createElement('a');
-        download.href = this[basis].chart_image;
+        // download.href = this[basis].chart_image;
+        download.href = this[basis].chart.getImageURI();
         download.download = 'image.png';
         download.click();
+    }
+
+    activate_tooltip() {
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
     }
 }
