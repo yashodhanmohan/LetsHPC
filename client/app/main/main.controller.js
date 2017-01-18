@@ -278,13 +278,6 @@ export default class MainController {
                 this.remove_number_from_table('cm', this.cm.selected_approach._id, nthreads, machine._id, 'alg');
             }
 
-            var machine_numbers = _.filter(this.numbers, number => {
-                if (number.machine_id == machine._id)
-                    return true;
-                else
-                    return false;
-            })
-
             for (var i in machine.selected_threads) {
                 var nthreads = machine.selected_threads[i];
                 if (machine.plot_e2e)
@@ -449,11 +442,6 @@ export default class MainController {
         var average_execution_time0 = this.averaged_execution_time(number_for_serial);
         var e2e_execution_time0 = average_execution_time0.e2e;
         var alg_execution_time0 = average_execution_time0.alg;
-
-        console.log(e2e_execution_time);
-        console.log(e2e_execution_time0);
-        console.log(alg_execution_time);
-        console.log(alg_execution_time0);
 
         for (var size in e2e_execution_time) {
             e2e_speedup_by_problem_size[size] = e2e_execution_time0[size] / e2e_execution_time[size];
