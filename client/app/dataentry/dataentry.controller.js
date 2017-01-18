@@ -39,6 +39,140 @@ export default class DataEntryController {
             .then(response => {
                 this.add_approach.machines = _.cloneDeep(response);
             });
+
+        this.student_data = [{
+                "studentID": "201401414-201401417",
+                "problem": "median_filtering",
+                "approach": "diff_mem_alloc",
+                "link": "https://db.tt/C5pzVbpCJg"
+            },
+            {
+                "studentID": "201401103-201401086",
+                "problem": "prefix_sum",
+                "approach": "double_tree",
+                "link": "https://db.tt/BotccgH6Tu"
+            },
+            {
+                "studentID": "201401067-201401233",
+                "problem": "trapezoidal",
+                "approach": "reduction",
+                "link": "https://db.tt/5coBAwoooq"
+            },
+            {
+                "studentID": "201401106-20140114",
+                "problem": "prefix_sum",
+                "approach": "double_tree",
+                "link": "https://db.tt/nvy0fRZ9XX"
+            },
+            {
+                "studentID": "201401436-201401420",
+                "problem": "median_filtering",
+                "approach": "qsort",
+                "link": "https://db.tt/NZRaDFiljp"
+            },
+            {
+                "studentID": "201401180-201401207",
+                "problem": "vector",
+                "approach": "side_by_side",
+                "link": "https://db.tt/7ueb4eUnfg"
+            },
+            {
+                "studentID": "201401408-201401416",
+                "problem": "image_warping",
+                "approach": "collapsed_directive",
+                "link": "https://db.tt/vmR4pmzE2h"
+            },
+            {
+                "studentID": "201621007-201621004",
+                "problem": "trapezoidal",
+                "approach": "critical",
+                "link": "https://db.tt/w5qT9j66f7"
+            },
+            {
+                "studentID": "201401402-201401453",
+                "problem": "vector",
+                "approach": "static",
+                "link": "https://db.tt/UrVS59DLRf"
+            },
+            {
+                "studentID": "201401013-201401020",
+                "problem": "monte_carlo",
+                "approach": "rand_r_critical",
+                "link": "https://db.tt/2sZFmi7rMQ"
+            },
+            {
+                "studentID": "201401221-201401442",
+                "problem": "monte_carlo",
+                "approach": "own_prng",
+                "link": "https://db.tt/4Vfj3T1TEn"
+            },
+            {
+                "studentID": "201401406-201401461",
+                "problem": "trapezoidal",
+                "approach": "private",
+                "link": "https://db.tt/icPR37bQFx"
+            },
+            {
+                "studentID": "201401118-201401418",
+                "problem": "pi_using_series",
+                "approach": "reduction",
+                "link": "https://db.tt/MDuOKxBSbn"
+            },
+            {
+                "studentID": "201401434-201401435",
+                "problem": "pi_using_series",
+                "approach": "pow_function",
+                "link": "https://db.tt/hBz3A67KmS"
+            },
+            {
+                "studentID": "201401449-201401444",
+                "problem": "monte_carlo",
+                "approach": "rand_r_reduction",
+                "link": "https://db.tt/VydF6pnjuf"
+            },
+            {
+                "studentID": "201401415-201401432",
+                "problem": "image_warping",
+                "approach": "data_division",
+                "link": "https://db.tt/iJmD3yCMJC"
+            },
+            {
+                "studentID": "201401451-201401452",
+                "problem": "filter",
+                "approach": "linked_list",
+                "link": "https://db.tt/ElyAm9j5Pk"
+            },
+            {
+                "studentID": "201401003-201401025",
+                "problem": "filter",
+                "approach": "double_tree_prefix",
+                "link": "https://db.tt/FMwULkrLCS"
+            },
+            {
+                "studentID": "201401447-201401459",
+                "problem": "monte_carlo",
+                "approach": "rand",
+                "link": "https://db.tt/50zGonN9n0"
+            },
+            {
+                "studentID": "201401437-201401457",
+                "problem": "pi_using_series",
+                "approach": "critical",
+                "link": "https://db.tt/ks1z3Q506u"
+            },
+            {
+                "studentID": "201401100-201401424",
+                "problem": "filter",
+                "approach": "data_segmenting_prefix",
+                "link": "https://db.tt/ELpbH1KL3Q"
+            },
+            {
+                "studentID": "201401422-201401425",
+                "problem": "vector",
+                "approach": "dynamic",
+                "link": "https://db.tt/GCdThimBE1"
+            }
+        ];
     }
 
     select_category(category, section) {
@@ -51,7 +185,7 @@ export default class DataEntryController {
     }
 
     submit_problem() {
-        if(this.add_problem.name=='' || this.add_problem.description=='' || this.selected_category._id==undefined)
+        if (this.add_problem.name == '' || this.add_problem.description == '' || this.selected_category._id == undefined)
             this.add_problem.invalid = true;
         else {
             this.add_problem.invalid = false;
@@ -75,7 +209,11 @@ export default class DataEntryController {
     }
 
     lscpu_file_text_to_object(file_text) {
-        var lines = _.map(_.map(_.split(file_text.trim(), '\n'), function(line) { return _.split(line, ':')}), function(line) {return [line[0].trim(), line[1].trim()]});
+        var lines = _.map(_.map(_.split(file_text.trim(), '\n'), function(line) {
+            return _.split(line, ':')
+        }), function(line) {
+            return [line[0].trim(), line[1].trim()]
+        });
         var object = {};
         _.forEach(lines, function(line) {
             object[line[0]] = line[1];
@@ -110,12 +248,12 @@ export default class DataEntryController {
     }
 
     submit_machine() {
-        if(this.add_machine.file_text!='') {
+        if (this.add_machine.file_text != '') {
             this.add_machine.invalid = false;
             var file_object = this.lscpu_file_text_to_object(this.add_machine.file_text);
             this.machine_service
                 .add_machine(file_object);
-        } else if(this.add_machine.output!='') {
+        } else if (this.add_machine.output != '') {
             this.add_machine.invalid = false;
             var file_object = this.lscpu_file_text_to_object(this.add_machine.output);
             this.machine_service
