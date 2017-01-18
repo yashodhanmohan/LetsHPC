@@ -457,6 +457,29 @@ export default class MainController {
         };
     }
 
+    averaged_karp_flatt(number, number_for_serial, machine) {
+        var e2e_karp_flatt_by_problem_size = {};
+        var alg_karp_flatt_by_problem_size = {};
+
+        var average_speedup = this.averaged_speedup(number, number_for_serial);
+        var e2e_speedup = average_speedup.e2e;
+        var alg_speedup = average_speedup.alg;
+        var p = machine.cpu_count;
+
+        for(var problem_size in e2e_speedup) {
+            e2e_karp_flatt_by_problem_size[problem_size] = ((1/e2e_speedup[problem_size]) - (1/p)) / (1 - (1/p));
+        }
+
+        for(var problem_size in alg_speedup) {
+            alg_karp_flatt_by_problem_size[problem_size] = ((1/alg_speedup[problem_size]) - (1/p)) / (1 - (1/p));
+        }
+
+        return {
+            e2e: e2e_karp_flatt_by_problem_size,
+            alg: alg_karp_flatt_by_problem_size
+        };
+    }
+
     // Data Fetching Functions =============================================
 
     fetch_problems() {
@@ -580,6 +603,9 @@ export default class MainController {
         })
         var execution_time = this.averaged_execution_time(number);
         var speedup = this.averaged_speedup(number, serialnumbers);
+        var karp_flatt = {};
+        if(parseInt(nthreads) > 1)
+            karp_flatt = this.averaged_karp_flatt(number, serialnumbers, _.find(this.machines, {_id: machine_id}));
 
         var execution_time_data = this[basis].execution_time_data;
         var speedup_data = this[basis].speedup_data;
@@ -588,6 +614,9 @@ export default class MainController {
         if (e2e_or_alg == 'e2e') {
             var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
             var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
+            var e2e_karp_flatt_table = {};
+            if(parseInt(nthreads) > 1)
+                e2e_karp_flatt_table = this.object_to_table(karp_flatt.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
 
             var columns_from_table1 = [];
             for (var x = 0; x < this[basis].execution_time_data.getNumberOfColumns() - 1; x++) {
@@ -607,9 +636,26 @@ export default class MainController {
                 this[basis].speedup_data = google.visualization.data.join(this[basis].speedup_data, e2e_speedup_table, 'full', [
                     [0, 0]
                 ], columns_from_table1, [1]);
+
+            if(parseInt(nthreads) > 1) {
+                var columns_from_table = [];
+                for (var x = 0; x < karp_flatt_data.getNumberOfColumns() - 1; x++) {
+                    columns_from_table.push(x + 1);
+                }
+                if (karp_flatt_data.getNumberOfColumns() < 2)
+                    this[basis].karp_flatt_data = e2e_karp_flatt_table;
+                else
+                    this[basis].karp_flatt_data = google.visualization.data.join(this[basis].karp_flatt_data, e2e_karp_flatt_table, 'full', [
+                        [0, 0]
+                    ], columns_from_table, [1]);
+            }
+
         } else if (e2e_or_alg == 'alg') {
             var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
             var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
+            var alg_karp_flatt_table = {};
+            if(parseInt(nthreads) > 1)
+                alg_karp_flatt_table = this.object_to_table(karp_flatt.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
 
             var columns_from_table1 = [];
             for (var x = 0; x < execution_time_data.getNumberOfColumns() - 1; x++) {
@@ -629,6 +675,19 @@ export default class MainController {
                 this[basis].speedup_data = google.visualization.data.join(this[basis].speedup_data, alg_speedup_table, 'full', [
                     [0, 0]
                 ], columns_from_table1, [1]);
+
+            if(parseInt(nthreads) > 1) {
+                var columns_from_table = [];
+                for (var x = 0; x < karp_flatt_data.getNumberOfColumns() - 1; x++) {
+                    columns_from_table.push(x + 1);
+                }
+                if (karp_flatt_data.getNumberOfColumns() < 2)
+                    this[basis].karp_flatt_data = alg_karp_flatt_table;
+                else
+                    this[basis].karp_flatt_data = google.visualization.data.join(this[basis].karp_flatt_data, alg_karp_flatt_table, 'full', [
+                        [0, 0]
+                    ], columns_from_table, [1]);
+            }
         }
     }
 
@@ -637,12 +696,29 @@ export default class MainController {
         var speedup_data = this[basis].speedup_data;
         var karp_flatt_data = this[basis].karp_flatt_data;
 
-        var numCol = execution_time_data.getNumberOfColumns();
-        for (var j = 1; j < numCol; j++) {
+        var numSpeedCol = speedup_data.getNumberOfColumns();
+        var numExecCol = execution_time_data.getNumberOfColumns();
+        var numKarpCol = karp_flatt_data.getNumberOfColumns();
+        for (var j = 1; j < numSpeedCol; j++) {
+            if (speedup_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
+                speedup_data.removeColumn(j);
+                numSpeedCol--;
+                break;
+            }
+        }
+
+        for (var j = 1; j < numExecCol; j++) {
             if (execution_time_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
                 execution_time_data.removeColumn(j);
-                speedup_data.removeColumn(j);
-                numCol--;
+                numExecCol--;
+                break;
+            }
+        }
+
+        for (var j = 1; j < numKarpCol; j++) {
+            if (karp_flatt_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
+                karp_flatt_data.removeColumn(j);
+                numKarpCol--;
                 break;
             }
         }
@@ -710,9 +786,9 @@ export default class MainController {
             _.merge(this[basis].chart_options, this[basis].speedup_chart_options);
         }
 
-        // if(this[basis].active_chart=='karpflatt') {
-        //     _.merge(this[basis].chart_options, this[basis].karpflatt_chart_options);
-        // }
+        if(this[basis].active_chart=='karpflatt') {
+            _.merge(this[basis].chart_options, this[basis].karpflatt_chart_options);
+        }
     }
 
     refresh_chart(type, basis) {
