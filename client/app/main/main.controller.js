@@ -724,7 +724,7 @@ export default class MainController {
             if(parseInt(nthreads) > 1)
                 alg_karp_flatt_table = this.object_to_table(karp_flatt.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
             if(parseInt(nthreads) > 0)
-                alg_efficiency_table = this.object_to_table(efficiency.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
+                alg_efficiency_table = this.object_to_table(efficiency.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
 
             var columns_from_table1 = [];
             for (var x = 0; x < execution_time_data.getNumberOfColumns() - 1; x++) {
