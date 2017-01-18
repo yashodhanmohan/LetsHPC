@@ -6,8 +6,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></button>
+                            <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the category of problems">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.categories_ready">Category <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="category in main.categories"><a href="#" ng-click="main.select_category(category)">{{category.name}}</a></li>
                                 </ul>
@@ -17,8 +17,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Problem <span class="caret"></span></button>
+                            <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the problem to analyse">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problems_ready">Problem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="problem in main.problems"><a href="#" ng-click="main.select_problem(problem)">{{problem.name}}</a></li>
                                 </ul>
@@ -34,7 +34,7 @@
                                 <input type="radio" ng-model="main.selected_memory" value="shared"> Shared Memory
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" ng-model="main.selected_memory" value="distributed"> Distributed Memory
+                                <input type="radio" ng-model="main.selected_memory" value="distributed" disabled> Distributed Memory
                             </label>
                         </center>
                     </div>
@@ -42,285 +42,290 @@
                 <div class="row pad-up">
                     <div class="col-md-4 col-md-offset-4">
                         <center>
-                            <button class="btn btn-default btn-success" ng-click="main.get_problem_data()">Get Machine, Approach and Programming Environments</button>
+                            <button class="btn btn-default btn-success" ng-click="main.get_problem_data()" data-toggle="tooltip" data-placement="top" title="Click here for further filtering">Get Machine, Approach and Programming Environments</button>
                         </center>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row pad-up">
-            <div class="col-md-4 well main-hover-green" ng-click="main.compare='machines'" ng-class="{'main-blue': main.compare=='machines'}">
-                <center>
-                    Compare Machines
-                </center>
-            </div>
-            <div class="col-md-4 well main-hover-green" ng-click="main.compare='approaches'" ng-class="{'main-blue': main.compare=='approaches'}">
-                <center>
-                    Compare Approaches
-                </center>
-            </div>
-            <div class="col-md-4 well main-hover-green" ng-click="main.compare='penv'" ng-class="{'main-blue': main.compare=='penv'}">
-                <center>
-                    Compare Programming Environments
-                </center>
-            </div>
-        </div>
-        <div class="row" ng-show="main.compare=='machines'">
+        <hr />
+        <div class="row" ng-if="main.peam_data_ready" ng-init="main.activate_tooltip()">
             <div class="col-md-12">
-                <div class="row" ng-if="main.compare=='machines'">
-                    <div class="col-md-4 col-md-offset-4">
-                        <multiselect ng-model="main.cm.selected_machines" options="main.machines" display-prop="machine_file" id-prop="_id"></multiselect>
-                    </div>
-                </div>
                 <div class="row pad-up">
-                    <div class="col-md-3 col-md-offset-2">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.cm.update_approaches()">Approach <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="approach in main.cm.approaches"><a href="#" ng-click="main.cm.selected_approach = approach;">{{approach.descP}}</a></li>
-                                </ul>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Approach" value="{{main.cm.selected_approach.descS}}" disabled />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li>
-                                </ul>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.selected_penv.name}}" disabled />
-                        </div>
-                    </div>
-                    <div class="col-md-1">
+                    <div class="col-md-4 well main-hover-green" ng-click="main.compare='machines'" ng-class="{'main-blue': main.compare=='machines'}" data-toggle="tooltip" data-placement="top" title="Click here to compare different machines">
                         <center>
-                            <button class="btn btn-default btn-primary" ng-click="main.cm.set_data()">Set Data</button>
+                            Compare Machines
                         </center>
                     </div>
-                </div>
-                <div class="row" ng-if="main.cm.data_set">
-                    <div class="col-md-12">
-                        <ul class="list-inline pad-up col-md-12">
-                            <li ng-repeat="(machine_id, machine) in main.cm.selected_machines" class="list-group-item col-md-12">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <multiselect ng-model="machine.selected_threads" options="machine.unique_thread_counts"></multiselect>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control" disabled value="{{$index +' '+ machine.machine_file}}"></input>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <center>
-                                            E2E<input type="checkbox" ng-model="machine.plot_e2e"> ALG
-                                            <input type="checkbox" ng-model="machine.plot_alg">
-                                        </center>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <button class="btn btn-default btn-primary" ng-click="main.cm.update_chart(machine)">Update</button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row pad-up">
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1 well">
-                            <div id="cm_chart_div"></div>
-                            <div class="overlay">
-                                <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-2 well">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Log</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Linear</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 well">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Log</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Linear</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 well">
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'cm')" disabled="disabled">Karp-Flatt metric</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'cm')">Speedup</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Time series</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('cm')">Export Graph</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" ng-show="main.compare=='approaches'">
-            <div class="col-md-12">
-                <div class="row" ng-if="main.compare=='approaches'">
-                    <div class="col-md-4 col-md-offset-4">
-                        <multiselect ng-model="main.ca.selected_approaches" options="main.approaches" display-prop="descS" id-prop="_id"></multiselect>
-                    </div>
-                </div>
-                <div class="row pad-up">
-                    <div class="col-md-3 col-md-offset-2">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.update_machines()">Machine <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="machine in main.ca.machines"><a href="#" ng-click="main.ca.selected_machine = machine;">{{machine.machine_file}}</a></li>
-                                </ul>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Machine" value="{{main.ca.selected_machine.machine_file}}" disabled />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.update_penvs()">Environment<span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selected_penv = penv;">{{penv.name}}</a></li>
-                                </ul>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selected_penv.name}}" disabled />
-                        </div>
-                    </div>
-                    <div class="col-md-1">
+                    <div class="col-md-4 well main-hover-green" ng-click="main.compare='approaches'" ng-class="{'main-blue': main.compare=='approaches'}" data-toggle="tooltip" data-placement="top" title="Click here to compare different approaches">
                         <center>
-                            <button class="btn btn-default btn-primary" ng-click="main.ca.set_data()">Set Data</button>
+                            Compare Approaches
+                        </center>
+                    </div>
+                    <div class="col-md-4 well main-hover-green" ng-click="main.compare=''" ng-class="{'main-blue': main.compare=='penv'}" data-toggle="tooltip" data-placement="top" title="Feature currently in development">
+                        <center>
+                            Compare Programming Environments
                         </center>
                     </div>
                 </div>
-                <div class="row" ng-if="main.ca.data_set">
+                <div class="row pad-up" ng-if="main.compare=='machines'">
                     <div class="col-md-12">
-                        <ul class="list-inline pad-up col-md-12">
-                            <li ng-repeat="(approach_id, approach) in main.ca.selected_approaches" class="list-group-item col-md-12">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <multiselect ng-model="approach.selected_threads" options="approach.unique_thread_counts"></multiselect>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control" disabled value="{{$index +' '+ approach.descP}}"></input>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <center>
-                                            E2E<input type="checkbox" ng-model="approach.plot_e2e">
-                                            ALG<input type="checkbox" ng-model="approach.plot_alg">
-                                        </center>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <button class="btn btn-default btn-primary" ng-click="main.ca.update_chart(approach)">Update</button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row pad-up">
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1 well">
-                            <div id="ca_chart_div"></div>
-                            <div class="overlay">
-                                <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <multiselect ng-model="main.cm.selected_machines" options="main.machines" display-prop="machine_file" id-prop="_id"></multiselect>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-2 well">
+                        <div class="row pad-up">
+                            <div class="col-md-4 col-md-offset-1">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.cm.update_approaches()">Approach <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="approach in main.cm.approaches"><a href="#" ng-click="main.cm.selected_approach = approach;">{{approach.approach_name}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Approach" value="{{main.cm.selected_approach.approach_name}}" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.selected_penv.name}}" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <center>
+                                    <button class="btn btn-default btn-primary" ng-click="main.cm.set_data()">Set Data</button>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="main.cm.data_set">
+                            <div class="col-md-12">
+                                <ul class="list-inline pad-up col-md-12">
+                                    <li ng-repeat="(machine_id, machine) in main.cm.selected_machines" class="list-group-item col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <multiselect ng-model="machine.selected_threads" options="machine.unique_thread_counts"></multiselect>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" disabled value="{{$index +' '+ machine.machine_file}}"></input>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <center>
+                                                    E2E<input type="checkbox" ng-model="machine.plot_e2e"> ALG
+                                                    <input type="checkbox" ng-model="machine.plot_alg">
+                                                </center>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-default btn-primary" ng-click="main.cm.update_chart(machine)">Update</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row pad-up">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Log</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Linear</button>
+                                <div class="col-md-10 col-md-offset-1 well">
+                                    <div id="cm_chart_div"></div>
+                                    <div class="overlay">
+                                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 well">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Log</button>
+                                <div class="col-md-4 col-md-offset-2 well">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Log</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Linear</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Linear</button>
+                                <div class="col-md-4 well">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Log</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Linear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2 well">
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'cm')" disabled="disabled">Karp-Flatt metric</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'cm')">Speedup</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Time series</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('cm')">Export Graph</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2 well">
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'ca')" disabled="disabled">Karp-Flatt metric</button>
+                <div class="row pad-up" ng-if="main.compare=='approaches'">
+                    <div class="col-md-12">
+                        <div class="row" ng-if="main.compare=='approaches'">
+                            <div class="col-md-4 col-md-offset-4">
+                                <multiselect ng-model="main.ca.selected_approaches" options="main.approaches" display-prop="approach_name" id-prop="_id"></multiselect>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'ca')">Speedup</button>
+                        <div class="row pad-up">
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.update_machines()">Machine <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="machine in main.ca.machines"><a href="#" ng-click="main.ca.selected_machine = machine;">{{machine.machine_file}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Machine" value="{{main.ca.selected_machine.machine_file}}" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.update_penvs()">Environment<span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selected_penv = penv;">{{penv.name}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selected_penv.name}}" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <center>
+                                    <button class="btn btn-default btn-primary" ng-click="main.ca.set_data()">Set Data</button>
+                                </center>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Time series</button>
+                        <div class="row" ng-if="main.ca.data_set">
+                            <div class="col-md-12">
+                                <ul class="list-inline pad-up col-md-12">
+                                    <li ng-repeat="(approach_id, approach) in main.ca.selected_approaches" class="list-group-item col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <multiselect ng-model="approach.selected_threads" options="approach.unique_thread_counts"></multiselect>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" disabled value="{{$index +' '+ approach.approach_name}}"></input>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <center>
+                                                    E2E<input type="checkbox" ng-model="approach.plot_e2e">
+                                                    ALG<input type="checkbox" ng-model="approach.plot_alg">
+                                                </center>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-default btn-primary" ng-click="main.ca.update_chart(approach)">Update</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('ca')">Export Graph</a>
+                        <div class="row pad-up">
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1 well">
+                                    <div id="ca_chart_div"></div>
+                                    <div class="overlay">
+                                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-2 well">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Log</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Linear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 well">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Log</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Linear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2 well">
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'ca')" disabled="disabled">Karp-Flatt metric</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'ca')">Speedup</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Time series</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('ca')">Export Graph</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row" ng-show="main.compare=='penv'">
-            <div class="col-md-12">
                 <div class="row" ng-if="main.compare=='penv'">
-                    <div class="col-md-4 col-md-offset-4">
-                        <multiselect ng-model="machine.selected_threads" options="main.approaches" show-select-all="true" show-unselect-all="true"></multiselect>
-                    </div>
-                </div>
-                <div class="row pad-up">
-                    <div class="col-md-3 col-md-offset-2">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approach <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="machine in main.machines"><a href="#" ng-click="">{{machine.machine_file}}</a></li>
-                                </ul>
+                    <div class="col-md-12">
+                        <div class="row" ng-if="main.compare=='penv'">
+                            <div class="col-md-4 col-md-offset-4">
+                                <multiselect ng-model="machine.selected_threads" options="main.approaches" show-select-all="true" show-unselect-all="true"></multiselect>
                             </div>
-                            <input type="text" class="form-control" placeholder="Approach" value="{{main.selected_machine.machine_file}}" disabled />
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Machine<span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="machine in main.machines"><a href="#" ng-click="">{{machine.machine_file}}</a></li>
-                                </ul>
+                        <div class="row pad-up">
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Approach <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="machine in main.machines"><a href="#" ng-click="">{{machine.machine_file}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Approach" value="{{main.selected_machine.machine_file}}" disabled />
+                                </div>
                             </div>
-                            <input type="text" class="form-control" placeholder="Machine" value="{{main.selected_penv.name}}" disabled />
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Machine<span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="machine in main.machines"><a href="#" ng-click="">{{machine.machine_file}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Machine" value="{{main.selected_penv.name}}" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <center>
+                                    <button class="btn btn-default btn-primary">Update Chart</button>
+                                </center>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-1">
-                        <center>
-                            <button class="btn btn-default btn-primary">Update Chart</button>
-                        </center>
                     </div>
                 </div>
             </div>
