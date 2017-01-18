@@ -27,6 +27,7 @@ export default class MainController {
         execution_time_data: {},
         speedup_data: {},
         karp_flatt_data: {},
+        efficiency_data: {},
 
         chart: {},
         chart_image: {},
@@ -82,6 +83,15 @@ export default class MainController {
             },
             vAxis: {
                 title: 'Karp flatt coefficient'
+            }
+        },
+        efficiency_chart_options: {
+            title: 'Problem size vs. Efficiency',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Efficiency'
             }
         },
         active_chart: 'timeseries',
@@ -166,6 +176,7 @@ export default class MainController {
         execution_time_data: {},
         speedup_data: {},
         karp_flatt_data: {},
+        efficiency_data: {},
 
         chart: {},
         chart_image: {},
@@ -221,6 +232,15 @@ export default class MainController {
             },
             vAxis: {
                 title: 'Karp flatt coefficient'
+            }
+        },
+        efficiency_chart_options: {
+            title: 'Problem size vs. Efficiency',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Efficiency'
             }
         },
         active_chart: 'timeseries',
@@ -313,10 +333,12 @@ export default class MainController {
         this.ca.execution_time_data = new google.visualization.DataTable();
         this.ca.speedup_data = new google.visualization.DataTable();
         this.ca.karp_flatt_data = new google.visualization.DataTable();
+        this.ca.efficiency_data = new google.visualization.DataTable();
 
         this.cm.execution_time_data = new google.visualization.DataTable();
         this.cm.speedup_data = new google.visualization.DataTable();
         this.cm.karp_flatt_data = new google.visualization.DataTable();
+        this.cm.efficiency_data = new google.visualization.DataTable();
 
         this.data_fetch_complete = false;
         this.active_chart = 'timeseries';
@@ -480,6 +502,28 @@ export default class MainController {
         };
     }
 
+    averaged_efficiency(number, number_for_serial, nthreads) {
+        var e2e_efficiency_by_problem_size = {};
+        var alg_efficiency_by_problem_size = {};
+
+        var average_speedup = this.averaged_speedup(number, number_for_serial);
+        var e2e_speedup = average_speedup.e2e;
+        var alg_speedup = average_speedup.alg;
+
+        for(var problem_size in e2e_speedup) {
+            e2e_efficiency_by_problem_size[problem_size] = (e2e_speedup[problem_size] / parseInt(nthreads));
+        }
+
+        for(var problem_size in alg_speedup) {
+            alg_efficiency_by_problem_size[problem_size] = (alg_speedup[problem_size] / parseInt(nthreads));
+        }
+
+        return {
+            e2e: e2e_efficiency_by_problem_size,
+            alg: alg_efficiency_by_problem_size
+        };
+    }
+
     // Data Fetching Functions =============================================
 
     fetch_problems() {
@@ -604,19 +648,27 @@ export default class MainController {
         var execution_time = this.averaged_execution_time(number);
         var speedup = this.averaged_speedup(number, serialnumbers);
         var karp_flatt = {};
+        var efficiency = {};
         if(parseInt(nthreads) > 1)
             karp_flatt = this.averaged_karp_flatt(number, serialnumbers, _.find(this.machines, {_id: machine_id}));
+        if(parseInt(nthreads) > 0)
+            efficiency = this.averaged_efficiency(number, serialnumbers, nthreads);
 
         var execution_time_data = this[basis].execution_time_data;
         var speedup_data = this[basis].speedup_data;
         var karp_flatt_data = this[basis].karp_flatt_data;
+        var efficiency_data = this[basis].efficiency_data;
 
         if (e2e_or_alg == 'e2e') {
             var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
             var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
             var e2e_karp_flatt_table = {};
+            var e2e_efficiency_table = {};
             if(parseInt(nthreads) > 1)
                 e2e_karp_flatt_table = this.object_to_table(karp_flatt.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
+
+            if(parseInt(nthreads) > 0)
+                e2e_efficiency_table = this.object_to_table(efficiency.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
 
             var columns_from_table1 = [];
             for (var x = 0; x < this[basis].execution_time_data.getNumberOfColumns() - 1; x++) {
@@ -650,12 +702,29 @@ export default class MainController {
                     ], columns_from_table, [1]);
             }
 
+            if(parseInt(nthreads) > 0) {
+                var columns_from_table = [];
+                for (var x = 0; x < efficiency_data.getNumberOfColumns() - 1; x++) {
+                    columns_from_table.push(x + 1);
+                }
+                if (efficiency_data.getNumberOfColumns() < 2)
+                    this[basis].efficiency_data = e2e_efficiency_table;
+                else
+                    this[basis].efficiency_data = google.visualization.data.join(this[basis].efficiency_data, e2e_efficiency_table, 'full', [
+                        [0, 0]
+                    ], columns_from_table, [1]);
+            }
+
         } else if (e2e_or_alg == 'alg') {
             var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
             var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
             var alg_karp_flatt_table = {};
+            var alg_efficiency_table = {};
+
             if(parseInt(nthreads) > 1)
                 alg_karp_flatt_table = this.object_to_table(karp_flatt.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
+            if(parseInt(nthreads) > 0)
+                alg_efficiency_table = this.object_to_table(efficiency.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
 
             var columns_from_table1 = [];
             for (var x = 0; x < execution_time_data.getNumberOfColumns() - 1; x++) {
@@ -688,6 +757,19 @@ export default class MainController {
                         [0, 0]
                     ], columns_from_table, [1]);
             }
+
+            if(parseInt(nthreads) > 0) {
+                var columns_from_table = [];
+                for (var x = 0; x < efficiency_data.getNumberOfColumns() - 1; x++) {
+                    columns_from_table.push(x + 1);
+                }
+                if (efficiency_data.getNumberOfColumns() < 2)
+                    this[basis].efficiency_data = alg_efficiency_table;
+                else
+                    this[basis].efficiency_data = google.visualization.data.join(this[basis].efficiency_data, alg_efficiency_table, 'full', [
+                        [0, 0]
+                    ], columns_from_table, [1]);
+            }
         }
     }
 
@@ -695,10 +777,13 @@ export default class MainController {
         var execution_time_data = this[basis].execution_time_data;
         var speedup_data = this[basis].speedup_data;
         var karp_flatt_data = this[basis].karp_flatt_data;
+        var efficiency_data = this[basis].efficiency_data;
 
         var numSpeedCol = speedup_data.getNumberOfColumns();
         var numExecCol = execution_time_data.getNumberOfColumns();
         var numKarpCol = karp_flatt_data.getNumberOfColumns();
+        var numEffiCol = efficiency_data.getNumberOfColumns();
+
         for (var j = 1; j < numSpeedCol; j++) {
             if (speedup_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
                 speedup_data.removeColumn(j);
@@ -719,6 +804,14 @@ export default class MainController {
             if (karp_flatt_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
                 karp_flatt_data.removeColumn(j);
                 numKarpCol--;
+                break;
+            }
+        }
+
+        for (var j = 1; j < numEffiCol; j++) {
+            if (efficiency_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
+                karp_flatt_data.removeColumn(j);
+                numEffiCol--;
                 break;
             }
         }
@@ -789,6 +882,10 @@ export default class MainController {
         if(this[basis].active_chart=='karpflatt') {
             _.merge(this[basis].chart_options, this[basis].karpflatt_chart_options);
         }
+
+        if(this[basis].active_chart=='efficiency') {
+            _.merge(this[basis].chart_options, this[basis].efficiency_chart_options);
+        }
     }
 
     refresh_chart(type, basis) {
@@ -799,6 +896,7 @@ export default class MainController {
         var execution_time_data = this[basis].execution_time_data;
         var speedup_data = this[basis].speedup_data;
         var karp_flatt_data = this[basis].karp_flatt_data;
+        var efficiency_data = this[basis].efficiency_data;
 
         switch (this[basis].active_chart) {
             case 'timeseries':
@@ -809,6 +907,9 @@ export default class MainController {
                 break;
             case 'karpflatt':
                 data = karp_flatt_data;
+                break;
+            case 'efficiency':
+                data = efficiency_data;
                 break;
             default:
                 data = new google.visualization.DataTable();
@@ -828,7 +929,6 @@ export default class MainController {
 
     export_chart(basis) {
         var download = document.createElement('a');
-        // download.href = this[basis].chart_image;
         download.href = this[basis].chart.getImageURI();
         download.download = 'image.png';
         download.click();

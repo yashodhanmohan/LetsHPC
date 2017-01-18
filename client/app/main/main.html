@@ -162,17 +162,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-8 col-md-offset-2 well">
-                                <div class="col-md-3">
+                            <div class="col-md-10 col-md-offset-1 well">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='efficiency'}" ng-click="main.refresh_chart('efficiency', 'cm')">Efficiency</button>
+                                </div>
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'cm')">Karp-Flatt metric</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'cm')">Speedup</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Time series</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('cm')">Export Graph</a>
                                 </div>
                             </div>
@@ -273,17 +276,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-8 col-md-offset-2 well">
-                                <div class="col-md-3">
+                            <div class="col-md-10 col-md-offset-1 well">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='efficiency'}" ng-click="main.refresh_chart('efficiency', 'ca')">Efficiency</button>
+                                </div>
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'ca')">Karp-Flatt metric</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'ca')">Speedup</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Time series</button>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('ca')">Export Graph</a>
                                 </div>
                             </div>
