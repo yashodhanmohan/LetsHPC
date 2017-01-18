@@ -810,7 +810,7 @@ export default class MainController {
 
         for (var j = 1; j < numEffiCol; j++) {
             if (efficiency_data.getColumnId(j) == this.getID(approach_id, nthreads, machine_id, e2e_or_alg)) {
-                karp_flatt_data.removeColumn(j);
+                efficiency_data.removeColumn(j);
                 numEffiCol--;
                 break;
             }
