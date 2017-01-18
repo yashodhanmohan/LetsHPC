@@ -139,19 +139,12 @@ export default class MainController {
                 this.remove_number_from_table('ca', approach._id, nthreads, this.ca.selected_machine._id, 'alg');
             }
 
-            var approach_numbers = _.filter(this.numbers, number => {
-                if (number.approach_id == approach._id)
-                    return true;
-                else
-                    return false;
-            })
-
             for (var i in approach.selected_threads) {
                 var nthreads = approach.selected_threads[i];
                 if (approach.plot_e2e)
-                    this.add_number_in_table('ca', approach._id, approach_numbers, nthreads, this.ca.selected_machine._id, 'e2e');
+                    this.add_number_in_table('ca', approach._id, nthreads, this.ca.selected_machine._id, 'e2e');
                 if (approach.plot_alg)
-                    this.add_number_in_table('ca', approach._id, approach_numbers, nthreads, this.ca.selected_machine._id, 'alg');
+                    this.add_number_in_table('ca', approach._id, nthreads, this.ca.selected_machine._id, 'alg');
             }
 
             this.refresh_chart(this.active_chart, 'ca');
@@ -295,9 +288,9 @@ export default class MainController {
             for (var i in machine.selected_threads) {
                 var nthreads = machine.selected_threads[i];
                 if (machine.plot_e2e)
-                    this.add_number_in_table('cm', this.cm.selected_approach._id, machine_numbers, nthreads, machine._id, 'e2e');
+                    this.add_number_in_table('cm', this.cm.selected_approach._id, nthreads, machine._id, 'e2e');
                 if (machine.plot_alg)
-                    this.add_number_in_table('cm', this.cm.selected_approach._id, machine_numbers, nthreads, machine._id, 'alg');
+                    this.add_number_in_table('cm', this.cm.selected_approach._id, nthreads, machine._id, 'alg');
             }
 
             this.refresh_chart(this.cm.active_chart, 'cm');
@@ -457,6 +450,11 @@ export default class MainController {
         var e2e_execution_time0 = average_execution_time0.e2e;
         var alg_execution_time0 = average_execution_time0.alg;
 
+        console.log(e2e_execution_time);
+        console.log(e2e_execution_time0);
+        console.log(alg_execution_time);
+        console.log(alg_execution_time0);
+
         for (var size in e2e_execution_time) {
             e2e_speedup_by_problem_size[size] = e2e_execution_time0[size] / e2e_execution_time[size];
         }
@@ -581,12 +579,16 @@ export default class MainController {
 
     // Table related functions =============================================
 
-    add_number_in_table(basis, approach_id, numbers, nthreads, machine_id, e2e_or_alg) {
-        var number = _.filter(numbers, function(number) {
-            return (number.p == nthreads) && (number.machine_id == machine_id);
+    add_number_in_table(basis, approach_id, nthreads, machine_id, e2e_or_alg) {
+        var number = _.filter(this.numbers, function(number) {
+            return (number.p == nthreads)
+                && (number.machine_id == machine_id)
+                && (number.approach_id == approach_id);
         });
-        var serialnumbers = _.filter(numbers, function(number) {
-            return (number.p == 0) && (number.machine_id == machine_id);
+        var serialnumbers = _.filter(this.numbers, function(number) {
+            return (number.p == 0)
+                && (number.machine_id == machine_id)
+                && (number.approach_id == approach_id);
         })
         var execution_time = this.averaged_execution_time(number);
         var speedup = this.averaged_speedup(number, serialnumbers);
