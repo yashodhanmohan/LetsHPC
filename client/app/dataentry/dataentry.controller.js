@@ -41,136 +41,236 @@ export default class DataEntryController {
             });
 
         this.student_data = [{
+                "studentID": "201401403-201401421",
+                "problem": "matrix_multiplication",
+                "approach": "transpose",
+                "codeLink": "https://db.tt/ISAzbeRGWk",
+                "plotLink": "https://db.tt/tDg4mGcjHt",
+                "logLink": "https://db.tt/N7Geun2HDD"
+            },
+            {
+                "studentID": "201401433-201401439",
+                "problem": "reduction",
+                "approach": "tree",
+                "codeLink": "https://db.tt/I2O1GkfEmL",
+                "plotLink": "https://db.tt/orBdjSdqsc",
+                "logLink": "https://db.tt/EYRNZ2vl3C"
+            },
+            {
                 "studentID": "201401414-201401417",
                 "problem": "median_filtering",
                 "approach": "diff_mem_alloc",
-                "link": "https://db.tt/C5pzVbpCJg"
+                "codeLink": "https://db.tt/MEV4qXkfhh",
+                "plotLink": "https://db.tt/w3LKvz2IkV",
+                "logLink": "https://db.tt/HD9h8GfGsQ"
             },
             {
                 "studentID": "201401103-201401086",
                 "problem": "prefix_sum",
                 "approach": "double_tree",
-                "link": "https://db.tt/BotccgH6Tu"
+                "codeLink": "https://db.tt/neVZBWVBuQ",
+                "plotLink": "https://db.tt/m7r4S3usk0",
+                "logLink": "https://db.tt/kzjh4CANPw"
             },
             {
                 "studentID": "201401067-201401233",
                 "problem": "trapezoidal",
                 "approach": "reduction",
-                "link": "https://db.tt/5coBAwoooq"
+                "codeLink": "https://db.tt/oT4Oppj0RU",
+                "plotLink": "https://db.tt/wf25Bt9k8o",
+                "logLink": "https://db.tt/ABXDUx6gL9"
             },
             {
                 "studentID": "201401106-20140114",
                 "problem": "prefix_sum",
                 "approach": "double_tree",
-                "link": "https://db.tt/nvy0fRZ9XX"
+                "codeLink": "https://db.tt/aHh50GKreL",
+                "plotLink": "https://db.tt/L3I9O9VMOM",
+                "logLink": "https://db.tt/kgbnNcyE3c"
             },
             {
                 "studentID": "201401436-201401420",
                 "problem": "median_filtering",
                 "approach": "qsort",
-                "link": "https://db.tt/NZRaDFiljp"
+                "codeLink": "https://db.tt/DLYKlsdpPW",
+                "plotLink": "https://db.tt/oY55TYdBXI",
+                "logLink": "https://db.tt/bD6rHvGziH"
             },
             {
                 "studentID": "201401180-201401207",
                 "problem": "vector",
                 "approach": "side_by_side",
-                "link": "https://db.tt/7ueb4eUnfg"
+                "codeLink": "https://db.tt/sQt4XSmEfF",
+                "plotLink": "https://db.tt/cx6IaVv4fQ",
+                "logLink": "https://db.tt/tQGL1VgTnz"
+            },
+            {
+                "studentID": "201401222-201401409",
+                "problem": "redution",
+                "approach": "data_segmenting",
+                "codeLink": "https://db.tt/eMcAb3CByg",
+                "plotLink": "https://db.tt/7SpCrPiAkk",
+                "logLink": "https://db.tt/FCvisp4YaZ"
             },
             {
                 "studentID": "201401408-201401416",
                 "problem": "image_warping",
                 "approach": "collapsed_directive",
-                "link": "https://db.tt/vmR4pmzE2h"
+                "codeLink": "https://db.tt/n2t1oAo5u9",
+                "plotLink": "https://db.tt/sqxBhLbKI9",
+                "logLink": "https://db.tt/idV5UUfurd"
             },
             {
                 "studentID": "201621007-201621004",
                 "problem": "trapezoidal",
                 "approach": "critical",
-                "link": "https://db.tt/w5qT9j66f7"
+                "codeLink": "https://db.tt/YY0wl8t8Ak",
+                "plotLink": "https://db.tt/RcIg2UBITr",
+                "logLink": "https://db.tt/ZDQKClGHyh"
             },
             {
                 "studentID": "201401402-201401453",
                 "problem": "vector",
                 "approach": "static",
-                "link": "https://db.tt/UrVS59DLRf"
+                "codeLink": "https://db.tt/reNkDXl3lb",
+                "plotLink": "https://db.tt/oMaPNY1iRG",
+                "logLink": "https://db.tt/9GB007u5di"
             },
             {
                 "studentID": "201401013-201401020",
                 "problem": "monte_carlo",
                 "approach": "rand_r_critical",
-                "link": "https://db.tt/2sZFmi7rMQ"
+                "codeLink": "https://db.tt/KCz7PrsyzE",
+                "plotLink": "https://db.tt/gf8rmPRxQO",
+                "logLink": "https://db.tt/VJ2AD3JRED"
             },
             {
                 "studentID": "201401221-201401442",
                 "problem": "monte_carlo",
                 "approach": "own_prng",
-                "link": "https://db.tt/4Vfj3T1TEn"
+                "codeLink": "https://db.tt/DwMDu0gXZh",
+                "plotLink": "https://db.tt/lfP7zbCx4d",
+                "logLink": "https://db.tt/WQpWN3ESMS"
+            },
+            {
+                "studentID": "201401443-20140456",
+                "problem": "reduction",
+                "approach": "segment_tree",
+                "codeLink": "https://db.tt/CGQZTeeOmf",
+                "plotLink": "https://db.tt/E87ihU82OO",
+                "logLink": "https://db.tt/wXakgnnR5T"
+            },
+            {
+                "studentID": "201401056-201401105",
+                "problem": "matrix_multiplication",
+                "approach": "outermost",
+                "codeLink": "https://db.tt/b72KtWzx1j",
+                "plotLink": "https://db.tt/cu4ZYUkgOn",
+                "logLink": "https://db.tt/erRyWHVXOM"
             },
             {
                 "studentID": "201401406-201401461",
                 "problem": "trapezoidal",
                 "approach": "private",
-                "link": "https://db.tt/icPR37bQFx"
+                "codeLink": "https://db.tt/hFIPlPioWq",
+                "plotLink": "https://db.tt/tc2rL5DJ31",
+                "logLink": "https://db.tt/iS4bZ7lmNR"
             },
             {
                 "studentID": "201401118-201401418",
                 "problem": "pi_using_series",
                 "approach": "reduction",
-                "link": "https://db.tt/MDuOKxBSbn"
+                "codeLink": "https://db.tt/gwUMlZIIwQ",
+                "plotLink": "https://db.tt/xCxRoOdPLp",
+                "logLink": "https://db.tt/9sk06j1afc"
             },
             {
                 "studentID": "201401434-201401435",
                 "problem": "pi_using_series",
                 "approach": "pow_function",
-                "link": "https://db.tt/hBz3A67KmS"
+                "codeLink": "https://db.tt/b4iAH6ljIt",
+                "plotLink": "https://db.tt/wDcgfCehZV",
+                "logLink": "https://db.tt/tAVZvvx4Pl"
             },
             {
                 "studentID": "201401449-201401444",
                 "problem": "monte_carlo",
                 "approach": "rand_r_reduction",
-                "link": "https://db.tt/VydF6pnjuf"
+                "codeLink": "https://db.tt/KKuN0xyj3c",
+                "plotLink": "https://db.tt/hpDXazlFJD",
+                "logLink": "https://db.tt/ADWF4GuSI9"
             },
             {
                 "studentID": "201401415-201401432",
                 "problem": "image_warping",
                 "approach": "data_division",
-                "link": "https://db.tt/iJmD3yCMJC"
+                "codeLink": "https://db.tt/oYCj8RkmTF",
+                "plotLink": "https://db.tt/Y6RfyNIwwH",
+                "logLink": "https://db.tt/SFwIFuSbAg"
             },
             {
                 "studentID": "201401451-201401452",
                 "problem": "filter",
                 "approach": "linked_list",
-                "link": "https://db.tt/ElyAm9j5Pk"
+                "codeLink": "https://db.tt/0zLShZTLdj",
+                "plotLink": "https://db.tt/pqJOVVz3Yc",
+                "logLink": "https://db.tt/CD4CXRBHTd"
+            },
+            {
+                "studentID": "201401407-201401448",
+                "problem": "matrix_multiplication",
+                "approach": "block",
+                "codeLink": "https://db.tt/1gyR1YK5XR",
+                "plotLink": "https://db.tt/PqfhQR8hft",
+                "logLink": "https://db.tt/Vhe42YhDod"
             },
             {
                 "studentID": "201401003-201401025",
                 "problem": "filter",
                 "approach": "double_tree_prefix",
-                "link": "https://db.tt/FMwULkrLCS"
+                "codeLink": "https://db.tt/aHWapjmBkx",
+                "plotLink": "https://db.tt/TfETpFLShX",
+                "logLink": "https://db.tt/lISY7hYqbA"
             },
             {
                 "studentID": "201401447-201401459",
                 "problem": "monte_carlo",
                 "approach": "rand",
-                "link": "https://db.tt/50zGonN9n0"
+                "codeLink": "https://db.tt/4hmEJ4IQye",
+                "plotLink": "https://db.tt/J4H7qYXPPg",
+                "logLink": "https://db.tt/p3heXpYxTo"
             },
             {
                 "studentID": "201401437-201401457",
                 "problem": "pi_using_series",
                 "approach": "critical",
-                "link": "https://db.tt/ks1z3Q506u"
+                "codeLink": "https://db.tt/LRzXnfL1Qr",
+                "plotLink": "https://db.tt/KHw4u5XJ5L",
+                "logLink": "https://db.tt/sYAiANUope"
+            },
+            {
+                "studentID": "201401098-201401428",
+                "problem": "matrix_multiplication",
+                "approach": "middle",
+                "codeLink": "https://db.tt/OJBPX0FBcH",
+                "plotLink": "https://db.tt/sRFKSAUXgD",
+                "logLink": "https://db.tt/5OvmXbkZev"
             },
             {
                 "studentID": "201401100-201401424",
                 "problem": "filter",
                 "approach": "data_segmenting_prefix",
-                "link": "https://db.tt/ELpbH1KL3Q"
+                "codeLink": "https://db.tt/zpySp2Cf3s",
+                "plotLink": "https://db.tt/EdXPHmVD2b",
+                "logLink": "https://db.tt/kGdhxWIvtE"
             },
             {
                 "studentID": "201401422-201401425",
                 "problem": "vector",
                 "approach": "dynamic",
-                "link": "https://db.tt/GCdThimBE1"
+                "codeLink": "https://db.tt/87aVPDRD50",
+                "plotLink": "https://db.tt/XAJaj9W3nG",
+                "logLink": "https://db.tt/tPSS4DhtOW"
             }
         ];
     }

@@ -64,7 +64,7 @@ export default class MainController {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Execution time'
+                title: 'Execution time (s)'
             }
         },
         speedup_chart_options: {
@@ -82,7 +82,12 @@ export default class MainController {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Karp flatt coefficient'
+                title: 'Karp flatt coefficient',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 1
+                }
             }
         },
         efficiency_chart_options: {
@@ -91,7 +96,12 @@ export default class MainController {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Efficiency'
+                title: 'Efficiency',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 2
+                }
             }
         },
         active_chart: 'timeseries',
@@ -213,7 +223,7 @@ export default class MainController {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Execution time'
+                title: 'Execution time (s)'
             }
         },
         speedup_chart_options: {
@@ -231,7 +241,12 @@ export default class MainController {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Karp flatt coefficient'
+                title: 'Karp flatt coefficient',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 1
+                }
             }
         },
         efficiency_chart_options: {
@@ -240,7 +255,12 @@ export default class MainController {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Efficiency'
+                title: 'Efficiency',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 2
+                }
             }
         },
         active_chart: 'timeseries',

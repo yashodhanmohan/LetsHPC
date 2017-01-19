@@ -10,6 +10,11 @@
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.categories_ready">Category <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="category in main.categories"><a href="#" ng-click="main.select_category(category)">{{category.name}}</a></li>
+                                    <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Divide and conquer</a></li>
+                                    <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Monte Carlo</a></li>
+                                    <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Map Reduce</a></li>
+                                    <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Image Processing</a></li>
+                                    <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Graph Algorithms</a></li>
                                 </ul>
                             </div>
                             <input type="text" class="form-control" placeholder="Category" value="{{main.selected_category.name}}" disabled>
@@ -72,7 +77,8 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4 col-md-offset-4">
-                                <multiselect ng-model="main.cm.selected_machines" options="main.machines" display-prop="model_name" id-prop="_id"></multiselect>
+                                <label for="abc">Machines</label>
+                                <multiselect id="abc" ng-model="main.cm.selected_machines" options="main.machines" display-prop="model_name" id-prop="_id"></multiselect>
                             </div>
                         </div>
                         <div class="row pad-up">
@@ -92,10 +98,13 @@
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li>
+                                            <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
+                                            <li><a href="#" ng-click="main.cm.selected_penv.name = 'OpenMP'">OpenMP</a></li>
+                                            <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
+                                            <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.selected_penv.name}}" disabled />
+                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.cm.selected_penv.name}}" disabled />
                                 </div>
                             </div>
                             <div class="col-md-1">
@@ -110,10 +119,11 @@
                                     <li ng-repeat="(machine_id, machine) in main.cm.selected_machines" class="list-group-item col-md-12">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <multiselect ng-model="machine.selected_threads" options="machine.unique_thread_counts"></multiselect>
+                                                <label for="abc2">Thread count (0 = Serial)</label>
+                                                <multiselect id="abc2" ng-model="machine.selected_threads" options="machine.unique_thread_counts"></multiselect>
                                             </div>
                                             <div class="col-md-7">
-                                                <input type="text" class="form-control" disabled value="{{$index +' '+ machine.model_name}}"></input>
+                                                <input type="text" class="form-control" disabled value="{{machine.model_name}}"></input>
                                             </div>
                                             <div class="col-md-2">
                                                 <center>
@@ -173,7 +183,7 @@
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'cm')">Speedup</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Time series</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Execution time</button>
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('cm')">Export Graph</a>
@@ -186,7 +196,8 @@
                     <div class="col-md-12">
                         <div class="row" ng-if="main.compare=='approaches'">
                             <div class="col-md-4 col-md-offset-4">
-                                <multiselect ng-model="main.ca.selected_approaches" options="main.approaches" display-prop="approach_name" id-prop="_id"></multiselect>
+                                <label for="abc3">Approach</label>
+                                <multiselect id="abc3" ng-model="main.ca.selected_approaches" options="main.approaches" display-prop="approach_name" id-prop="_id"></multiselect>
                             </div>
                         </div>
                         <div class="row pad-up">
@@ -206,7 +217,10 @@
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.update_penvs()">Environment<span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selected_penv = penv;">{{penv.name}}</a></li>
+                                            <!-- <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selected_penv = penv;">{{penv.name}}</a></li> -->
+                                            <li><a href="#" ng-click="main.ca.selected_penv.name = 'OpenMP'">OpenMP</a></li>
+                                            <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
+                                            <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selected_penv.name}}" disabled />
@@ -224,10 +238,11 @@
                                     <li ng-repeat="(approach_id, approach) in main.ca.selected_approaches" class="list-group-item col-md-12">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <multiselect ng-model="approach.selected_threads" options="approach.unique_thread_counts"></multiselect>
+                                                <label for="abc4">Number of threads (0 = serial)</label>
+                                                <multiselect id="abc4" ng-model="approach.selected_threads" options="approach.unique_thread_counts"></multiselect>
                                             </div>
                                             <div class="col-md-7">
-                                                <input type="text" class="form-control" disabled value="{{$index +' '+ approach.approach_name}}"></input>
+                                                <input type="text" class="form-control" disabled value="{{approach.approach_name}}"></input>
                                             </div>
                                             <div class="col-md-2">
                                                 <center>
@@ -287,7 +302,7 @@
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'ca')">Speedup</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Time series</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Execution time</button>
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('ca')">Export Graph</a>
