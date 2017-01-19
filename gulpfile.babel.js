@@ -488,13 +488,13 @@ gulp.task('build:images', () => {
         //     plugins.imagemin.gifsicle({interlaced: true}),
         //     plugins.imagemin.svgo({plugins: [{removeViewBox: false}]})
         // ]))
-        .pipe(plugins.rev())
+        // .pipe(plugins.rev())
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images`))
-        .pipe(plugins.rev.manifest(`${paths.dist}/${paths.client.revManifest}`, {
-            base: `${paths.dist}/${clientPath}/assets`,
-            merge: true
-        }))
-        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+        // .pipe(plugins.rev.manifest(`${paths.dist}/${paths.client.revManifest}`, {
+            // base: `${paths.dist}/${clientPath}/assets`,
+            // merge: true
+        // }))
+        // .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
 });
 
 gulp.task('revReplaceWebpack', function() {
