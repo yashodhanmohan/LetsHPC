@@ -29,9 +29,9 @@ export default class CustomDataController {
     p_threshold = 2;
     run_threshold = 2;
 
-
     /*@ngInject*/
     constructor($http) {
+        this.$http = $http;
         this.selection = [];
         this.file = {};
         this.chart_options = {
@@ -121,6 +121,26 @@ export default class CustomDataController {
         read.readAsText(file);
     }
 
+    plot_default_data() {
+        this.$http.get('/api/problem').then((response) => {
+            var problems = response.data;
+            var problem = _.find(problems, {name: 'Matrix Multiplication'});
+            this.$http.get(`/api/problem/${problem._id}/approach`)
+                .then(response2 => {
+                    var approaches = response2.data;
+                    var approach = _.find(approaches, {approach_name: 'Block Matrix Multiplication'});
+                    this.$http.get(`/api/approach/${approach._id}/number`)
+                        .then(response3 => {
+                            var numbers = response3.data;
+                            this.plot_file(numbers);
+                        })
+                })
+
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
     file_to_object(file_text) {
         var lines = _.remove(_.split(file_text, '\n'), function(x) {
                 return x != ""
@@ -169,16 +189,16 @@ export default class CustomDataController {
             return t.toString()
         });
 
-        if(unique_runs.length < this.run_threshold) {
+        if (unique_runs.length < this.run_threshold) {
             this.low_runs = true;
         }
-        if(unique_n.length < this.n_threshold) {
+        if (unique_n.length < this.n_threshold) {
             this.low_n = true;
         }
-        if(unique_p.length < this.p_threshold) {
+        if (unique_p.length < this.p_threshold) {
             this.low_p = true;
         }
-        if(_.indexOf(unique_p, "0")==-1) {
+        if (_.indexOf(unique_p, "0") == -1) {
             this.no_serial = true;
         }
     }

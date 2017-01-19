@@ -198,6 +198,43 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <h2>Selected Machines</h2>
+                                <table class="table">
+                                    <tr>
+                                        <th>Model name</th>
+                                        <th>Architecture</th>
+                                        <th>Threads per Core</th>
+                                        <th>Vendor</th>
+                                        <th>CPU (Mhz)</th>
+                                        <th>L1d cache</th>
+                                        <th>L1i cache</th>
+                                    </tr>
+                                    <tr ng-repeat="machine in main.cm.selected_machines">
+                                        <td>{{machine.model_name}}</td>
+                                        <td>{{machine.architecture}}</td>
+                                        <td>{{machine.threads_per_core}}</td>
+                                        <td>{{machine.cpu_family}}</td>
+                                        <td>{{machine.cpu_mhz}}</td>
+                                        <td>{{machine.L1d_cache}}</td>
+                                        <td>{{machine.L1i_cache}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <h2>Selected Approach</h2>
+                                <p><b>Approach name</b>: {{main.cm.selected_approach.approach_name}}</p>
+                                <p><b>Description (Serial)</b>: {{main.cm.selected_approach.descS}}</p>
+                                <p><b>Description (Parallel)</b>: {{main.cm.selected_approach.descP}}</p>
+                                <p><b>Complexity (Serial)</b>: {{main.cm.selected_approach.complexityS}}</p>
+                                <p><b>Complexity (Parallel)</b>: {{main.cm.selected_approach.complexityP}}</p>
+                                <p><b>Advantage</b>: {{main.cm.selected_approach.advantage}}</p>
+                                <p><b>Disadvantage</b>: {{main.cm.selected_approach.disadvantage}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row pad-up" ng-if="main.compare=='approaches'">
@@ -317,9 +354,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <table class="table">
+                                    <h2>Selected Approaches</h2>
+                                    <tr>
+                                        <th>Approach name</th>
+                                        <th>Description (Serial)</th>
+                                        <th>Description (Parallel)</th>
+                                        <th>Complexity (Serial)</th>
+                                        <th>Complexity (Parallel)</th>
+                                    </tr>
+                                    <tr ng-repeat="approach in main.ca.selected_approaches">
+                                        <td>{{approach.approach_name}}</td>
+                                        <td>{{approach.descS}}</td>
+                                        <td>{{approach.descP}}</td>
+                                        <td>{{approach.complexityS}}</td>
+                                        <td>{{approach.complexityP}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <h2>Selected Machine</h2>
+                                <p><b>Model name</b>: {{main.ca.selected_machine.model_name}}</p>
+                                <p><b>Architecture</b>: {{main.ca.selected_machine.architecture}}</p>
+                                <p><b>Threads per core</b>: {{main.ca.selected_machine.threads_per_core}}</p>
+                                <p><b>Socket count</b>: {{main.ca.selected_machine.socket_count}}</p>
+                                <p><b>CPU (Mhz)</b>: {{main.ca.selected_machine.cpu_mhz}}</p>
+                                <p><b>L1d Cache</b>: {{main.ca.selected_machine.L1d_cache}}</p>
+                                <p><b>L1i Cache</b>: {{main.ca.selected_machine.L1i_cache}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row" ng-if="main.compare=='penv'">
+                <div class="row pad-up" ng-if="main.compare=='penv'">
                     <div class="col-md-12">
                         <div class="row" ng-if="main.compare=='penv'">
                             <div class="col-md-4 col-md-offset-4">
