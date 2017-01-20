@@ -981,6 +981,7 @@ export default class MainController {
         this[basis].chart = new google.visualization.LineChart(document.getElementById(basis + '_chart_div'));
         if (data.getNumberOfColumns() > 1) {
             this.chart_option_selection(basis);
+            this[basis].chart_options.title = this.selected_problem.name;
             this[basis].chart.draw(data, this[basis].chart_options);
         } else {
             var dummy_data = new google.visualization.DataTable();
