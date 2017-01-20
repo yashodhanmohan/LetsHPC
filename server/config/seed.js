@@ -120,7 +120,8 @@ Machine.find({}).remove()
                 "L1d_cache": "32K",
                 "L1i_cache": "32K",
                 "L2_cache": "256K",
-                "L3_cache": "15360K"
+                "L3_cache": "15360K",
+                "spec_file_link": "https://ark.intel.com/products/83352/Intel-Xeon-Processor-E5-2620-v3-15M-Cache-2_40-GHz"
             });
         Machine
             .create({
@@ -153,7 +154,8 @@ Machine.find({}).remove()
                 "L1d_cache": "32K",
                 "L1i_cache": "32K",
                 "L2_cache": "256K",
-                "L3_cache": "6144K"
+                "L3_cache": "6144K",
+                "spec_file_link": "http://ark.intel.com/products/80815/Intel-Core-i5-4590-Processor-6M-Cache-up-to-3_70-GHz"
             });
     });
 

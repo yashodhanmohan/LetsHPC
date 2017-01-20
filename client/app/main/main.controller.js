@@ -38,13 +38,27 @@ export default class MainController {
             pointsVisible: true,
             explorer: {
                 keepInBounds: true,
-                maxZoomOut: 1
+                maxZoomOut: 1,
+                actions: ['dragToZoom', 'rightClickToReset']
             },
             hAxis: {
-                logScale: true
+                logScale: true,
+                format: 'scientific',
+                titleTextStyle: {
+                    fontSize: 20
+                },
+                textStyle: {
+                    fontSize: 15
+                }
             },
             vAxis: {
-                logScale: false
+                logScale: false,
+                titleTextStyle: {
+                    fontSize: 20
+                },
+                textStyle: {
+                    fontSize: 15
+                }
             },
             chartArea: {
                 backgroundColor: {
@@ -56,53 +70,13 @@ export default class MainController {
                 color: 'black',
                 trigger: 'both'
             },
+            legend: {
+                maxLines: 5,
+                textStyle: {
+                    fontSize: 13
+                }
+            },
             selectionMode: 'multiple'
-        },
-        execution_time_chart_options: {
-            title: 'Problem size vs. Execution time',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Execution time (s)'
-            }
-        },
-        speedup_chart_options: {
-            title: 'Problem size vs. Speedup',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Speedup'
-            }
-        },
-        karpflatt_chart_options: {
-            title: 'Problem size vs. Karp Flatt coefficient',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Karp flatt coefficient',
-                viewWindowMode: 'explicit',
-                viewWindow: {
-                    min: 0,
-                    max: 1
-                }
-            }
-        },
-        efficiency_chart_options: {
-            title: 'Problem size vs. Efficiency',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Efficiency',
-                viewWindowMode: 'explicit',
-                viewWindow: {
-                    min: 0,
-                    max: 2
-                }
-            }
         },
         active_chart: 'timeseries',
 
@@ -197,13 +171,27 @@ export default class MainController {
             pointsVisible: true,
             explorer: {
                 keepInBounds: true,
-                maxZoomOut: 1
+                maxZoomOut: 1,
+                actions: ['dragToZoom', 'rightClickToReset']
             },
             hAxis: {
-                logScale: true
+                logScale: true,
+                format: 'scientific',
+                titleTextStyle: {
+                    fontSize: 20
+                },
+                textStyle: {
+                    fontSize: 15
+                }
             },
             vAxis: {
-                logScale: false
+                logScale: false,
+                titleTextStyle: {
+                    fontSize: 20
+                },
+                textStyle: {
+                    fontSize: 15
+                }
             },
             chartArea: {
                 backgroundColor: {
@@ -214,6 +202,12 @@ export default class MainController {
             crosshair: {
                 color: 'black',
                 trigger: 'both'
+            },
+            legend: {
+                maxLines: 5,
+                textStyle: {
+                    fontSize: 13
+                }
             },
             selectionMode: 'multiple'
         },
@@ -507,12 +501,12 @@ export default class MainController {
         var alg_speedup = average_speedup.alg;
         var p = machine.cpu_count;
 
-        for(var problem_size in e2e_speedup) {
-            e2e_karp_flatt_by_problem_size[problem_size] = ((1/e2e_speedup[problem_size]) - (1/p)) / (1 - (1/p));
+        for (var problem_size in e2e_speedup) {
+            e2e_karp_flatt_by_problem_size[problem_size] = ((1 / e2e_speedup[problem_size]) - (1 / p)) / (1 - (1 / p));
         }
 
-        for(var problem_size in alg_speedup) {
-            alg_karp_flatt_by_problem_size[problem_size] = ((1/alg_speedup[problem_size]) - (1/p)) / (1 - (1/p));
+        for (var problem_size in alg_speedup) {
+            alg_karp_flatt_by_problem_size[problem_size] = ((1 / alg_speedup[problem_size]) - (1 / p)) / (1 - (1 / p));
         }
 
         return {
@@ -529,11 +523,11 @@ export default class MainController {
         var e2e_speedup = average_speedup.e2e;
         var alg_speedup = average_speedup.alg;
 
-        for(var problem_size in e2e_speedup) {
+        for (var problem_size in e2e_speedup) {
             e2e_efficiency_by_problem_size[problem_size] = (e2e_speedup[problem_size] / parseInt(nthreads));
         }
 
-        for(var problem_size in alg_speedup) {
+        for (var problem_size in alg_speedup) {
             alg_efficiency_by_problem_size[problem_size] = (alg_speedup[problem_size] / parseInt(nthreads));
         }
 
@@ -655,22 +649,24 @@ export default class MainController {
 
     add_number_in_table(basis, approach_id, nthreads, machine_id, e2e_or_alg) {
         var number = _.filter(this.numbers, function(number) {
-            return (number.p == nthreads)
-                && (number.machine_id == machine_id)
-                && (number.approach_id == approach_id);
+            return (number.p == nthreads) &&
+                (number.machine_id == machine_id) &&
+                (number.approach_id == approach_id);
         });
         var serialnumbers = _.filter(this.numbers, function(number) {
-            return (number.p == 0)
-                && (number.machine_id == machine_id)
-                && (number.approach_id == approach_id);
+            return (number.p == 0) &&
+                (number.machine_id == machine_id) &&
+                (number.approach_id == approach_id);
         })
         var execution_time = this.averaged_execution_time(number);
         var speedup = this.averaged_speedup(number, serialnumbers);
         var karp_flatt = {};
         var efficiency = {};
-        if(parseInt(nthreads) > 1)
-            karp_flatt = this.averaged_karp_flatt(number, serialnumbers, _.find(this.machines, {_id: machine_id}));
-        if(parseInt(nthreads) > 0)
+        if (parseInt(nthreads) > 1)
+            karp_flatt = this.averaged_karp_flatt(number, serialnumbers, _.find(this.machines, {
+                _id: machine_id
+            }));
+        if (parseInt(nthreads) > 0)
             efficiency = this.averaged_efficiency(number, serialnumbers, nthreads);
 
         var execution_time_data = this[basis].execution_time_data;
@@ -683,10 +679,10 @@ export default class MainController {
             var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
             var e2e_karp_flatt_table = {};
             var e2e_efficiency_table = {};
-            if(parseInt(nthreads) > 1)
+            if (parseInt(nthreads) > 1)
                 e2e_karp_flatt_table = this.object_to_table(karp_flatt.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
 
-            if(parseInt(nthreads) > 0)
+            if (parseInt(nthreads) > 0)
                 e2e_efficiency_table = this.object_to_table(efficiency.e2e, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'e2e'), this.getID(approach_id, nthreads, machine_id, 'e2e'));
 
             var columns_from_table1 = [];
@@ -708,7 +704,7 @@ export default class MainController {
                     [0, 0]
                 ], columns_from_table1, [1]);
 
-            if(parseInt(nthreads) > 1) {
+            if (parseInt(nthreads) > 1) {
                 var columns_from_table = [];
                 for (var x = 0; x < karp_flatt_data.getNumberOfColumns() - 1; x++) {
                     columns_from_table.push(x + 1);
@@ -721,7 +717,7 @@ export default class MainController {
                     ], columns_from_table, [1]);
             }
 
-            if(parseInt(nthreads) > 0) {
+            if (parseInt(nthreads) > 0) {
                 var columns_from_table = [];
                 for (var x = 0; x < efficiency_data.getNumberOfColumns() - 1; x++) {
                     columns_from_table.push(x + 1);
@@ -740,9 +736,9 @@ export default class MainController {
             var alg_karp_flatt_table = {};
             var alg_efficiency_table = {};
 
-            if(parseInt(nthreads) > 1)
+            if (parseInt(nthreads) > 1)
                 alg_karp_flatt_table = this.object_to_table(karp_flatt.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
-            if(parseInt(nthreads) > 0)
+            if (parseInt(nthreads) > 0)
                 alg_efficiency_table = this.object_to_table(efficiency.alg, 'SIZE', 'size', this.getLabel(approach_id, nthreads, machine_id, 'alg'), this.getID(approach_id, nthreads, machine_id, 'alg'));
 
             var columns_from_table1 = [];
@@ -764,7 +760,7 @@ export default class MainController {
                     [0, 0]
                 ], columns_from_table1, [1]);
 
-            if(parseInt(nthreads) > 1) {
+            if (parseInt(nthreads) > 1) {
                 var columns_from_table = [];
                 for (var x = 0; x < karp_flatt_data.getNumberOfColumns() - 1; x++) {
                     columns_from_table.push(x + 1);
@@ -777,7 +773,7 @@ export default class MainController {
                     ], columns_from_table, [1]);
             }
 
-            if(parseInt(nthreads) > 0) {
+            if (parseInt(nthreads) > 0) {
                 var columns_from_table = [];
                 for (var x = 0; x < efficiency_data.getNumberOfColumns() - 1; x++) {
                     columns_from_table.push(x + 1);
@@ -898,11 +894,11 @@ export default class MainController {
             _.merge(this[basis].chart_options, this[basis].speedup_chart_options);
         }
 
-        if(this[basis].active_chart=='karpflatt') {
+        if (this[basis].active_chart == 'karpflatt') {
             _.merge(this[basis].chart_options, this[basis].karpflatt_chart_options);
         }
 
-        if(this[basis].active_chart=='efficiency') {
+        if (this[basis].active_chart == 'efficiency') {
             _.merge(this[basis].chart_options, this[basis].efficiency_chart_options);
         }
     }
@@ -940,9 +936,10 @@ export default class MainController {
         } else {
             var dummy_data = new google.visualization.DataTable();
             dummy_data.addColumn('number', 'd1');
-            dummy_data.addColumn('number', 'd2');
+            dummy_data.addColumn('number', '');
             dummy_data.addRow([0, 0]);
             this[basis].chart.draw(dummy_data, this[basis].chart_options);
+            this[basis].chart.clear_chart();
         }
     }
 
@@ -957,5 +954,9 @@ export default class MainController {
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         });
+    }
+
+    reload(forceGet) {
+        location.reload(forceGet);
     }
 }

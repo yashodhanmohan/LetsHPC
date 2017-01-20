@@ -277,11 +277,11 @@ export default class DataEntryController {
 
     select_category(category, section) {
         section.selected_category = category;
-        this.category_service
-            .get_problems_by_category(section.selected_category._id)
-            .then(response => {
-                section.problems = response;
-            });
+        // this.category_service
+        //     .get_problems_by_category(section.selected_category._id)
+        //     .then(response => {
+        //         section.problems = response;
+        //     });
     }
 
     submit_problem() {
@@ -289,12 +289,12 @@ export default class DataEntryController {
             this.add_problem.invalid = true;
         else {
             this.add_problem.invalid = false;
-            this.problem_service
-                .add_problem({
-                    category_id: this.add_problem.selected_category._id,
-                    name: this.add_problem.name,
-                    desc: this.add_problem.description
-                });
+            // this.problem_service
+            //     .add_problem({
+            //         category_id: this.add_problem.selected_category._id,
+            //         name: this.add_problem.name,
+            //         desc: this.add_problem.description
+            //     });
         }
     }
 
@@ -351,13 +351,13 @@ export default class DataEntryController {
         if (this.add_machine.file_text != '') {
             this.add_machine.invalid = false;
             var file_object = this.lscpu_file_text_to_object(this.add_machine.file_text);
-            this.machine_service
-                .add_machine(file_object);
+            // this.machine_service
+            //     .add_machine(file_object);
         } else if (this.add_machine.output != '') {
             this.add_machine.invalid = false;
             var file_object = this.lscpu_file_text_to_object(this.add_machine.output);
-            this.machine_service
-                .add_machine(file_object);
+            // this.machine_service
+            //     .add_machine(file_object);
         } else {
             this.add_machine.invalid = true;
         }

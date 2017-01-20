@@ -26,7 +26,8 @@ var MachineSchema = new mongoose.Schema({
     L1i_cache: String,
     L2_cache: String,
     L3_cache: String,
-    flags: String
+    flags: String,
+    spec_file_link: String
 });
 
 export default mongoose.model('Machine', MachineSchema);
