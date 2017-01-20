@@ -222,7 +222,7 @@ Approach.find({}).remove()
         });
 
         Approach.create({
-            approach_name: "Block Matrix Multiplication",
+            approach_name: "Recursive Block Matrix Multiplication",
             user_id: [user1],
             descP: "As we have mentioned earlier there are (q*q) blocks.So every thread takes approximately equal (q*q)/p blocks. ",
             scr_a: "Speedup increases as problem size increases as suggested by Ahmdal's Effect",
@@ -333,7 +333,7 @@ Approach.find({}).remove()
         });
 
         Approach.create({
-            approach_name: "Matrix Multiplication outermost loop parallel",
+            approach_name: "Outermost loop parallelization",
             user_id: [user1],
             descP: "Our task was to parallelize the outer for loop. In order to do so, we used parallel for directive. In addition to this, we used static scheduling for load balancing. Along with this, we improved our cache utilization , by exchanging the j and k for loops and hence accessing all the arrays row wise as C is a row major implementation. Also, we have stored the value of a[i][k] in a register, there by avoiding accessing the same location in a for loop.",
             scr_a: "As the number of processors increases the maximum speedup is obtained for 4 processors. In speedup vs algorithm time graph it does not take into account the initialization time, hence the speedup is linearly increasing. For smaller problem size the speedup is maximum for 1 processor, as for small problem sizes like 8 x 8 creating threads leads to lot of overhead. The overhead part of creating the threads dominates the time reduced in computations.",
@@ -370,7 +370,7 @@ Approach.find({}).remove()
         });
 
         Approach.create({
-            approach_name: "Matrix Multiplication using Transpose based approach",
+            approach_name: "Transpose based approach",
             user_id: [user1],
             descP: "We parallelize the outermost loop by using the \"pragma omp for\" directive. To solve the problems with race conditions, we have made the variables i,j,k private. We use default scheduling.",
             scr_a: "We don't get any speedup with increasing problem sizes or increasing number of cores. \nIdeally following should happen:\nThe speedup increases with increase in problem size for a given number of threads because time saved by parallel computation increases while the parallelization overhead remains the same. \nThe speedup also increases with the increase in number of threads. As we increase the number of cores, more work can be done simultaneously and so the speedup increases. ",
@@ -407,7 +407,7 @@ Approach.find({}).remove()
         });
 
         Approach.create({
-            approach_name: "Matrix Multiplication parallelizing Middle Loop",
+            approach_name: "Middle Loop parallelization",
             user_id: [user1],
             descP: "The approach is implemented as follows:\nFor each row of the first matrix, a certain number of threads is created as per the input. The middle loop, i.e. the loop for columns of the second matrix (loop for j according to the formula mentioned in the previous question) is parallelized, which means that for each row of matrix A, different threads traverse different columns of the matrix B. The sub tasks here are the column iterations. The division is done by static scheduling with a chunk size of 4.",
             scr_a: "Speedup in general increases as the number of processors increases. This is due to more load distribution for same problem size, resulting in a decline in the time required for parallel version. The speedup also increases as the problem size increases. This is because load distribution starts dominating more and more over the parallel overhead. The maximum value obtained is 3.5 for 4 cores, which is less than 4 due to synchronization overheads and poor cache utilization. Cache utilization is almost negligible because the loop is column oriented which creates no difference in the cache for the next value to be used, so all accesses are memory accesses. Cache reusability is negligible. There are some anomalies where for small problem size the speedup is more for 2 cores than that of 4 cores, which is due to parallel overhead dominating for small problem sizes. Eventually, load distribution starts dominating and the speedup increases.",
