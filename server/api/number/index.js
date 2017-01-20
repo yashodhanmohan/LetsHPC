@@ -5,8 +5,7 @@ var controller = require('./number.controller');
 
 var router = express.Router();
 
-router.get('/problem/:id', controller.return_by_problem);
-router.get('/getData', controller.returnAllRows);
+router.get('/:id/problem', controller.problemByNumber);
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);

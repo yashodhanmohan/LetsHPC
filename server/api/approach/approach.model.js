@@ -3,11 +3,13 @@
 import mongoose from 'mongoose';
 
 var Approach = new mongoose.Schema({
+    // Identification fields
     user_id : [String],
-    approach_name : String, 
     problem_id: String,
-    category_id: String,
     penv_id: String,
+
+    // Content fields
+    approach_name : String,
     shared_or_distributed: String,
     descS: String,
     descP: String,

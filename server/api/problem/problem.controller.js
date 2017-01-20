@@ -14,6 +14,7 @@ import jsonpatch from 'fast-json-patch';
 import Problem from './problem.model';
 import Approach from '../approach/approach.model';
 import Numbers from '../number/number.model';
+import Category from '../category/category.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -118,15 +119,26 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
-export function approach(req, res) {
+export function approachesByProblem(req, res) {
     return Approach.find({problem_id: req.params.id})
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-export function number(req, res) {
-    return Numbers.find({problem_id: req.params.id})
+export function numbersByProblem(req, res) {
+    return Approach.findOne({problem_id: req.params.id})
+        .then(handleEntityNotFound(res))
+        .then(response => Numbers.find({approach_id: response._id}))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function categoriesByProblem(req, res) {
+    return Problem.findById(req.params.id)
+        .then(handleEntityNotFound(res))
+        .then(response => Category.find({_id: response.category_id}))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
