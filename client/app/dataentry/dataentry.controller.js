@@ -4,6 +4,10 @@ export default class DataEntryController {
 
     /*@ngInject*/
     constructor(MachineService, ProblemService, CategoryService) {
+
+        $(document).ready(() => {
+            window.document.title = 'Data Entry - LETs HPC';
+        })
         this.machine_service = MachineService;
         this.problem_service = ProblemService;
         this.category_service = CategoryService;

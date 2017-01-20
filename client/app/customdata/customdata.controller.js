@@ -31,6 +31,11 @@ export default class CustomDataController {
 
     /*@ngInject*/
     constructor($http) {
+
+        $(document).ready(() => {
+            window.document.title = 'Custom Data Analysis - LETs HPC';
+        })
+
         this.$http = $http;
         this.selection = [];
         this.file = {};

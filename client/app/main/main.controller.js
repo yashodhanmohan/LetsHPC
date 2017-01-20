@@ -375,7 +375,10 @@ export default class MainController {
 
     /*@ngInject*/
     constructor($http) {
-        window.document.title = 'Comparison Tool - LETs HPC';
+
+        $(document).ready(() => {
+            window.document.title = 'Comparison Tool - LETs HPC';
+        })
         this.$http = $http;
 
         this.selection = [];
