@@ -78,6 +78,52 @@ export default class MainController {
             },
             selectionMode: 'multiple'
         },
+        execution_time_chart_options: {
+            title: 'Problem size vs. Execution time',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Execution time (s)'
+            }
+        },
+        speedup_chart_options: {
+            title: 'Problem size vs. Speedup',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Speedup'
+            }
+        },
+        karpflatt_chart_options: {
+            title: 'Problem size vs. Karp Flatt coefficient',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Karp flatt coefficient',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 1
+                }
+            }
+        },
+        efficiency_chart_options: {
+            title: 'Problem size vs. Efficiency',
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Efficiency',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 2
+                }
+            }
+        },
         active_chart: 'timeseries',
 
         update_machines: () => {
@@ -329,7 +375,7 @@ export default class MainController {
 
     /*@ngInject*/
     constructor($http) {
-
+        window.document.title = 'Comparison Tool - LETs HPC';
         this.$http = $http;
 
         this.selection = [];

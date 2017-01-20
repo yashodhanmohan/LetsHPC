@@ -127,7 +127,29 @@ Machine.find({}).remove()
             .create({
                 _id: machine3,
                 machine_file: '/path/to/file3',
-                "model_name": "Lab 160"
+                "architecture": "x86_64",
+            	"cpu_opmode": "32-bit, 64-bit",
+            	"byte_order": "Little Endian",
+            	"cpu_count": 32,
+            	"threads_per_core": 2,
+            	"cores_per_socket": 8,
+            	"socket_count": 2,
+            	"numa_node_count": 2,
+            	"vendor_id": "GenuineIntel",
+            	"cpu_family": "6",
+            	"model": "62",
+                "model_name": "Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz",
+            	"stepping": 4,
+            	"cpu_mhz": 1200,
+            	"cpu_max_mhz": null,
+            	"cpu_min_mhz": null,
+            	"bogomips": 3999.44,
+            	"virtualization": "VT-x",
+            	"L1d_cache": "32K",
+            	"L1i_cache": "32K",
+            	"L2_cache": "256K",
+            	"L3_cache": "20480K",
+                "spec_file_link":"https://ark.intel.com/products/75267/Intel-Xeon-Processor-E5-2640-v2-20M-Cache-2_00-GHz"
             });
         Machine
             .create({

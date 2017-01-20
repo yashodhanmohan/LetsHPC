@@ -1,29 +1,34 @@
-<navbar></navbar>
 <div>
-    <!-- <nav class="navbar navbar-default" id="landing-navbar">
+    <nav class="navbar navbar-default" id="navbar-navbar" style="position: fixed; width: 100%; opacity: 100%; z-index: 2">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><span class="landing-nav-brand-link">LET's HPC</span></a>
+                <a class="navbar-brand" href="#"><span class="navbar-nav-brand-link">LETs HPC</span></a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="landing-nav-link-button" href="#learn-section"><span class="landing-nav-link">Learn</span></a>
+                        <a class="navbar-nav-link-button" href="#landing-intro-section"><span class="navbar-nav-link">Home</span></a>
                     </li>
                     <li>
-                        <a class="landing-nav-link-button" href="#about-us-section"><span class="landing-nav-link">About Us</span></a>
+                        <a class="navbar-nav-link-button" href="#comparison-tool-section"><span class="navbar-nav-link">Comparison Tool</span></a>
                     </li>
                     <li>
-                        <a class="landing-nav-link-button" href="/main"><span class="landing-nav-link">Comparison Tool</span></a>
+                        <a class="navbar-nav-link-button" href="#report-generator-section"><span class="navbar-nav-link">Report Generator Tool</span></a>
                     </li>
                     <li>
-                        <a class="landing-nav-link-button" href="/reportgenerator"><span class="landing-nav-link">Report Generator Tool</span></a>
+                        <a class="navbar-nav-link-button" href="#custom-data-section"><span class="navbar-nav-link">Custom Data</span></a>
+                    </li>
+                    <li>
+                        <a class="navbar-nav-link-button" href="#data-entry-section"><span class="navbar-nav-link">Data Entry</span></a>
+                    </li>
+                    <li>
+                        <a class="navbar-nav-link-button" href="#about-us-section"><span class="navbar-nav-link">About Us</span></a>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav> -->
-    <div class="row" id="landing-intro-section">
+    </nav>
+    <div class="row landing-section-even" id="landing-intro-section">
         <div class="row pad-up">
             <div class="col-md-12">
                 <center>
@@ -46,46 +51,129 @@
             </div>
         </div>
     </div>
-    <div class="row landing-section-odd" id="report-generator-tool-section">
+    <div class="row landing-section-odd" id="comparison-tool-section">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <h2 class="landing-section-odd-heading">Generate Reports</h2>
+                <h2 class="landing-section-odd-heading">Comparison Tool</h2>
                 <hr />
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <p class="landing-section-odd-text">
-                    The report generator tool allows the student to upload a csv
-                    file of the runtimes. It then plots the relevant graphs for
-                    the student and asks the student a few questions which can
-                    be answered by having a look at the graphs. Once, the student
-                    has completed answering all the questions, he can generate a
-                    tex file of the report which can be downloaded, and the student
-                    can then convert it into a pdf file. This allows the instructors
-                    to have a report, which is uniform for all the students, answers
-                    all the questions and is to the point, for ease in evaluation.
-                </p>
+            <div class="row">
+                <div class="col-md-7 col-md-offset-1">
+                    <p class="landing-section-odd-text">
+                        The report generator tool allows the student to upload a csv file of the runtimes. It then plots the relevant graphs for the student and asks the student a few questions which can be answered by having a look at the graphs. Once, the student has completed
+                        answering all the questions, he can generate a tex file of the report which can be downloaded, and the student can then convert it into a pdf file. This allows the instructors to have a report, which is uniform for all the students,
+                        answers all the questions and is to the point, for ease in evaluation.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <center>
+                        <img class="img-responsive" src="assets/images/profile.png" alt="" style="height:200px; width: 200px; margin-top: 2%;">
+                    </center>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-9 col-md-2" style="background-color: #1A237E; font-weight: 900; font-size: 1.1em;">
+                    <center>
+                        <a href="/main" style="color: white; text-decoration: none;">
+                            Comparison Tool >>
+                        </a>
+                    </center>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row landing-section-even" id="learn-section">
+    <div class="row landing-section-even" id="report-generator-section">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <h2 class="landing-section-even-heading">Learn</h2>
+                <h2 class="landing-section-even-heading">Report Generator</h2>
                 <hr />
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-7 col-md-offset-1">
                 <p class="landing-section-even-text">
-                    This feature of the website allows you to learn the subject
-                    by looking at the readings and the explanations generated by
-                    already coded approaches. The student can also download the
-                    code for these approaches and run them on his/her system. The
-                    student can compare various approaches and he/she can also
-                    compare the machines for the same approach.
+                    The report generator tool allows the student to upload a csv file of the runtimes. It then plots the relevant graphs for the student and asks the student a few questions which can be answered by having a look at the graphs. Once, the student has completed
+                    answering all the questions, he can generate a tex file of the report which can be downloaded, and the student can then convert it into a pdf file. This allows the instructors to have a report, which is uniform for all the students,
+                    answers all the questions and is to the point, for ease in evaluation.
                 </p>
+            </div>
+            <div class="col-md-4">
+                <center>
+                    <img class="img-responsive" src="assets/images/profile.png" alt="" style="height:200px; width: 200px; margin-top: 2%;">
+                </center>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-8 col-md-3" style="background-color: white; font-weight: 900; font-size: 1.1em;">
+                <center>
+                    <a href="/reportgenerator" style="color: #1A237E; text-decoration: none;">
+                        Report Generator Tool >
+                    </a>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="row landing-section-odd" id="custom-data-section">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="landing-section-odd-heading">Custom Data Analysis</h2>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 col-md-offset-1">
+                <p class="landing-section-odd-text">
+                    The report generator tool allows the student to upload a csv file of the runtimes. It then plots the relevant graphs for the student and asks the student a few questions which can be answered by having a look at the graphs. Once, the student has completed
+                    answering all the questions, he can generate a tex file of the report which can be downloaded, and the student can then convert it into a pdf file. This allows the instructors to have a report, which is uniform for all the students,
+                    answers all the questions and is to the point, for ease in evaluation.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <center>
+                    <img class="img-responsive" src="assets/images/profile.png" alt="" style="height:200px; width: 200px; margin-top: 2%;">
+                </center>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-8 col-md-3" style="background-color: #1A237E; font-weight: 900; font-size: 1.1em;">
+                <center>
+                    <a href="/customdata" style="color: white; text-decoration: none;">
+                        Custom Data Analysis >
+                    </a>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="row landing-section-even" id="data-entry-section">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="landing-section-even-heading">Data Entry</h2>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 col-md-offset-1">
+                <p class="landing-section-even-text">
+                    This feature of the website allows you to learn the subject by looking at the readings and the explanations generated by already coded approaches. The student can also download the code for these approaches and run them on his/her system. The student
+                    can compare various approaches and he/she can also compare the machines for the same approach. This feature of the website allows you to learn the subject by looking at the readings and the explanations generated by already coded approaches. The student can also download the code for these approaches and run them on his/her system. The student
+                    can compare various approaches.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <center>
+                    <img class="img-responsive" src="assets/images/profile.png" alt="" style="height:200px; width: 200px; margin-top: 2%;">
+                </center>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-9 col-md-2" style="background-color: white; font-weight: 900; font-size: 1.1em;">
+                <center>
+                    <a href="/dataentry" style="color: #1A237E; text-decoration: none;">
+                        Data Entry Tool >>
+                    </a>
+                </center>
             </div>
         </div>
     </div>

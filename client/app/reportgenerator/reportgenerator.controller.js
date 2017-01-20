@@ -60,6 +60,7 @@ export default class ReportGeneratorController {
 
 
     constructor($http) {
+        window.document.title = 'Report Generator - LETs HPC';
         this.iBCDSI = '';
         this.iBCSPI = '';
         this.iCoSeCo = '';

@@ -3,7 +3,7 @@
     font-weight: 900;
     font-size: 1.125em;
     margin-bottom: 0px;
-    border: none;
+    border: non19
 }
 
 .landing-nav-brand-link {
@@ -51,12 +51,14 @@
     background-color: #FFFFFF;
     padding-bottom: 50px;
     padding-top: 50px;
+    font-size: 19px;
 }
 
 .landing-section-even {
     background-color: #1A237E;
     padding-bottom: 50px;
     padding-top: 50px;
+    font-size: 19px;
 }
 
 .landing-section-odd-heading {
