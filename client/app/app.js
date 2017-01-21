@@ -18,6 +18,7 @@ import _Auth from '../components/auth/auth.module';
 
 // Import Angular Controller modules
 import landing from './landing';
+import about from './about';
 import main from './main';
 import reportgenerator from './reportgenerator';
 import customdata from './customdata';
@@ -47,7 +48,7 @@ angular.module('yashwantProjectApp', [
         // Angular Core Modules
         ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, _Auth,
         // Controllers
-        landing, main, reportgenerator, customdata, dataentry,
+        landing, main, reportgenerator, customdata, dataentry, about,
         // Services
         category_service, problem_service, machine_service,
         // Components/Directives

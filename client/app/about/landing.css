@@ -1,0 +1,92 @@
+#landing-navbar {
+    background-color: #FFFFFF;
+    font-weight: 900;
+    font-size: 1.125em;
+    margin-bottom: 0px;
+    border: none;
+}
+
+.landing-nav-brand-link {
+    color: #1A237E;
+}
+
+.landing-nav-link {
+    color: #1A237E;
+}
+
+.landing-nav-link:hover {
+    color: #3F51B5;
+}
+
+.landing-section-odd hr {
+    height: 5px;
+    border: none;
+    background-color: #1A237E;
+}
+
+.landing-section-even hr {
+    height: 5px;
+    border: none;
+    background-color: #FFFFFF;
+}
+
+.landing-name {
+    color: white;
+    font-size: 4em;
+    font-weight: 800;
+}
+
+.landing-skills {
+    color: white;
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+#landing-intro-section {
+    background-color: #1A237E;
+    padding-bottom: 50px;
+}
+
+.landing-section-odd {
+    background-color: #FFFFFF;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+.landing-section-even {
+    background-color: #1A237E;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+.landing-section-odd-heading {
+    text-transform: uppercase;
+    font-size: 2.5em;
+    font-weight: 600;
+    color: #1A237E;
+    text-align: center;
+}
+
+.landing-section-odd-text {
+    font-weight: 900;
+    font-size: 1.25em;
+    text-align: justify;
+    text-align-last: center;
+    color: #1A237E;
+}
+
+.landing-section-even-heading {
+    text-transform: uppercase;
+    font-size: 2.5em;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.landing-section-even-text {
+    font-weight: 900;
+    font-size: 1.25em;
+    text-align: justify;
+    text-align-last: center;
+    color: #FFFFFF;
+}
