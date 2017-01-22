@@ -25,9 +25,11 @@ import customdata from './customdata';
 import dataentry from './dataentry';
 
 // Import Angular Service modules
-import category_service from '../services/category';
-import problem_service from '../services/problem';
-import machine_service from '../services/machine';
+import CategoryService from '../services/category';
+import ProblemService from '../services/problem';
+import MachineService from '../services/machine';
+import NumberService from '../services/number';
+import ApproachService from '../services/approach';
 
 // Import Angular components
 import navbar from '../components/navbar/navbar.component';
@@ -50,7 +52,7 @@ angular.module('yashwantProjectApp', [
         // Controllers
         landing, main, reportgenerator, customdata, dataentry, about,
         // Services
-        category_service, problem_service, machine_service,
+        CategoryService, ProblemService, MachineService, NumberService, ApproachService,
         // Components/Directives
         navbar, footer, constants, util, 'btorfs.multiselect'
     ])

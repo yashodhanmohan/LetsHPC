@@ -84,7 +84,8 @@
             </div>
         </div>
         <hr />
-        <div class="row" ng-if="main.peam_data_ready" ng-init="main.activate_tooltip()">
+        {{main.peam_data_ready}}
+        <div class="row" ng-show="main.peam_data_ready" ng-init="main.activate_tooltip()">
             <div class="col-md-12">
                 <div class="row pad-up">
 

@@ -1,24 +1,29 @@
 export default class MachineService {
 
-    static $inject = ['$http'];
-
+    /*@ngInject*/
     constructor($http) {
         this.$http = $http;
     }
 
-    get_all_machines() {
+    getAllMachines() {
         return this.$http
                 .get('/api/machine')
                 .then(response => response.data);
     }
 
-    get_machine_by_ID(id) {
+    getMachineByID(id) {
         return this.$http
                 .get(`api/machine/${id}`)
                 .then(response => response.data);
     }
 
-    add_machine(machine) {
+    getMachinesByProblem(id) {
+        return this.$http
+                .get(`/api/problem/${id}/machines`)
+                .then(response => response.data);
+    }
+
+    addMachine(machine) {
         return this.$http
                 .post('api/machine', machine);
     }

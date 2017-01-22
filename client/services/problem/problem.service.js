@@ -1,24 +1,35 @@
 export default class ProblemService {
 
-    static $inject = ['$http'];
-
+    /*@ngInject*/
     constructor($http) {
         this.$http = $http;
     }
 
-    get_all_problems() {
+    getAllProblems() {
         return this.$http
                 .get('/api/problem')
                 .then(response => response.data);
     }
 
-    get_problem_by_ID(id) {
+    getProblemByID(id) {
         return this.$http
                 .get(`/api/problem/${id}`)
                 .then(response => response.data);
     }
 
-    add_problem(problem) {
+    getProblemsByCategory(id) {
+        return this.$http
+                .get(`/api/category/${id}/problems`)
+                .then(response => response.data);
+    }
+
+    getProblemByApproach(id) {
+        return this.$http
+                .get(`/api/approach/${id}/problem`)
+                .then(response => response.data);
+    }
+
+    addProblem(problem) {
         return this.$http
                 .post('/api/problem/', problem);
     }

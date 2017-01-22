@@ -374,23 +374,27 @@ export default class MainController {
     }
 
     /*@ngInject*/
-    constructor($http) {
+    constructor($http, CategoryService, ProblemService, NumberService, ApproachService, MachineService) {
 
         $(document).ready(() => {
             window.document.title = 'Comparison Tool - LETs HPC';
         })
-        this.$http = $http;
 
-        this.selection = [];
+        this.$http = $http;
+        this.CategoryService = CategoryService;
+        this.ProblemService = ProblemService;
+        this.ApproachService = ApproachService;
+        this.MachineService = MachineService;
+        this.NumberService = NumberService;
 
         // Fetch categories
         this.categories_ready = false;
-        this.$http.get('/api/category').then((response) => {
-            this.categories = response.data;
-            this.categories_ready = true;
-        }, (error) => {
-            console.log(error);
-        });
+        this.CategoryService
+            .getAllCategories()
+            .then(response => {
+                this.categories = response;
+                this.categories_ready = true;
+            });
 
         this.ca.execution_time_data = new google.visualization.DataTable();
         this.ca.speedup_data = new google.visualization.DataTable();
@@ -414,10 +418,12 @@ export default class MainController {
         if (this.selected_category != selected_category) {
             this.selected_category = selected_category;
             this.problems_ready = false;
-            this.fetch_problems()
-                .then(() => {
+            this.ProblemService
+                .getProblemsByCategory(this.selected_category._id)
+                .then(response => {
+                    this.problems = response;
                     this.problems_ready = true;
-                });
+                })
         }
     }
 
@@ -425,58 +431,38 @@ export default class MainController {
         // If problem has changed
         if (this.selected_problem != selected_problem) {
             this.selected_problem = selected_problem;
-            this.data_fetch_complete = false;
-            this.fetch_machine_data();
         }
     }
 
     get_problem_data() {
-        this.peam_data_ready = false;
-        this.$http
-            .get(`/api/number/problem/${this.selected_problem._id}`)
-            .then((response) => {
-                this.numbers = response.data;
-                this.approach_ids = _.uniq(_.map(this.numbers, _.property('approach_id')));
-                this.machine_ids = _.uniq(_.map(this.numbers, _.property('machine_id')));
-                this.penv_ids = _.uniq(_.map(this.numbers, _.property('penv_id')));
-                // Fetch approaches by approach id
-                this.approaches = [];
-                this.approach_ids.map((approach_id) => {
-                    this.$http
-                        .get(`/api/approach/${approach_id}`)
-                        .then(response => {
-                            this.approaches.push(response.data);
-                        })
-                });
-                // Fetch machines by machine id
-                this.machines = [];
-                this.machine_ids.map((machine_id) => {
-                    this.$http
-                        .get(`/api/machine/${machine_id}`)
-                        .then(response => {
-                            this.machines.push(response.data);
-                        })
-                });
-                // Fetch penv by penv id
-                // this.penvs = [];
-                // this.penv_ids.map((penv_id) => {
-                //     if(penv!=undefined)
-                //         this.$http
-                //             .get(`/api/penv/${penv_id}`)
-                //             .then(response => {
-                //                 this.penvs.push(response.data);
-                //             });
-                // });
-                this.peam_data_ready = true;
-                this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
-                this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
-                google.visualization.events.addListener(this.ca.chart, 'ready', () => {
-                    this.ca.chart_image = chart.getImageURI();
-                });
-                google.visualization.events.addListener(this.cm.chart, 'ready', () => {
-                    this.cm.chart_image = chart.getImageURI();
-                });
+        var numberFetch = this.NumberService
+            .getNumbersByProblem(this.selected_problem._id)
+            .then(response => {
+                this.numbers = response;
             })
+        var approachFetch = this.ApproachService
+            .getApproachesByProblem(this.selected_problem._id)
+            .then(response => {
+                this.approaches = response;
+            });
+        var machineFetch = this.MachineService
+            .getMachinesByProblem(this.selected_problem._id)
+            .then(response => {
+                this.machines = response;
+            });
+        Promise.all([numberFetch, approachFetch, machineFetch])
+            .then(() => {
+                this.peam_data_ready = true;
+                this.selected_problem.name = 'akjsdn';
+                // this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
+                // this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
+                // google.visualization.events.addListener(this.ca.chart, 'ready', () => {
+                //     this.ca.chart_image = chart.getImageURI();
+                // });
+                // google.visualization.events.addListener(this.cm.chart, 'ready', () => {
+                //     this.cm.chart_image = chart.getImageURI();
+                // });
+            });
     }
 
     // Computation functions =============================================
@@ -584,114 +570,6 @@ export default class MainController {
             e2e: e2e_efficiency_by_problem_size,
             alg: alg_efficiency_by_problem_size
         };
-    }
-
-    // Data Fetching Functions =============================================
-
-    fetch_problems() {
-        return this.$http
-            .get('/api/category/' + this.selected_category._id + '/problem')
-            .then((response) => {
-                this.problems = response.data;
-            }, (error) => {
-                console.log(error);
-            });
-    }
-
-    fetch_machine_data() {
-        return this.$http
-            .get('/api/machine')
-            .then((response) => {
-                var machines = response.data;
-                this.machines = {};
-                for (var i in machines) {
-                    this.machines[machines[i]._id] = machines[i];
-                }
-                this.ro_machines = _.cloneDeep(this.machines);
-                this.fetch_approach_data();
-            }, (error) => {
-                console.log(error);
-            });
-    }
-
-    fetch_approach_data() {
-        return this.$http
-            .get('/api/problem/' + this.selected_problem._id + '/approach')
-            .then((response) => {
-                var approaches = response.data;
-                this.approaches = {};
-                for (var i in approaches) {
-                    this.approaches[approaches[i]._id] = approaches[i];
-                }
-                this.ro_approaches = _.cloneDeep(this.approaches);
-                this.fetch_number_data();
-            }, (error) => {
-                console.log(error);
-            });
-    }
-
-    fetch_number_data() {
-
-        this.$http
-            .get('/api/problem/' + this.selected_problem._id + '/number')
-            .then((response) => {
-                var numbers = response.data;
-                var numbers_grouped_by_approach_id = _.groupBy(numbers, 'approach_id');
-                var numbers_grouped_by_machine_id = _.groupBy(numbers, 'machine_id');
-
-                for (var i in this.approaches) {
-                    var nums = numbers_grouped_by_approach_id[i];
-                    var unique_machine_ID = _.map(_.uniq(_.map(nums, 'machine_id')), function(t) {
-                        return t.toString();
-                    });
-                    var unique_thread_counts = _.map(_.uniq(_.map(nums, 'p')), function(t) {
-                        return t.toString()
-                    });
-
-                    this.approaches[i].numbers = nums;
-                    this.approaches[i].unique_thread_counts = unique_thread_counts;
-                    this.approaches[i].unique_machine_ID = unique_machine_ID;
-                    this.approaches[i].unique_machines = [];
-                    this.approaches[i].selected_machines = [];
-                    this.approaches[i].selected_threads = [];
-                    this.approaches[i].last_selected_machines = [];
-                    this.approaches[i].last_selected_threads = [];
-
-                    for (var j in unique_machine_ID) {
-                        this.approaches[i].unique_machines.push(this.ro_machines[unique_machine_ID[j]]);
-                    }
-
-                    this.approaches[i].plot_e2e = false;
-                    this.approaches[i].plot_alg = false;
-                }
-
-                for (var i in this.machines) {
-                    var nums = numbers_grouped_by_machine_id[i];
-                    var unique_approach_ID = _.map(_.uniq(_.map(nums, 'approach_id')), function(t) {
-                        return t.toString();
-                    });
-                    var unique_thread_counts = _.map(_.uniq(_.map(nums, 'p')), function(t) {
-                        return t.toString()
-                    });
-
-                    this.machines[i].numbers = nums;
-                    this.machines[i].unique_thread_counts = unique_thread_counts;
-                    this.machines[i].unique_approach_ID = unique_approach_ID;
-                    this.machines[i].unique_approaches = [];
-                    this.machines[i].selected_approaches = [];
-                    this.machines[i].selected_threads = [];
-                    this.machines[i].last_selected_approaches = [];
-                    this.machines[i].last_selected_threads = [];
-
-                    for (var j in unique_approach_ID) {
-                        this.machines[i].unique_approaches.push(this.ro_approaches[unique_approach_ID[j]]);
-                    }
-
-                    this.machines[i].plot_e2e = false;
-                    this.machines[i].plot_alg = false;
-                }
-            });
-        this.data_fetch_complete = true;
     }
 
     // Table related functions =============================================

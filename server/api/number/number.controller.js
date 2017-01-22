@@ -128,3 +128,12 @@ export function problemByNumber(req, res) {
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
+
+export function approachByNumber(req, res) {
+    return Number.findById(req.params.id)
+        .then(handleEntityNotFound(res))
+        .then(response => Approach.findById(response.approach_id))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
