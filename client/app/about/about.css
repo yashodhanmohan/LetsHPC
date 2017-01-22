@@ -1,4 +1,4 @@
-#landing-navbar {
+#about-navbar {
     background-color: #FFFFFF;
     font-weight: 900;
     font-size: 1.125em;
@@ -6,60 +6,60 @@
     border: none;
 }
 
-.landing-nav-brand-link {
+.about-nav-brand-link {
     color: #1A237E;
 }
 
-.landing-nav-link {
+.about-nav-link {
     color: #1A237E;
 }
 
-.landing-nav-link:hover {
+.about-nav-link:hover {
     color: #3F51B5;
 }
 
-.landing-section-odd hr {
+.about-section-odd hr {
     height: 5px;
     border: none;
     background-color: #1A237E;
 }
 
-.landing-section-even hr {
+.about-section-even hr {
     height: 5px;
     border: none;
     background-color: #FFFFFF;
 }
 
-.landing-name {
+.about-name {
     color: white;
     font-size: 4em;
     font-weight: 800;
 }
 
-.landing-skills {
+.about-skills {
     color: white;
     font-size: 1.5em;
     font-weight: 300;
 }
 
-#landing-intro-section {
+#about-intro-section {
     background-color: #1A237E;
     padding-bottom: 50px;
 }
 
-.landing-section-odd {
+.about-section-odd {
     background-color: #FFFFFF;
     padding-bottom: 50px;
     padding-top: 50px;
 }
 
-.landing-section-even {
+.about-section-even {
     background-color: #1A237E;
     padding-bottom: 50px;
     padding-top: 50px;
 }
 
-.landing-section-odd-heading {
+.about-section-odd-heading {
     text-transform: uppercase;
     font-size: 2.5em;
     font-weight: 600;
@@ -67,7 +67,7 @@
     text-align: center;
 }
 
-.landing-section-odd-text {
+.about-section-odd-text {
     font-weight: 900;
     font-size: 1.25em;
     text-align: justify;
@@ -75,7 +75,7 @@
     color: #1A237E;
 }
 
-.landing-section-even-heading {
+.about-section-even-heading {
     text-transform: uppercase;
     font-size: 2.5em;
     font-weight: 600;
@@ -83,7 +83,7 @@
     text-align: center;
 }
 
-.landing-section-even-text {
+.about-section-even-text {
     font-weight: 900;
     font-size: 1.25em;
     text-align: justify;

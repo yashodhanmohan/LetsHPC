@@ -69,6 +69,8 @@ body {
 
 /* inject:css */
 
+@import 'about/about.css';
+
 @import 'admin/admin.css';
 
 @import 'customdata/customdata.css';

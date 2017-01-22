@@ -4,7 +4,6 @@ export default class AboutController {
 
     /*@ngInject*/
     constructor($http) {
-        console.log('About Controller');
         $(function() {
             $('a[href*="#"]:not([href="#"])').click(function() {
                 if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
@@ -19,6 +18,25 @@ export default class AboutController {
                     }
                 }
             });
+        });
+
+        $(document).ready(() => {
+            this.resizeDiv();
+            window.document.title = 'LETs HPC';
+        });
+
+        window.onresize = (event) => {
+            this.resizeDiv();
+        }
+    }
+
+    resizeDiv() {
+        var vph = $(window).innerHeight();
+        $('.about-section-odd').css({
+            minHeight: vph + 'px'
+        });
+        $('.about-section-even').css({
+            minHeight: vph + 'px'
         });
     }
 
