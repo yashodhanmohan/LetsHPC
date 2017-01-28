@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import ChartOption from '../../classes/chartOption';
+import Factory from '../../classes/factory';
 
 export default class MainController {
 
@@ -31,53 +33,7 @@ export default class MainController {
 
         chart: {},
         chart_image: {},
-        chart_options: {
-            titlePosition: 'in',
-            height: 600,
-            pointShape: 'circle',
-            pointsVisible: true,
-            explorer: {
-                keepInBounds: true,
-                maxZoomOut: 1,
-                actions: ['dragToZoom', 'rightClickToReset']
-            },
-            hAxis: {
-                logScale: true,
-                format: 'scientific',
-                titleTextStyle: {
-                    fontSize: 20
-                },
-                textStyle: {
-                    fontSize: 15
-                }
-            },
-            vAxis: {
-                logScale: false,
-                titleTextStyle: {
-                    fontSize: 20
-                },
-                textStyle: {
-                    fontSize: 15
-                }
-            },
-            chartArea: {
-                backgroundColor: {
-                    stroke: '#000',
-                    strokeWidth: 1
-                }
-            },
-            crosshair: {
-                color: 'black',
-                trigger: 'both'
-            },
-            legend: {
-                maxLines: 5,
-                textStyle: {
-                    fontSize: 13
-                }
-            },
-            selectionMode: 'multiple'
-        },
+        chartOptions: Factory.create('chartOption'),
         execution_time_chart_options: {
             title: 'Problem size vs. Execution time',
             hAxis: {
@@ -210,53 +166,7 @@ export default class MainController {
 
         chart: {},
         chart_image: {},
-        chart_options: {
-            titlePosition: 'in',
-            height: 600,
-            pointShape: 'circle',
-            pointsVisible: true,
-            explorer: {
-                keepInBounds: true,
-                maxZoomOut: 1,
-                actions: ['dragToZoom', 'rightClickToReset']
-            },
-            hAxis: {
-                logScale: true,
-                format: 'scientific',
-                titleTextStyle: {
-                    fontSize: 20
-                },
-                textStyle: {
-                    fontSize: 15
-                }
-            },
-            vAxis: {
-                logScale: false,
-                titleTextStyle: {
-                    fontSize: 20
-                },
-                textStyle: {
-                    fontSize: 15
-                }
-            },
-            chartArea: {
-                backgroundColor: {
-                    stroke: '#000',
-                    strokeWidth: 1
-                }
-            },
-            crosshair: {
-                color: 'black',
-                trigger: 'both'
-            },
-            legend: {
-                maxLines: 5,
-                textStyle: {
-                    fontSize: 13
-                }
-            },
-            selectionMode: 'multiple'
-        },
+        chartOptions: Factory.create('chartOption'),
         execution_time_chart_options: {
             title: 'Problem size vs. Execution time',
             hAxis: {
@@ -374,13 +284,14 @@ export default class MainController {
     }
 
     /*@ngInject*/
-    constructor($http, CategoryService, ProblemService, NumberService, ApproachService, MachineService) {
+    constructor($http, $q, CategoryService, ProblemService, NumberService, ApproachService, MachineService) {
 
         $(document).ready(() => {
             window.document.title = 'Comparison Tool - LETs HPC';
         })
 
         this.$http = $http;
+        this.$q = $q;
         this.CategoryService = CategoryService;
         this.ProblemService = ProblemService;
         this.ApproachService = ApproachService;
@@ -450,18 +361,17 @@ export default class MainController {
             .then(response => {
                 this.machines = response;
             });
-        Promise.all([numberFetch, approachFetch, machineFetch])
+        this.$q.all([numberFetch, approachFetch, machineFetch])
             .then(() => {
                 this.peam_data_ready = true;
-                this.selected_problem.name = 'akjsdn';
-                // this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
-                // this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
-                // google.visualization.events.addListener(this.ca.chart, 'ready', () => {
-                //     this.ca.chart_image = chart.getImageURI();
-                // });
-                // google.visualization.events.addListener(this.cm.chart, 'ready', () => {
-                //     this.cm.chart_image = chart.getImageURI();
-                // });
+                this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
+                this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
+                google.visualization.events.addListener(this.ca.chart, 'ready', () => {
+                    this.ca.chart_image = chart.getImageURI();
+                });
+                google.visualization.events.addListener(this.cm.chart, 'ready', () => {
+                    this.cm.chart_image = chart.getImageURI();
+                });
             });
     }
 
@@ -814,19 +724,19 @@ export default class MainController {
     chart_option_selection(basis) {
 
         if (this[basis].active_chart == 'timeseries') {
-            _.merge(this[basis].chart_options, this[basis].execution_time_chart_options);
+            this[basis].chartOptions.setOptions(this[basis].execution_time_chart_options);
         }
 
         if (this[basis].active_chart == 'speedup') {
-            _.merge(this[basis].chart_options, this[basis].speedup_chart_options);
+            this[basis].chartOptions.setOptions(this[basis].speedup_chart_options);
         }
 
         if (this[basis].active_chart == 'karpflatt') {
-            _.merge(this[basis].chart_options, this[basis].karpflatt_chart_options);
+            this[basis].chartOptions.setOptions(this[basis].karpflatt_chart_options);
         }
 
         if (this[basis].active_chart == 'efficiency') {
-            _.merge(this[basis].chart_options, this[basis].efficiency_chart_options);
+            this[basis].chartOptions.setOptions(this[basis].efficiency_chart_options);
         }
     }
 
@@ -859,14 +769,14 @@ export default class MainController {
         this[basis].chart = new google.visualization.LineChart(document.getElementById(basis + '_chart_div'));
         if (data.getNumberOfColumns() > 1) {
             this.chart_option_selection(basis);
-            this[basis].chart_options.title = this.selected_problem.name;
-            this[basis].chart.draw(data, this[basis].chart_options);
+            this[basis].chartOptions.setOption('title', this.selected_problem.name);
+            this[basis].chart.draw(data, this[basis].chartOptions.getOptions());
         } else {
             var dummy_data = new google.visualization.DataTable();
             dummy_data.addColumn('number', 'd1');
             dummy_data.addColumn('number', '');
             dummy_data.addRow([0, 0]);
-            this[basis].chart.draw(dummy_data, this[basis].chart_options);
+            this[basis].chart.draw(dummy_data, this[basis].chartOptions.getOptions());
             this[basis].chart.clear_chart();
         }
     }
