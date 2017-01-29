@@ -1,69 +1,117 @@
 import _ from 'lodash';
 
 export default class ChartOption {
-    constructor() {
-        this.options = {
-            titlePosition: 'in',
-            height: 600,
-            pointShape: 'circle',
-            pointsVisible: true,
-            explorer: {
-                keepInBounds: true,
-                maxZoomOut: 1,
-                actions: ['dragToZoom', 'rightClickToReset']
+
+    options = {
+        titlePosition: 'in',
+        height: 600,
+        pointShape: 'circle',
+        pointsVisible: true,
+        explorer: {
+            keepInBounds: true,
+            maxZoomOut: 1,
+            actions: ['dragToZoom', 'rightClickToReset']
+        },
+        hAxis: {
+            logScale: true,
+            format: 'scientific',
+            titleTextStyle: {
+                fontSize: 20
             },
+            textStyle: {
+                fontSize: 15
+            }
+        },
+        vAxis: {
+            logScale: false,
+            titleTextStyle: {
+                fontSize: 20
+            },
+            textStyle: {
+                fontSize: 15
+            }
+        },
+        chartArea: {
+            backgroundColor: {
+                stroke: '#000',
+                strokeWidth: 1
+            }
+        },
+        crosshair: {
+            color: 'black',
+            trigger: 'both'
+        },
+        legend: {
+            maxLines: 5,
+            textStyle: {
+                fontSize: 13
+            }
+        },
+        selectionMode: 'multiple'
+    };
+
+    defaultOptions = {
+        executionTime: {
             hAxis: {
-                logScale: true,
-                format: 'scientific',
-                titleTextStyle: {
-                    fontSize: 20
-                },
-                textStyle: {
-                    fontSize: 15
-                }
+                title: 'Problem size'
             },
             vAxis: {
-                logScale: false,
-                titleTextStyle: {
-                    fontSize: 20
-                },
-                textStyle: {
-                    fontSize: 15
+                title: 'Execution time (s)'
+            }
+        },
+        speedup: {
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Speedup'
+            }
+        },
+        karpflatt: {
+            hAxis: {
+                title: 'Problem size'
+            },
+            vAxis: {
+                title: 'Karp flatt coefficient',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 1
                 }
+            }
+        },
+        efficiency: {
+            title: 'Problem size vs. Efficiency',
+            hAxis: {
+                title: 'Problem size'
             },
-            chartArea: {
-                backgroundColor: {
-                    stroke: '#000',
-                    strokeWidth: 1
+            vAxis: {
+                title: 'Efficiency',
+                viewWindowMode: 'explicit',
+                viewWindow: {
+                    min: 0,
+                    max: 2
                 }
-            },
-            crosshair: {
-                color: 'black',
-                trigger: 'both'
-            },
-            legend: {
-                maxLines: 5,
-                textStyle: {
-                    fontSize: 13
-                }
-            },
-            selectionMode: 'multiple'
+            }
         }
     }
 
-    setOption(key, value) {
-        this.options[key] = value;
+    constructor() {
     }
 
-    setOptions(options) {
-        _.merge(this.options, options);
+    setOption(key, value) {
+        _.set(this.options, key, value);
+    }
+
+    setOptions(type) {
+        _.merge(this.options, this.defaultOptions[type]);
     }
 
     getOption(key) {
-        return this.options[key];
+        return _.get(this.options, key);
     }
 
     getOptions() {
-        return _.cloneDeep(this.options);
+            return _.cloneDeep(this.options);
     }
 }

@@ -165,14 +165,15 @@
                                                 </center>
                                             </div>
                                             <div class="col-md-1">
-                                                <button class="btn btn-default btn-primary" ng-click="main.cm.update_chart(machine)">Update</button>
+                                                <button class="btn btn-default btn-primary" ng-click="main.cm.updateChart(machine)">Update</button>
                                             </div>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="row pad-up">
+                        <hpc-chart data="main.cm.execution_time_data" options="main.cm.chartOptions"></hpc-chart>
+                        <!-- <div class="row pad-up">
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1 well">
                                     <div id="cm_chart_div"></div>
@@ -235,23 +236,20 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1 well">
-                                <div class="col-md-2 col-md-offset-1">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='efficiency'}" ng-click="main.refresh_chart('efficiency', 'cm')">Efficiency</button>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'cm')">Karp-Flatt metric</button>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'cm')">Speedup</button>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Execution time</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('cm')">Export Graph</a>
                                 </div>
                             </div>
                         </div>
@@ -359,14 +357,15 @@
                                                 </center>
                                             </div>
                                             <div class="col-md-1">
-                                                <button class="btn btn-default btn-primary" ng-click="main.ca.update_chart(approach)">Update</button>
+                                                <button class="btn btn-default btn-primary" ng-click="main.ca.updateChart(approach)">Update</button>
                                             </div>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="row pad-up">
+                        <hpc-chart data="main.ca.execution_time_data" options="main.ca.chartOptions"></hpc-chart>
+                        <!-- <div class="row pad-up">
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1 well">
                                     <div id="ca_chart_div"></div>
@@ -429,23 +428,20 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1 well">
-                                <div class="col-md-2 col-md-offset-1">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='efficiency'}" ng-click="main.refresh_chart('efficiency', 'ca')">Efficiency</button>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'ca')">Karp-Flatt metric</button>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'ca')">Speedup</button>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Execution time</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary btn-block" ng-click="main.export_chart('ca')">Export Graph</a>
                                 </div>
                             </div>
                         </div>

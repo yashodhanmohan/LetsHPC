@@ -34,52 +34,6 @@ export default class MainController {
         chart: {},
         chart_image: {},
         chartOptions: Factory.create('chartOption'),
-        execution_time_chart_options: {
-            title: 'Problem size vs. Execution time',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Execution time (s)'
-            }
-        },
-        speedup_chart_options: {
-            title: 'Problem size vs. Speedup',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Speedup'
-            }
-        },
-        karpflatt_chart_options: {
-            title: 'Problem size vs. Karp Flatt coefficient',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Karp flatt coefficient',
-                viewWindowMode: 'explicit',
-                viewWindow: {
-                    min: 0,
-                    max: 1
-                }
-            }
-        },
-        efficiency_chart_options: {
-            title: 'Problem size vs. Efficiency',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Efficiency',
-                viewWindowMode: 'explicit',
-                viewWindow: {
-                    min: 0,
-                    max: 2
-                }
-            }
-        },
         active_chart: 'timeseries',
 
         update_machines: () => {
@@ -128,7 +82,7 @@ export default class MainController {
             this.ca.data_set = true;
         },
 
-        update_chart: (approach) => {
+        updateChart: (approach) => {
             for (var i in approach.last_selected_threads) {
                 var nthreads = approach.last_selected_threads[i];
                 this.remove_number_from_table('ca', approach._id, nthreads, this.ca.selected_machine._id, 'e2e');
@@ -142,8 +96,6 @@ export default class MainController {
                 if (approach.plot_alg)
                     this.add_number_in_table('ca', approach._id, nthreads, this.ca.selected_machine._id, 'alg');
             }
-
-            this.refresh_chart(this.active_chart, 'ca');
 
             approach.last_selected_machines = _.cloneDeep(approach.selected_machines);
             approach.last_selected_threads = _.cloneDeep(approach.selected_threads);
@@ -167,52 +119,6 @@ export default class MainController {
         chart: {},
         chart_image: {},
         chartOptions: Factory.create('chartOption'),
-        execution_time_chart_options: {
-            title: 'Problem size vs. Execution time',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Execution time (s)'
-            }
-        },
-        speedup_chart_options: {
-            title: 'Problem size vs. Speedup',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Speedup'
-            }
-        },
-        karpflatt_chart_options: {
-            title: 'Problem size vs. Karp Flatt coefficient',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Karp flatt coefficient',
-                viewWindowMode: 'explicit',
-                viewWindow: {
-                    min: 0,
-                    max: 1
-                }
-            }
-        },
-        efficiency_chart_options: {
-            title: 'Problem size vs. Efficiency',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Efficiency',
-                viewWindowMode: 'explicit',
-                viewWindow: {
-                    min: 0,
-                    max: 2
-                }
-            }
-        },
         active_chart: 'timeseries',
 
         update_approaches: () => {
@@ -261,7 +167,7 @@ export default class MainController {
             this.cm.data_set = true;
         },
 
-        update_chart: (machine) => {
+        updateChart: (machine) => {
             for (var i in machine.last_selected_threads) {
                 var nthreads = machine.last_selected_threads[i];
                 this.remove_number_from_table('cm', this.cm.selected_approach._id, nthreads, machine._id, 'e2e');
@@ -275,8 +181,6 @@ export default class MainController {
                 if (machine.plot_alg)
                     this.add_number_in_table('cm', this.cm.selected_approach._id, nthreads, machine._id, 'alg');
             }
-
-            this.refresh_chart(this.cm.active_chart, 'cm');
 
             machine.last_selected_machines = _.cloneDeep(machine.selected_approaches);
             machine.last_selected_threads = _.cloneDeep(machine.selected_threads);
@@ -364,8 +268,6 @@ export default class MainController {
         this.$q.all([numberFetch, approachFetch, machineFetch])
             .then(() => {
                 this.peam_data_ready = true;
-                this.ca.chart = new google.visualization.LineChart(document.getElementById('ca_chart_div'));
-                this.cm.chart = new google.visualization.LineChart(document.getElementById('cm_chart_div'));
                 google.visualization.events.addListener(this.ca.chart, 'ready', () => {
                     this.ca.chart_image = chart.getImageURI();
                 });
@@ -738,54 +640,6 @@ export default class MainController {
         if (this[basis].active_chart == 'efficiency') {
             this[basis].chartOptions.setOptions(this[basis].efficiency_chart_options);
         }
-    }
-
-    refresh_chart(type, basis) {
-        if (type != this[basis].active_chart) {
-            this[basis].active_chart = type;
-        }
-        var data;
-        var execution_time_data = this[basis].execution_time_data;
-        var speedup_data = this[basis].speedup_data;
-        var karp_flatt_data = this[basis].karp_flatt_data;
-        var efficiency_data = this[basis].efficiency_data;
-
-        switch (this[basis].active_chart) {
-            case 'timeseries':
-                data = execution_time_data;
-                break;
-            case 'speedup':
-                data = speedup_data;
-                break;
-            case 'karpflatt':
-                data = karp_flatt_data;
-                break;
-            case 'efficiency':
-                data = efficiency_data;
-                break;
-            default:
-                data = new google.visualization.DataTable();
-        }
-        this[basis].chart = new google.visualization.LineChart(document.getElementById(basis + '_chart_div'));
-        if (data.getNumberOfColumns() > 1) {
-            this.chart_option_selection(basis);
-            this[basis].chartOptions.setOption('title', this.selected_problem.name);
-            this[basis].chart.draw(data, this[basis].chartOptions.getOptions());
-        } else {
-            var dummy_data = new google.visualization.DataTable();
-            dummy_data.addColumn('number', 'd1');
-            dummy_data.addColumn('number', '');
-            dummy_data.addRow([0, 0]);
-            this[basis].chart.draw(dummy_data, this[basis].chartOptions.getOptions());
-            this[basis].chart.clear_chart();
-        }
-    }
-
-    export_chart(basis) {
-        var download = document.createElement('a');
-        download.href = this[basis].chart.getImageURI();
-        download.download = 'image.png';
-        download.click();
     }
 
     activate_tooltip() {

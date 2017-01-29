@@ -36,7 +36,7 @@ import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import util from '../components/util/util.module';
 import btorfs_multiselect from '../assets/angular-bootstrap-multiselect/js/angular-bootstrap-multiselect.min';
-import chart from '../components/chart';
+import chart from '../components/chart/chart.component';
 
 // Other
 import constants from './app.constants';
