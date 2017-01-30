@@ -2,6 +2,8 @@ import _ from 'lodash';
 
 export default class MainController {
 
+    count = 0;
+
     categories = [];
     selected_category = '';
 
@@ -431,6 +433,7 @@ export default class MainController {
     }
 
     get_problem_data() {
+        this.count++;
         this.peam_data_ready = false;
         this.$http
             .get(`/api/number/problem/${this.selected_problem._id}`)

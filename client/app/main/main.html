@@ -4,7 +4,7 @@
         <div class="col-md-10">
             <p>
                 <center>
-                    The page is currently under development.
+                    The page is being actively developed.
                     In case of any invisible options, please reload the page or press F5.
                 </center>
             </p>
@@ -77,7 +77,7 @@
                 <div class="row pad-up">
                     <div class="col-md-4 col-md-offset-4">
                         <center>
-                            <button class="btn btn-default btn-success" ng-click="main.get_problem_data()" data-toggle="tooltip" data-placement="top" title="Click here for further filtering">Get Machine, Approach and Programming Environments</button>
+                            <button class="btn btn-default btn-success" ng-click="main.get_problem_data();" data-toggle="tooltip" data-placement="top" title="Click here for further filtering">Get Machine, Approach and Programming Environments <span ng-if="!main.peam_data_ready && main.count>0">(Loading data)</span></button>
                         </center>
                     </div>
                 </div>
@@ -176,9 +176,6 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1 well">
                                     <div id="cm_chart_div"></div>
-                                    <div class="overlay">
-                                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row text-primary bg-info">
@@ -289,7 +286,7 @@
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
                                 <h2>Selected Approach</h2>
-                                <p><b>Approach name</b>: {{main.cm.selected_approach.approach_name}} - Contributed by: <a href="mailto:letshpc@gmail.com" style="color: blue">LETs HPC team</a></p>
+                                <p><b>Approach name</b>: {{main.cm.selected_approach.approach_name}} - Contributed by: <a href="mailto:letshpc@gmail.com" style="color: blue">"Let's HPC team</a></p>
                                 <p><b>Description (Serial)</b>: {{main.cm.selected_approach.descS}}</p>
                                 <p><b>Description (Parallel)</b>: {{main.cm.selected_approach.descP}}</p>
                                 <p><b>Complexity (Serial)</b>: {{main.cm.selected_approach.complexityS}}</p>
@@ -370,9 +367,6 @@
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1 well">
                                     <div id="ca_chart_div"></div>
-                                    <div class="overlay">
-                                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row text-primary bg-info">

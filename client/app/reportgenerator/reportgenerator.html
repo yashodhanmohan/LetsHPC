@@ -49,9 +49,6 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 well">
                     <div id="chart_div" />
-                    <div class="overlay">
-                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
-                    </div>
                 </div>
             </div>
             <div class="row">
@@ -108,7 +105,7 @@
                         <div id="BCDSI" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iBCDSI" name="BCDSI" type="text" placeholder="Brief and clear description about the serial implementation" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional explanation block</span>
+
                             </div>
                         </div>
                         <div class="row">
@@ -117,7 +114,7 @@
                         <div id="BCSPI" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iBCSPI" name="BCSPI" type="text" placeholder="Brief and clear description about the implementation of the approach (Parallelization strategy, Mapping of computation to threads)" class="form-control input-lg"></textarea>
-                                <span class="help-block" style="right: 0px;">Optional explanation block</span>
+
                             </div>
                         </div>
                     </div>
@@ -134,7 +131,7 @@
                         <div id="CoSeCo" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iCoSeCo" name="CoSeCo" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -144,7 +141,7 @@
                         <div id="CoPaCo" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iCoPaCo" name="CoPaCo" type="text" placeholder="Complexity of parallel code (split as needed into work, step, etc.)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -154,7 +151,7 @@
                         <div id="CoPa" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iCoPa" name="CoPa" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -164,7 +161,7 @@
                         <div id="ThSpu" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iThSpu" name="ThSpu" type="text" placeholder="Theoretical Speedup (using asymptotic analysis, etc.)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -174,7 +171,7 @@
                         <div id="EstSerFra" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iEstSerFra" name="EstSerFra" type="text" placeholder="Estimated Serial Fraction (you can use gprof, theoretical estimates, using FLOP, (e2e-alg)/e2e)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -184,7 +181,7 @@
                         <div id="Tub" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iTub" name="Tub" type="text" placeholder="Tight upper bound based on Amdahl's Law (using data from previous question)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -194,7 +191,7 @@
                         <div id="NuMA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iNuMA" name="NuMA" type="text" placeholder="Number of memory accesses (load and store using counters)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -204,7 +201,7 @@
                         <div id="NoCom" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iNoCom" name="NoCom" type="text" placeholder="Number of computations (in FLOP using counters)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -222,7 +219,7 @@
                         <div id="TCRAProc" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iTCRAProc" name="TCRAProc" type="text" placeholder="Time Curve related analysis (as no. of processor increases)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -232,7 +229,7 @@
                         <div id="TCRAProSize" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iTCRAProSize" name="TCRAProSize" type="text" placeholder="Time Curve related analysis (as problem size increases, also for serial)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -242,7 +239,7 @@
                         <div id="SCRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iSCRA" name="SCRA" type="text" placeholder="Speedup Curve related analysis (as problem size and no. of processors increase)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -252,7 +249,7 @@
                         <div id="ECRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iECRA" name="ECRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -262,7 +259,7 @@
                         <div id="KFRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iKFRA" name="KFRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -280,7 +277,7 @@
                         <div id="MSPO" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iMSPO" name="MSPO" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -290,7 +287,7 @@
                         <div id="MWRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iMWRA" name="MWRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -300,7 +297,7 @@
                         <div id="CCRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iCCRA" name="CCRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -310,7 +307,7 @@
                         <div id="FSRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iFSRA" name="FSRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -320,7 +317,7 @@
                         <div id="SraRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iSraRA" name="SraRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -330,7 +327,7 @@
                         <div id="LBRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iLBRA" name="LBRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -340,7 +337,7 @@
                         <div id="SyncRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iSyncRA" name="SyncRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -350,7 +347,7 @@
                         <div id="GRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iGRA" name="GRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -360,7 +357,7 @@
                         <div id="ScaRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iScaRA" name="ScaRA" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
                     </div>
@@ -377,7 +374,7 @@
                         <div id="AOC" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iAOC" name="AOC" type="text" placeholder="Analysis of any other concepts/factors you think were important in your problem-approach combination" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -387,7 +384,7 @@
                         <div id="CBMB" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iCBMB" name="CBMB" type="text" placeholder=" (Code balance , machine balance analysis, how much of peak performance achieved in terms of %age)" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -397,7 +394,7 @@
                         <div id="ADDADA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iADDADA" name="ADDADA" type="text" placeholder="Advantages/Disadvantages of your approach" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -407,7 +404,7 @@
                         <div id="DFIA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iDFIA" name="DFIA" type="text" placeholder="Difficulties faced while implementing this approach" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
@@ -417,7 +414,7 @@
                         <div id="AAC" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
                                 <textarea ng-model="report.iAAC" name="AAC" type="text" placeholder="" class="form-control input-lg"></textarea>
-                                <span class="help-block">Optional Explanation block</span>
+
                             </div>
                         </div>
 
