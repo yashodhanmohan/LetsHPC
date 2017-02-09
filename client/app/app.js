@@ -71,6 +71,10 @@ angular.module('yashwantProjectApp', [
                 }
             });
         });
+
+        $rootScope.$on("$routeChangeSuccess", function(event, next, current) {
+            ga('send', 'pageview', $location.url());
+        });
     });
 
 angular.element(document)
