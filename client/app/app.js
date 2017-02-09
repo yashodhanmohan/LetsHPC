@@ -5,6 +5,8 @@ import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
+import ngMaterial from 'angular-material';
+
 const ngRoute = require('angular-route');
 import bootstrap from '../assets/bootstrap/js/bootstrap.min.js';
 // import bootstrapmaterial from '../assets/bootstrap-material/js/material.min.js';
@@ -43,6 +45,7 @@ import chart from '../components/chart/chart.component';
 // Other
 import constants from './app.constants';
 import './app.css';
+import 'angular-material/angular-material.min.css';
 
 
 google.load('visualization', '1', {
@@ -51,7 +54,7 @@ google.load('visualization', '1', {
 
 angular.module('yashwantProjectApp', [
         // Angular Core Modules
-        ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, _Auth,
+        ngCookies, ngAnimate, ngResource, ngSanitize, ngMaterial, ngRoute, _Auth,
         // Controllers
         LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController,
         // Services
