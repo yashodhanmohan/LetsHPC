@@ -71,6 +71,8 @@ angular.module('yashwantProjectApp', [
                 }
             });
         });
+
+        window.loadingScreen.finish();
     });
 
 angular.element(document)
