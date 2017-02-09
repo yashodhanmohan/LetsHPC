@@ -12,6 +12,8 @@
 
 import jsonpatch from 'fast-json-patch';
 import Number from './number.model';
+import Approach from '../approach/approach.model';
+import Problem from '../problem/problem.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -116,16 +118,21 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
-export function returnAllRows(req, res) {
-    return Number.find({ approach_id: req.param.approach_id })
+export function problemByNumber(req, res) {
+    return Number.findById(req.params.id)
+        .then(handleEntityNotFound(res))
+        .then(response => Approach.findById(response.approach_id))
+        .then(handleEntityNotFound(res))
+        .then(response => Problem.findById(response.problem_id))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
-
 }
 
-export function return_by_problem(req, res) {
-    return Number.find({ problem_id: req.params.id})
+export function approachByNumber(req, res) {
+    return Number.findById(req.params.id)
+        .then(handleEntityNotFound(res))
+        .then(response => Approach.findById(response.approach_id))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

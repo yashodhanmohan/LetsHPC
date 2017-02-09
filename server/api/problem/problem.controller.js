@@ -13,7 +13,10 @@
 import jsonpatch from 'fast-json-patch';
 import Problem from './problem.model';
 import Approach from '../approach/approach.model';
-import Numbers from '../number/number.model';
+import Number from '../number/number.model';
+import Machine from '../machine/machine.model';
+import Category from '../category/category.model';
+import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -118,15 +121,46 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
-export function approach(req, res) {
+export function approachesByProblem(req, res) {
     return Approach.find({problem_id: req.params.id})
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-export function number(req, res) {
-    return Numbers.find({problem_id: req.params.id})
+export function numbersByProblem(req, res) {
+    return Approach.find({problem_id: req.params.id})
+                   .distinct('_id')
+        .then(handleEntityNotFound(res))
+        .then(response => Number.find()
+                                .where('approach_id')
+                                .in(response))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function categoriesByProblem(req, res) {
+    return Problem.findById(req.params.id)
+        .then(handleEntityNotFound(res))
+        .then(response => Category.find({_id: response.category_id}))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function machinesByProblem(req, res) {
+    return Approach.find({problem_id: req.params.id})
+                   .distinct('_id')
+        .then(handleEntityNotFound(res))
+        .then(response => Number.find()
+                                .where('approach_id')
+                                .in(response)
+                                .distinct('machine_id'))
+        .then(handleEntityNotFound(res))
+        .then(response => Machine.find()
+                                 .where('_id')
+                                 .in(response))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

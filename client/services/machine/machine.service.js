@@ -1,24 +1,46 @@
+import Cache from '../../classes/cache';
+import _ from 'lodash';
+
 export default class MachineService {
 
-    static $inject = ['$http'];
-
+    /*@ngInject*/
     constructor($http) {
         this.$http = $http;
+        this.cache = new Cache();
     }
 
-    get_all_machines() {
+    getAllMachines() {
         return this.$http
                 .get('/api/machine')
                 .then(response => response.data);
     }
 
-    get_machine_by_ID(id) {
-        return this.$http
+    getMachineByID(id) {
+        if(this.cache.keyExists(id))
+            return this.cache.getKeyValue(id);
+        else
+            return this.$http
                 .get(`api/machine/${id}`)
+                .then(response => {
+                    this.cache.addKeyValue(response.data._id, response.data);
+                    return response;
+                })
                 .then(response => response.data);
     }
 
-    add_machine(machine) {
+    getMachinesByProblem(id) {
+        return this.$http
+                .get(`/api/problem/${id}/machines`)
+                .then(response => {
+                    _.map(response.data, approach => {
+                        this.cache.addKeyValue(approach._id, approach);
+                    });
+                    return response;
+                })
+                .then(response => response.data);
+    }
+
+    addMachine(machine) {
         return this.$http
                 .post('api/machine', machine);
     }

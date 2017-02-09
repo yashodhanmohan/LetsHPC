@@ -6,7 +6,7 @@ var controller = require('./category.controller');
 var router = express.Router();
 
 router.get('/', controller.index);
-router.get('/:id/problem', controller.problem);
+router.get('/:id/problems', controller.problemsByCategory);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.upsert);

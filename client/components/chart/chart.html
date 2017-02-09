@@ -1,0 +1,75 @@
+<div class="row pad-up">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 well">
+            <div id="{{chart.id}}"></div>
+            <div class="overlay">
+                <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
+            </div>
+        </div>
+    </div>
+    <div class="row text-primary bg-info">
+        <p>
+            <center>
+                Drag in a rectangular area to zoom.Right click in chart to reset.
+                <br />Use the buttons below to customize the scale and limits of the axes.
+                <br />Hover or click on points to extract exact data points.
+                <br />Hover or click on labels to select all data points on the curve.
+            </center>
+        </p>
+    </div>
+    <div class="row pad-up">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+                <div class="col-md-4 well">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.options.hAxis.logScale}" ng-click="chart.options.hAxis.logScale=true; chart.refresh()">X-axis: Log</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.options.hAxis.logScale}" ng-click="chart.options.hAxis.logScale=false; chart.refresh()">X-axis: Linear</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 well">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.options.vAxis.logScale}" ng-click="chart.options.vAxis.logScale=true; chart.refresh()">Y-axis: Log</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.options.vAxis.logScale}" ng-click="chart.options.vAxis.logScale=false; chart.refresh()">Y-axis: Linear</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 well">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-block" ng-click="chart.exportChart()">Export Graph</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2 well">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="X-axis min" ng-model="chart.userOptions.hAxis.viewWindow.min" ng-change="chart.refresh()">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="X-axis max" ng-model="chart.userOptions.hAxis.viewWindow.max" ng-change="chart.refresh()">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 well">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Y-axis min" ng-model="chart.userOptions.vAxis.viewWindow.min" ng-change="chart.refresh()">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Y-axis max" ng-model="chart.userOptions.vAxis.viewWindow.max" ng-change="chart.refresh()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

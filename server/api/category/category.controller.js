@@ -117,7 +117,8 @@ export function destroy(req, res) {
         .catch(handleError(res));
 }
 
-export function problem(req, res) {
+// Find problems pertaining to a category
+export function problemsByCategory(req, res) {
     return Problem.find({category_id: req.params.id})
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))

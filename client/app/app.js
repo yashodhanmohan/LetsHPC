@@ -17,25 +17,30 @@ import {
 import _Auth from '../components/auth/auth.module';
 
 // Import Angular Controller modules
-import landing from './landing';
-import about from './about';
-import main from './main';
-import reportgenerator from './reportgenerator';
-import customdata from './customdata';
-import dataentry from './dataentry';
+import LandingController from './landing';
+import AboutController from './about';
+import MainController from './main';
+import ReportGeneratorController from './reportgenerator';
+import CustomDataController from './customdata';
+import DataEntryController from './dataentry';
 
 // Import Angular Service modules
-import category_service from '../services/category';
-import problem_service from '../services/problem';
-import machine_service from '../services/machine';
+import CategoryService from '../services/category';
+import ProblemService from '../services/problem';
+import MachineService from '../services/machine';
+import NumberService from '../services/number';
+import ApproachService from '../services/approach';
+import CalculatorService from '../services/calculator';
+import TableService from '../services/table';
 
 // Import Angular components
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import util from '../components/util/util.module';
+import btorfs_multiselect from '../assets/angular-bootstrap-multiselect/js/angular-bootstrap-multiselect.min';
+import chart from '../components/chart/chart.component';
 
 // Other
-import btorfs_multiselect from '../assets/angular-bootstrap-multiselect/js/angular-bootstrap-multiselect.min';
 import constants from './app.constants';
 import './app.css';
 
@@ -48,11 +53,11 @@ angular.module('yashwantProjectApp', [
         // Angular Core Modules
         ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, _Auth,
         // Controllers
-        landing, main, reportgenerator, customdata, dataentry, about,
+        LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController,
         // Services
-        category_service, problem_service, machine_service,
+        CategoryService, ProblemService, MachineService, NumberService, ApproachService, CalculatorService, TableService,
         // Components/Directives
-        navbar, footer, constants, util, 'btorfs.multiselect'
+        navbar, footer, constants, util, 'btorfs.multiselect', chart
     ])
     .config(routeConfig)
     .run(function($rootScope, $location, Auth) {

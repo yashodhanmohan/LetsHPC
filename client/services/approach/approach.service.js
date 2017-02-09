@@ -1,7 +1,7 @@
 import Cache from '../../classes/cache';
 import _ from 'lodash';
 
-export default class CategoryService {
+export default class ApproachService {
 
     /*@ngInject*/
     constructor($http) {
@@ -9,18 +9,18 @@ export default class CategoryService {
         this.cache = new Cache();
     }
 
-    getAllCategories() {
+    getAllApproaches() {
         return this.$http
-                .get('/api/category')
+                .get('/api/approach')
                 .then(response => response.data);
     }
 
-    getCategoryByID(id) {
+    getApproachByID(id) {
         if(this.cache.keyExists(id))
             return this.cache.getKeyValue(id);
         else
             return this.$http
-                .get(`/api/category/${id}`)
+                .get(`/api/approach/${id}`)
                 .then(response => {
                     this.cache.addKeyValue(response.data._id, response.data);
                     return response;
@@ -28,9 +28,9 @@ export default class CategoryService {
                 .then(response => response.data);
     }
 
-    getCategoriesByProblem(id) {
+    getApproachesByProblem(id) {
         return this.$http
-                .get(`/api/problem/${id}/categories`)
+                .get(`/api/problem/${id}/approaches`)
                 .then(response => {
                     _.map(response.data, approach => {
                         this.cache.addKeyValue(approach._id, approach);
@@ -40,15 +40,25 @@ export default class CategoryService {
                 .then(response => response.data);
     }
 
-    addCategory(category) {
+    getApproachByNumber(id) {
         return this.$http
-                .post(`/api/category`, category)
+                .get(`/api/number/${id}/approach`)
+                .then(response => {
+                    this.cache.addKeyValue(response.data._id, response.data);
+                    return response;
+                })
                 .then(response => response.data);
     }
 
-    deleteCategoryByID(id) {
+    addApproach(approach) {
         return this.$http
-                .delete(`/api/category/${id}`)
+                .post(`/api/approach`, category)
+                .then(response => response.data);
+    }
+
+    deleteApproachByID(id) {
+        return this.$http
+                .delete(`/api/approach/${id}`)
                 .then(response => response.data);
     }
 }
