@@ -90,8 +90,8 @@ body.pg-loading {
 
 .pg-loading-screen .pg-loading-logo-header img {
     display: inline-block!important;
-    max-width: 30%;
-    max-height: 200px;
+    /*max-width: 50%;*/
+    height: 35vh;
 }
 
 .pg-loading-screen .pg-loading-html {
