@@ -67,7 +67,7 @@ export default class ChartOption {
                 title: 'Speedup'
             }
         },
-        karpflatt: {
+        karpFlatt: {
             hAxis: {
                 title: 'Problem size'
             },
@@ -97,6 +97,7 @@ export default class ChartOption {
     }
 
     constructor() {
+        _.merge(this.options, this.defaultOptions.executionTime);
     }
 
     setOption(key, value) {
@@ -112,6 +113,6 @@ export default class ChartOption {
     }
 
     getOptions() {
-            return _.cloneDeep(this.options);
+        return _.cloneDeep(this.options);
     }
 }

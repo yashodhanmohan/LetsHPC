@@ -30,6 +30,8 @@ import ProblemService from '../services/problem';
 import MachineService from '../services/machine';
 import NumberService from '../services/number';
 import ApproachService from '../services/approach';
+import CalculatorService from '../services/calculator';
+import TableService from '../services/table';
 
 // Import Angular components
 import navbar from '../components/navbar/navbar.component';
@@ -53,7 +55,7 @@ angular.module('yashwantProjectApp', [
         // Controllers
         LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController,
         // Services
-        CategoryService, ProblemService, MachineService, NumberService, ApproachService,
+        CategoryService, ProblemService, MachineService, NumberService, ApproachService, CalculatorService, TableService,
         // Components/Directives
         navbar, footer, constants, util, 'btorfs.multiselect', chart
     ])

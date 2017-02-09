@@ -23,6 +23,7 @@ export default class AboutController {
         $(document).ready(() => {
             this.resizeDiv();
             window.document.title = 'LETs HPC';
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
         });
 
         window.onresize = (event) => {

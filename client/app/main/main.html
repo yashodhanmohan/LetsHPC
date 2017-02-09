@@ -4,7 +4,7 @@
         <div class="col-md-10">
             <p>
                 <center>
-                    The page is currently under development.
+                    The page is currently under development and works best in Google Chrome.
                     In case of any invisible options, please reload the page or press F5.
                 </center>
             </p>
@@ -29,9 +29,9 @@
                     <div class="col-md-6">
                         <div class="input-group">
                             <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the category of problems">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.categories_ready">Category <span class="caret"></span></button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.categoriesReady">Category <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                    <li ng-repeat="category in main.categories"><a href="#" ng-click="main.select_category(category)">{{category.name}}</a></li>
+                                    <li ng-repeat="category in main.categories"><a href="#" ng-click="main.selectCategory(category)">{{category.name}}</a></li>
                                     <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Divide and conquer</a></li>
                                     <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Map Reduce</a></li>
                                     <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Image Processing</a></li>
@@ -44,18 +44,18 @@
                                     <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Finite Difference</a></li>
                                 </ul>
                             </div>
-                            <input type="text" class="form-control" placeholder="Category" value="{{main.selected_category.name}}" disabled>
+                            <input type="text" class="form-control" placeholder="Category" value="{{main.selectedCategory.name}}" disabled>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-group">
                             <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the problem to analyse">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problems_ready">Problem <span class="caret"></span></button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Problem <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                    <li ng-repeat="problem in main.problems"><a href="#" ng-click="main.select_problem(problem)">{{problem.name}}</a></li>
+                                    <li ng-repeat="problem in main.problems"><a href="#" ng-click="main.selectProblem(problem)">{{problem.name}}</a></li>
                                 </ul>
                             </div>
-                            <input type="text" class="form-control" placeholder="Problem" value="{{main.selected_problem.name}}" disabled>
+                            <input type="text" class="form-control" placeholder="Problem" value="{{main.selectedProblem.name}}" disabled>
                         </div>
                     </div>
                 </div>
@@ -63,13 +63,13 @@
                     <div class="col-md-12">
                         <center>
                             <label class="radio-inline">
-                                <input type="radio" ng-model="main.selected_memory" value="shared"> Shared Memory
+                                <input type="radio" ng-model="main.selectedMemory" value="shared"> Shared Memory
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" ng-model="main.selected_memory" value="distributed" disabled> Distributed Memory
+                                <input type="radio" ng-model="main.selectedMemory" value="distributed" disabled> Distributed Memory
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" ng-model="main.selected_memory" value="distributed" disabled> Heterogeneous Architecture
+                                <input type="radio" ng-model="main.selectedMemory" value="distributed" disabled> Heterogeneous Architecture
                             </label>
                         </center>
                     </div>
@@ -77,14 +77,14 @@
                 <div class="row pad-up">
                     <div class="col-md-4 col-md-offset-4">
                         <center>
-                            <button class="btn btn-default btn-success" ng-click="main.get_problem_data()" data-toggle="tooltip" data-placement="top" title="Click here for further filtering">Get Machine, Approach and Programming Environments</button>
+                            <button class="btn btn-default btn-success" ng-click="main.getProblemData()" data-toggle="tooltip" data-placement="top" title="Click here for further filtering">Get Machine, Approach and Programming Environments <span ng-show="!main.peamDataReady">(Loading data...)</span></button>
                         </center>
                     </div>
                 </div>
             </div>
         </div>
         <hr />
-        <div class="row" ng-show="main.peam_data_ready" ng-init="main.activate_tooltip()">
+        <div class="row" ng-show="main.peamDataReady" ng-init="main.activateTooltip()">
             <div class="col-md-12">
                 <div class="row pad-up">
 
@@ -111,19 +111,19 @@
                         <div class="row">
                             <div class="col-md-4 col-md-offset-4">
                                 <label for="abc">Machines</label>
-                                <multiselect id="abc" ng-model="main.cm.selected_machines" options="main.machines" display-prop="model_name" id-prop="_id"></multiselect>
+                                <multiselect id="abc" ng-model="main.cm.selectedMachines" options="main.machines" display-prop="model_name" id-prop="_id"></multiselect>
                             </div>
                         </div>
                         <div class="row pad-up">
                             <div class="col-md-4 col-md-offset-1">
                                 <div class="input-group">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.cm.update_approaches()">Approach <span class="caret"></span></button>
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.cm.updateApproaches()">Approach <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li ng-repeat="approach in main.cm.approaches"><a href="#" ng-click="main.cm.selected_approach = approach;">{{approach.approach_name}}</a></li>
+                                            <li ng-repeat="approach in main.cm.approaches"><a href="#" ng-click="main.cm.selectedApproach = approach;">{{approach.approach_name}}</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Approach" value="{{main.cm.selected_approach.approach_name}}" disabled />
+                                    <input type="text" class="form-control" placeholder="Approach" value="{{main.cm.selectedApproach.approach_name}}" disabled />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -132,36 +132,36 @@
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
-                                            <li><a href="#" ng-click="main.cm.selected_penv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
                                             <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
                                             <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.cm.selected_penv.name}}" disabled />
+                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.cm.selectedPenv.name}}" disabled />
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <center>
-                                    <button class="btn btn-default btn-primary" ng-click="main.cm.set_data()">Set Data</button>
+                                    <button class="btn btn-default btn-primary" ng-click="main.cm.setData()">Set Data</button>
                                 </center>
                             </div>
                         </div>
-                        <div class="row" ng-if="main.cm.data_set">
+                        <div class="row" ng-if="main.cm.dataSet">
                             <div class="col-md-12">
                                 <ul class="list-inline pad-up col-md-12">
-                                    <li ng-repeat="(machine_id, machine) in main.cm.selected_machines" class="list-group-item col-md-12">
+                                    <li ng-repeat="machine in main.cm.selectedMachines" class="list-group-item col-md-12">
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <label for="abc2">Thread count (0 = Serial)</label>
-                                                <multiselect id="abc2" ng-model="machine.selected_threads" options="machine.unique_thread_counts"></multiselect>
+                                                <multiselect id="abc2" ng-model="main.cm.machineSelections[machine._id].selectedThreads" options="main.cm.machineSelections[machine._id].uniqueThreadCounts"></multiselect>
                                             </div>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" disabled value="{{machine.model_name}}"></input>
                                             </div>
                                             <div class="col-md-2">
                                                 <center>
-                                                    E2E<input type="checkbox" ng-model="machine.plot_e2e"> ALG
-                                                    <input type="checkbox" ng-model="machine.plot_alg">
+                                                    E2E<input type="checkbox" ng-model="main.cm.machineSelections[machine._id].plotE2E"> ALG
+                                                    <input type="checkbox" ng-model="main.cm.machineSelections[machine._id].plotAlg">
                                                 </center>
                                             </div>
                                             <div class="col-md-1">
@@ -172,84 +172,20 @@
                                 </ul>
                             </div>
                         </div>
-                        <hpc-chart data="main.cm.execution_time_data" options="main.cm.chartOptions"></hpc-chart>
-                        <!-- <div class="row pad-up">
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1 well">
-                                    <div id="cm_chart_div"></div>
-                                    <div class="overlay">
-                                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row text-primary bg-info">
-                                <p>
-                                    <center>
-                                        Drag in a rectangular area to zoom.Right click in chart to reset.
-                                        <br />Use the buttons below to customize the scale and limits of the axes.
-                                        <br />Hover or click on points to extract exact data points.
-                                        <br />Hover or click on labels to select all data points on the curve.
-                                    </center>
-                                </p>
-                            </div>
-                            <div class="row pad-up">
-                                <div class="col-md-4 col-md-offset-2 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Log</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.hAxis.logScale}" ng-click="main.cm.chart_options.hAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">X-axis: Linear</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=true; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Log</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.cm.chart_options.vAxis.logScale}" ng-click="main.cm.chart_options.vAxis.logScale=false; main.refresh_chart(main.cm.active_chart, 'cm')">Y-axis: Linear</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-2 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="x-max" placeholder="X-axis min" ng-model="main.cm.chart_options.hAxis.viewWindow.min" ng-change="main.refresh_chart(main.cm.active_chart, 'cm')">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="x-min" placeholder="X-axis max" ng-model="main.cm.chart_options.hAxis.viewWindow.max" ng-change="main.refresh_chart(main.cm.active_chart, 'cm')">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="y-max" placeholder="Y-axis min" ng-model="main.cm.chart_options.vAxis.viewWindow.min" ng-change="main.refresh_chart(main.cm.active_chart, 'cm')">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="y-min" placeholder="Y-axis max" ng-model="main.cm.chart_options.vAxis.viewWindow.max" ng-change="main.refresh_chart(main.cm.active_chart, 'cm')">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+                        <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1 well">
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='efficiency'}" ng-click="main.refresh_chart('efficiency', 'cm')">Efficiency</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='efficiency'}" ng-click="main.cm.changeChartType('efficiency')">Efficiency</button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'cm')">Karp-Flatt metric</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='karpFlatt'}" ng-click="main.cm.changeChartType('karpFlatt')">Karp-Flatt metric</button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'cm')">Speedup</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='speedup'}" ng-click="main.cm.changeChartType('speedup')">Speedup</button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'cm')">Execution time</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='executionTime'}" ng-click="main.cm.changeChartType('executionTime')">Execution time</button>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +205,7 @@
                                         <th>L2</th>
                                         <th>L3</th>
                                     </tr>
-                                    <tr ng-repeat="machine in main.cm.selected_machines">
+                                    <tr ng-repeat="machine in main.cm.selectedMachines">
                                         <td><center><a href="{{machine.spec_file_link}}" style="color: blue" target="_blank">{{machine.model_name}}</a></center></td>
                                         <td><center>{{machine.architecture}}</center></td>
                                         <td><center>{{machine.cpu_count}}</center></td>
@@ -287,73 +223,73 @@
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
                                 <h2>Selected Approach</h2>
-                                <p><b>Approach name</b>: {{main.cm.selected_approach.approach_name}} - Contributed by: <a href="mailto:letshpc@gmail.com" style="color: blue">LETs HPC team</a></p>
-                                <p><b>Description (Serial)</b>: {{main.cm.selected_approach.descS}}</p>
-                                <p><b>Description (Parallel)</b>: {{main.cm.selected_approach.descP}}</p>
-                                <p><b>Complexity (Serial)</b>: {{main.cm.selected_approach.complexityS}}</p>
-                                <p><b>Complexity (Parallel)</b>: {{main.cm.selected_approach.complexityP}}</p>
-                                <p><b>Advantage</b>: {{main.cm.selected_approach.advantage}}</p>
-                                <p><b>Disadvantage</b>: {{main.cm.selected_approach.disadvantage}}</p>
+                                <p><b>Approach name</b>: {{main.cm.selectedApproach.approach_name}} - Contributed by: <a href="mailto:letshpc@gmail.com" style="color: blue">LETs HPC team</a></p>
+                                <p><b>Description (Serial)</b>: {{main.cm.selectedApproach.descS}}</p>
+                                <p><b>Description (Parallel)</b>: {{main.cm.selectedApproach.descP}}</p>
+                                <p><b>Complexity (Serial)</b>: {{main.cm.selectedApproach.complexityS}}</p>
+                                <p><b>Complexity (Parallel)</b>: {{main.cm.selectedApproach.complexityP}}</p>
+                                <p><b>Advantage</b>: {{main.cm.selectedApproach.advantage}}</p>
+                                <p><b>Disadvantage</b>: {{main.cm.selectedApproach.disadvantage}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row pad-up" ng-if="main.compare=='approaches'">
                     <div class="col-md-12">
-                        <div class="row" ng-if="main.compare=='approaches'">
+                        <div class="row">
                             <div class="col-md-4 col-md-offset-4">
                                 <label for="abc3">Approach</label>
-                                <multiselect id="abc3" ng-model="main.ca.selected_approaches" options="main.approaches" display-prop="approach_name" id-prop="_id"></multiselect>
+                                <multiselect id="abc3" ng-model="main.ca.selectedApproaches" options="main.approaches" display-prop="approach_name" id-prop="_id"></multiselect>
                             </div>
                         </div>
                         <div class="row pad-up">
                             <div class="col-md-3 col-md-offset-2">
                                 <div class="input-group">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.update_machines()">Machine <span class="caret"></span></button>
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updateMachines()">Machine <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li ng-repeat="machine in main.ca.machines"><a href="#" ng-click="main.ca.selected_machine = machine;">{{machine.model_name}}</a></li>
+                                            <li ng-repeat="machine in main.ca.machines"><a href="#" ng-click="main.ca.selectedMachine = machine;">{{machine.model_name}}</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Machine" value="{{main.ca.selected_machine.model_name}}" disabled />
+                                    <input type="text" class="form-control" placeholder="Machine" value="{{main.ca.selectedMachine.model_name}}" disabled />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.update_penvs()">Environment<span class="caret"></span></button>
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updatePenvs()">Environment<span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <!-- <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selected_penv = penv;">{{penv.name}}</a></li> -->
-                                            <li><a href="#" ng-click="main.ca.selected_penv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                            <!-- <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selectedPenv = penv;">{{penv.name}}</a></li> -->
+                                            <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
                                             <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
                                             <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selected_penv.name}}" disabled />
+                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selectedPenv.name}}" disabled />
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <center>
-                                    <button class="btn btn-default btn-primary" ng-click="main.ca.set_data()">Set Data</button>
+                                    <button class="btn btn-default btn-primary" ng-click="main.ca.setData()">Set Data</button>
                                 </center>
                             </div>
                         </div>
-                        <div class="row" ng-if="main.ca.data_set">
+                        <div class="row" ng-if="main.ca.dataSet">
                             <div class="col-md-12">
                                 <ul class="list-inline pad-up col-md-12">
-                                    <li ng-repeat="(approach_id, approach) in main.ca.selected_approaches" class="list-group-item col-md-12">
+                                    <li ng-repeat="approach in main.ca.selectedApproaches" class="list-group-item col-md-12">
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <label for="abc4">Number of threads (0 = serial)</label>
-                                                <multiselect id="abc4" ng-model="approach.selected_threads" options="approach.unique_thread_counts"></multiselect>
+                                                <multiselect id="abc4" ng-model="main.ca.approachSelections[approach._id].selectedThreads" options="main.ca.approachSelections[approach._id].uniqueThreadCounts"></multiselect>
                                             </div>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" disabled value="{{approach.approach_name}}"></input>
                                             </div>
                                             <div class="col-md-2">
                                                 <center>
-                                                    E2E<input type="checkbox" ng-model="approach.plot_e2e">
-                                                    ALG<input type="checkbox" ng-model="approach.plot_alg">
+                                                    E2E<input type="checkbox" ng-model="main.ca.approachSelections[approach._id].plotE2E">
+                                                    ALG<input type="checkbox" ng-model="main.ca.approachSelections[approach._id].plotAlg">
                                                 </center>
                                             </div>
                                             <div class="col-md-1">
@@ -364,84 +300,20 @@
                                 </ul>
                             </div>
                         </div>
-                        <hpc-chart data="main.ca.execution_time_data" options="main.ca.chartOptions"></hpc-chart>
-                        <!-- <div class="row pad-up">
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1 well">
-                                    <div id="ca_chart_div"></div>
-                                    <div class="overlay">
-                                        <div style="font-family:'Arial Black'; font-size: 14px;">&copy; Created using HPC Plotter, DA-IICT</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row text-primary bg-info">
-                                <p>
-                                    <center>
-                                        Drag in a rectangular area to zoom.Right click in chart to reset.
-                                        <br />Use the buttons below to customize the scale and limits of the axes.
-                                        <br />Hover or click on points to extract exact data points.
-                                        <br />Hover or click on labels to select all data points on the curve.
-                                    </center>
-                                </p>
-                            </div>
-                            <div class="row pad-up">
-                                <div class="col-md-4 col-md-offset-2 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Log</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.hAxis.logScale}" ng-click="main.ca.chart_options.hAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">X-axis: Linear</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=true; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Log</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !main.ca.chart_options.vAxis.logScale}" ng-click="main.ca.chart_options.vAxis.logScale=false; main.refresh_chart(main.ca.active_chart, 'ca')">Y-axis: Linear</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-2 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="x-max" placeholder="X-axis min" ng-model="main.ca.chart_options.hAxis.viewWindow.min" ng-change="main.refresh_chart(main.ca.active_chart, 'ca')">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="x-min" placeholder="X-axis max" ng-model="main.ca.chart_options.hAxis.viewWindow.max" ng-change="main.refresh_chart(main.ca.active_chart, 'ca')">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 well">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="y-max" placeholder="Y-axis min" ng-model="main.ca.chart_options.vAxis.viewWindow.min" ng-change="main.refresh_chart(main.ca.active_chart, 'ca')">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" id="y-min" placeholder="Y-axis max" ng-model="main.ca.chart_options.vAxis.viewWindow.max" ng-change="main.refresh_chart(main.ca.active_chart, 'ca')">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+                        <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1 well">
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='efficiency'}" ng-click="main.refresh_chart('efficiency', 'ca')">Efficiency</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='efficiency'}" ng-click="main.ca.changeChartType('efficiency')">Efficiency</button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='karpflatt'}" ng-click="main.refresh_chart('karpflatt', 'ca')">Karp-Flatt metric</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='karpFlatt'}" ng-click="main.ca.changeChartType('karpFlatt')">Karp-Flatt metric</button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='speedup'}" ng-click="main.refresh_chart('speedup', 'ca')">Speedup</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='speedup'}" ng-click="main.ca.changeChartType('speedup')">Speedup</button>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.active_chart=='timeseries'}" ng-click="main.refresh_chart('timeseries', 'ca')">Execution time</button>
+                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='executionTime'}" ng-click="main.ca.changeChartType('executionTime')">Execution time</button>
                                 </div>
                             </div>
                         </div>
@@ -456,7 +328,7 @@
                                         <th>Complexity (Serial)</th>
                                         <th>Complexity (Parallel)</th>
                                     </tr>
-                                    <tr ng-repeat="approach in main.ca.selected_approaches">
+                                    <tr ng-repeat="approach in main.ca.selectedApproaches">
                                         <td>{{approach.approach_name}}</td>
                                         <td>{{approach.descS}}</td>
                                         <td>{{approach.descP}}</td>
@@ -469,13 +341,13 @@
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
                                 <h2>Selected Machine</h2>
-                                <p><b>Model name</b>: {{main.ca.selected_machine.model_name}}</p>
-                                <p><b>Architecture</b>: {{main.ca.selected_machine.architecture}}</p>
-                                <p><b>Threads per core</b>: {{main.ca.selected_machine.threads_per_core}}</p>
-                                <p><b>Socket count</b>: {{main.ca.selected_machine.socket_count}}</p>
-                                <p><b>CPU (Mhz)</b>: {{main.ca.selected_machine.cpu_mhz}}</p>
-                                <p><b>L1d Cache</b>: {{main.ca.selected_machine.L1d_cache}}</p>
-                                <p><b>L1i Cache</b>: {{main.ca.selected_machine.L1i_cache}}</p>
+                                <p><b>Model name</b>: {{main.ca.selectedMachine.model_name}}</p>
+                                <p><b>Architecture</b>: {{main.ca.selectedMachine.architecture}}</p>
+                                <p><b>Threads per core</b>: {{main.ca.selectedMachine.threads_per_core}}</p>
+                                <p><b>Socket count</b>: {{main.ca.selectedMachine.socket_count}}</p>
+                                <p><b>CPU (Mhz)</b>: {{main.ca.selectedMachine.cpu_mhz}}</p>
+                                <p><b>L1d Cache</b>: {{main.ca.selectedMachine.L1d_cache}}</p>
+                                <p><b>L1i Cache</b>: {{main.ca.selectedMachine.L1i_cache}}</p>
                             </div>
                         </div>
                     </div>
@@ -484,7 +356,7 @@
                     <div class="col-md-12">
                         <div class="row" ng-if="main.compare=='penv'">
                             <div class="col-md-4 col-md-offset-4">
-                                <multiselect ng-model="machine.selected_threads" options="main.approaches" show-select-all="true" show-unselect-all="true"></multiselect>
+                                <multiselect ng-model="machine.selectedThreads" options="main.approaches" show-select-all="true" show-unselect-all="true"></multiselect>
                             </div>
                         </div>
                         <div class="row pad-up">
@@ -496,7 +368,7 @@
                                             <li ng-repeat="machine in main.machines"><a href="#" ng-click="">{{machine.model_name}}</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Approach" value="{{main.selected_machine.model_name}}" disabled />
+                                    <input type="text" class="form-control" placeholder="Approach" value="{{main.selectedMachine.model_name}}" disabled />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -507,7 +379,7 @@
                                             <li ng-repeat="machine in main.machines"><a href="#" ng-click="">{{machine.model_name}}</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Machine" value="{{main.selected_penv.name}}" disabled />
+                                    <input type="text" class="form-control" placeholder="Machine" value="{{main.selectedPenv.name}}" disabled />
                                 </div>
                             </div>
                             <div class="col-md-1">

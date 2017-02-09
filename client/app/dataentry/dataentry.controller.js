@@ -32,14 +32,14 @@ export default class DataEntryController {
         };
 
         this.category_service
-            .get_all_categories()
+            .getAllCategories()
             .then(response => {
                 this.add_problem.categories = _.cloneDeep(response);
                 this.add_approach.categories = _.cloneDeep(response);
             });
 
         this.machine_service
-            .get_all_machines()
+            .getAllMachines()
             .then(response => {
                 this.add_approach.machines = _.cloneDeep(response);
             });

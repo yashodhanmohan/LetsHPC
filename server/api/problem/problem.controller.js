@@ -129,9 +129,12 @@ export function approachesByProblem(req, res) {
 }
 
 export function numbersByProblem(req, res) {
-    return Approach.findOne({problem_id: req.params.id})
+    return Approach.find({problem_id: req.params.id})
+                   .distinct('_id')
         .then(handleEntityNotFound(res))
-        .then(response => Number.find({approach_id: response._id}))
+        .then(response => Number.find()
+                                .where('approach_id')
+                                .in(response))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

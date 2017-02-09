@@ -1,6 +1,9 @@
-footer.footer {
-  text-align: center;
-  padding: 30px 0;
-  margin-top: 70px;
-  border-top: 1px solid #E5E5E5;
+#footer-global {
+    text-align: center;
+    border-top: 3px solid #E5E5E5;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 1rem;
 }

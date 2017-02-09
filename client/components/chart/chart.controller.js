@@ -1,11 +1,17 @@
+import _ from 'lodash';
+
 export default class ChartController {
     constructor($timeout) {
         this.id = this.guid()
         this.chart = {};
-        console.log('Chart created with id '+this.id);
+        this.userOptions = {
+            'hAxis.viewWindow.min': undefined,
+            'vAxis.viewWindow.min': undefined,
+            'hAxis.viewWindow.max': undefined,
+            'vAxis.viewWindow.max': undefined
+        }
         $timeout(() => {
             this.chart = new google.visualization.LineChart(document.getElementById(this.id));
-            this.options = this.options.getOptions();
             google.visualization.events.addListener(this.chart, 'ready', () => {
                 this.chartImage = this.chart.getImageURI();
             });
@@ -26,14 +32,35 @@ export default class ChartController {
         this.refresh();
     }
 
-    refresh() {
-        this.chart.draw(this.data, this.options);
+    refresh(empty = false) {
+
+        let dummyData = google.visualization.arrayToDataTable([
+            [' ', ' '],
+            ['', 0],
+        ]);
+
+        _.forEach(this.userOptions, (value, key) => {
+            if(value != undefined && value != '') {
+                this.options.setOption(key, value)
+            }
+        });
+
+        if(empty)
+            this.chart.draw(dummyData, this.options.getOptions());
+        else if(this.data.getNumberOfColumns() < 2)
+            this.chart.draw(dummyData, this.options.getOptions());
+        else
+            this.chart.draw(this.data, this.options.getOptions());
     }
 
     exportChart() {
-        var download = document.createElement('a');
+        let download = document.createElement('a');
         download.href = this.chartImage;
         download.download = 'image.png';
         download.click();
+    }
+
+    something(arg) {
+        console.log(arg);
     }
 }

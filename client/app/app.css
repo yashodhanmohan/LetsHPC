@@ -12,10 +12,15 @@ html {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    height: 100%;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
+    min-height: 100%;
+    padding-bottom: 20rem;
+    margin: 0;
+    position: relative;
 }
 
 .list-group-item {
@@ -82,6 +87,8 @@ body {
 @import 'main/main.css';
 
 @import 'reportgenerator/reportgenerator.css';
+
+@import '../components/chart/chart.css';
 
 @import '../components/footer/footer.css';
 
