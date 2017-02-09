@@ -72,9 +72,13 @@ angular.module('yashwantProjectApp', [
             });
         });
 
+        // Google Analytics pageview send event on route change
         $rootScope.$on("$routeChangeSuccess", function(event, next, current) {
             ga('send', 'pageview', $location.url());
         });
+
+        // Remove loading splash screen on app bootstrap
+        window.loadingScreen.finish();
     });
 
 angular.element(document)
