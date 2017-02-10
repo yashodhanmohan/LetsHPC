@@ -23,20 +23,20 @@
                 <div class="col-md-4 well">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.options.hAxis.logScale}" ng-click="chart.options.hAxis.logScale=true; chart.refresh()">X-axis: Log</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.userOptions.hAxis.logScale}" ng-click="chart.userOptions.hAxis.logScale=true; chart.refresh()">X-axis: Log</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.options.hAxis.logScale}" ng-click="chart.options.hAxis.logScale=false; chart.refresh()">X-axis: Linear</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.userOptions.hAxis.logScale}" ng-click="chart.userOptions.hAxis.logScale=false; chart.refresh()">X-axis: Linear</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 well">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.options.vAxis.logScale}" ng-click="chart.options.vAxis.logScale=true; chart.refresh()">Y-axis: Log</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.userOptions.vAxis.logScale}" ng-click="chart.userOptions.vAxis.logScale=true; chart.refresh()">Y-axis: Log</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.options.vAxis.logScale}" ng-click="chart.options.vAxis.logScale=false; chart.refresh()">Y-axis: Linear</button>
+                            <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.userOptions.vAxis.logScale}" ng-click="chart.userOptions.vAxis.logScale=false; chart.refresh()">Y-axis: Linear</button>
                         </div>
                     </div>
                 </div>

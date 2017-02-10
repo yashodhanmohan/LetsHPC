@@ -8,7 +8,9 @@ export default class ChartController {
             'hAxis.viewWindow.min': undefined,
             'vAxis.viewWindow.min': undefined,
             'hAxis.viewWindow.max': undefined,
-            'vAxis.viewWindow.max': undefined
+            'vAxis.viewWindow.max': undefined,
+            'hAxis.logScale': false,
+            'vAxis.logScale': false
         }
         $timeout(() => {
             this.chart = new google.visualization.LineChart(document.getElementById(this.id));
