@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" id="navbar-navbar">
+<!-- <nav class="navbar navbar-default" id="navbar-navbar">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#"><span class="navbar-nav-brand-link">Let's HPC</span></a>
@@ -23,4 +23,7 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav> -->
+<md-nav-bar md-selected-nav-item="navbar.currentNavItem">
+    <md-nav-item ng-repeat="item in navbar.menu" md-nav-href="{{item.route}}" name="{{item.route}}">{{item.text}}</md-nav-item>
+</md-nav-bar>

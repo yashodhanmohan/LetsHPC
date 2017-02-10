@@ -4,10 +4,31 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-    menu = [{
-        title: 'Home',
-        link: '/'
-    }];
+
+    currentNavItem = '';
+
+    menu = [
+        {
+            route: '/',
+            text: 'Home'
+        },
+        {
+            route: '/main',
+            text: 'Comparison Tool'
+        },
+        {
+            route: '/reportgenerator',
+            text: 'Report Generator'
+        },
+        {
+            route: '/customdata',
+            text: 'Analyze Custom Data'
+        },
+        {
+            route: '/dataentry',
+            text: 'Data Entry'
+        }
+    ];
 
     isCollapsed = true;
 
@@ -18,6 +39,8 @@ export class NavbarComponent {
         this.isLoggedIn = Auth.isLoggedInSync;
         this.isAdmin = Auth.isAdminSync;
         this.getCurrentUser = Auth.getCurrentUserSync;
+
+        this.currentNavItem = this.$location.path();
     }
 
     isActive(route) {
@@ -28,6 +51,7 @@ export class NavbarComponent {
 export default angular.module('directives.navbar', [])
     .component('navbar', {
         template: require('./navbar.html'),
-        controller: NavbarComponent
+        controller: NavbarComponent,
+        controllerAs: 'navbar'
     })
     .name;

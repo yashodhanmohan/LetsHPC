@@ -78,10 +78,28 @@ angular.module('yashwantProjectApp', [
         // Google Analytics pageview send event on route change
         $rootScope.$on("$routeChangeSuccess", function(event, next, current) {
             ga('send', 'pageview', $location.url());
+            $rootScope.currentLink = $location.url();
         });
 
         // Remove loading splash screen on app bootstrap
         window.loadingScreen.finish();
+    })
+    .animation('.reveal-animation', function() {
+        return {
+            enter: function(element, done) {
+                element.css('display', 'none');
+                element.fadeIn(800, done);
+                return function() {
+                    element.stop();
+                }
+            },
+            leave: function(element, done) {
+                element.fadeOut(800, done)
+                return function() {
+                    element.stop();
+                }
+            }
+        }
     });
 
 angular.element(document)
