@@ -12,6 +12,20 @@ export default class MainController {
     problems = [];
     selectedProblem = '';
 
+    memories = [
+        {
+            type: 'Shared Memory',
+            disabled: false
+        },
+        {
+            type: 'Distributed Memory',
+            disabled: true
+        },
+        {
+            type: 'Heterogeneous Architecture',
+            disabled: true
+        }
+    ];
     selectedMemory = 'shared';
 
     // Ready variables
@@ -265,25 +279,14 @@ export default class MainController {
         this.activateTooltip();
     }
 
-    selectCategory(selectedCategory) {
-        // If category has changed,
-        if (this.selectedCategory != selectedCategory) {
-            this.selectedCategory = selectedCategory;
-            this.problemsReady = false;
-            this.ProblemService
-                .getProblemsByCategory(this.selectedCategory._id)
-                .then(response => {
-                    this.problems = response;
-                    this.problemsReady = true;
-                })
-        }
-    }
-
-    selectProblem(selectedProblem) {
-        // If problem has changed
-        if (this.selectedProblem != selectedProblem) {
-            this.selectedProblem = selectedProblem;
-        }
+    updateProblems() {
+        this.problemsReady = false;
+        this.ProblemService
+            .getProblemsByCategory(this.selectedCategory._id)
+            .then(response => {
+                this.problems = response;
+                this.problemsReady = true;
+            })
     }
 
     getProblemData() {

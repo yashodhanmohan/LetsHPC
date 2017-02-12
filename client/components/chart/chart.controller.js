@@ -51,8 +51,10 @@ export default class ChartController {
             this.chart.draw(dummyData, this.options.getOptions());
         else if(this.data.getNumberOfColumns() < 2)
             this.chart.draw(dummyData, this.options.getOptions());
-        else
+        else {
             this.chart.draw(this.data, this.options.getOptions());
+            console.log(this.data.getNumberOfColumns());
+        }
     }
 
     exportChart() {
@@ -60,9 +62,5 @@ export default class ChartController {
         download.href = this.chartImage;
         download.download = 'image.png';
         download.click();
-    }
-
-    something(arg) {
-        console.log(arg);
     }
 }

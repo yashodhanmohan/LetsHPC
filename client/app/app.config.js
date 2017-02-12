@@ -1,6 +1,6 @@
 'use strict';
 
-export function routeConfig($routeProvider, $locationProvider) {
+export function routeConfig($routeProvider, $locationProvider, $mdThemingProvider) {
     'ngInject';
 
     // $routeProvider.otherwise({
@@ -8,4 +8,10 @@ export function routeConfig($routeProvider, $locationProvider) {
     // });
 
     $locationProvider.html5Mode(true);
+
+    $mdThemingProvider
+        .theme('default')
+        .primaryPalette('indigo')
+        .accentPalette('amber')
+        .backgroundPalette('grey')
 }
