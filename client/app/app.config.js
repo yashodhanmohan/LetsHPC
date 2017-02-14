@@ -8,10 +8,4 @@ export function routeConfig($routeProvider, $locationProvider, $mdThemingProvide
     // });
 
     $locationProvider.html5Mode(true);
-
-    $mdThemingProvider
-        .theme('default')
-        .primaryPalette('indigo')
-        .accentPalette('amber')
-        .backgroundPalette('grey')
 }

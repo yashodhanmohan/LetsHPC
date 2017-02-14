@@ -31,7 +31,8 @@ export default class MainController {
     // Ready variables
     problemsReady = false;
     categoriesReady = false;
-    peamDataReady = true;
+    peamDataReady = false;
+    gettingPeamData = false;
 
     ca = {
         selectedApproaches: [],
@@ -44,6 +45,7 @@ export default class MainController {
 
         dataTable: Factory.create('table'),
         data: {},
+        dataSet: false,
 
         chart: {},
         chartImage: {},
@@ -142,6 +144,7 @@ export default class MainController {
 
         dataTable: Factory.create('table'),
         data: {},
+        dataSet: false,
 
         chart: {},
         chartImage: {},
@@ -291,6 +294,7 @@ export default class MainController {
 
     getProblemData() {
         this.peamDataReady = false;
+        this.gettingPeamData = true;
         var numberFetch = this.NumberService
             .getNumbersByProblem(this.selectedProblem._id)
             .then(response => {
@@ -308,7 +312,10 @@ export default class MainController {
             });
         this.$q.all([numberFetch, approachFetch, machineFetch])
             .then(() => {
+
                 this.peamDataReady = true;
+                this.gettingPeamData = false;
+
                 google.visualization.events.addListener(this.ca.chart, 'ready', () => {
                     this.ca.chartImage = chart.getImageURI();
                 });

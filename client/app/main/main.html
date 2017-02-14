@@ -26,7 +26,7 @@
     <div flex="25">
         <md-input-container>
             <label>Category</label>
-            <md-select ng-model="main.selectedCategory" placeholder="Select a category" md-on-close="main.updateProblems()">
+            <md-select ng-model="main.selectedCategory" placeholder="Select a category" md-on-close="main.updateProblems()" ng-change="main.peamDataReady = false;">
                 <md-option ng-value="category" ng-repeat="category in main.categories">{{ category.name }}</md-option>
             </md-select>
         </md-input-container>
@@ -34,276 +34,284 @@
     <div flex="25">
         <md-input-container>
             <label>Category</label>
-            <md-select style="width: 100%" ng-model="main.selectedProblem" placeholder="Select a problem">
+            <md-select style="width: 100%" ng-model="main.selectedProblem" placeholder="Select a problem" ng-change="main.peamDataReady = false;">
                 <md-option ng-value="problem" ng-repeat="problem in main.problems">{{ problem.name }}</md-option>
             </md-select>
         </md-input-container>
     </div>
-    <div flex="40">
-        <md-radio-group ng-model="main.selectedMemory" layout="row">
-            <md-radio-button ng-repeat="memory in main.memories" ng-value="memory" ng-disabled="memory.disabled">{{memory.type}}</md-radio-button>
-        </md-radio-group>
+    <div flex="25">
+        <md-input-container>
+            <label>Memory Architecture</label>
+            <md-select style="width: 100%" ng-model="main.selectedMemory" placeholder="Select a memory architecture">
+                <md-option ng-value="memory" ng-repeat="memory in main.memories" ng-disabled="memory.disabled">{{ memory.type }}</md-option>
+            </md-select>
+        </md-input-container>
     </div>
 </div>
 <div layout="row" layout-align="center center">
     <md-button flex="40" class="md-primary md-raised" ng-click="main.getProblemData()">Get All Data !</md-button>
-    <md-progress-circular ng-if="!main.peamDataReady" md-mode="indeterminate" md-diameter="30"></md-progress-circular>
 </div>
 <div layout="row" layout-align="center center">
-    <md-tabs flex="100" md-stretch-tabs="always" md-dynamic-height="true">
-        <md-tab>
-            <md-tab-label>
-                <md-tooltip>Click here to compare different machines</md-tooltip>
-                Compare Machines
-            </md-tab-label>
-            <md-tab-body>
-                <div layout="row" layout-align="space-around center" class="pad-up">
-                    <div flex="25">
-                        <md-input-container>
-                            <label>Machines</label>
-                            <md-select ng-model="main.cm.selectedMachines" placeholder="Select machines.." multiple="true">
-                                <md-option ng-value="machine" ng-repeat="machine in main.machines">{{machine.model_name}}</md-option>
-                            </md-select>
-                        </md-input-container>
+    <md-progress-linear flex="40" ng-class="{'invisible': !main.gettingPeamData}" md-mode="indeterminate"></md-progress-linear>
+</div>
+<div>
+    <div ng-if="!main.peamDataReady || main.gettingPeamData" class="overlay-div"></div>
+    <div layout="row" layout-align="center center">
+        <md-tabs flex="100" md-stretch-tabs="always" md-dynamic-height="true">
+            <md-tab>
+                <md-tab-label>
+                    <md-tooltip>Click here to compare different machines</md-tooltip>
+                    Compare Machines
+                </md-tab-label>
+                <md-tab-body>
+                    <div layout="row" layout-align="space-around center" class="pad-up">
+                        <div flex="25">
+                            <md-input-container>
+                                <label>Machines</label>
+                                <md-select ng-model="main.cm.selectedMachines" placeholder="Select machines.." multiple="true" ng-change="main.cm.dataSet = false;">
+                                    <md-option ng-value="machine" ng-repeat="machine in main.machines">{{machine.model_name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div flex="25">
+                            <md-input-container>
+                                <label>Approach</label>
+                                <md-select ng-model="main.cm.selectedApproach" placeholder="Select an approach" ng-change="main.cm.dataSet = false;">
+                                    <md-option ng-value="approach" ng-repeat="approach in main.approaches">{{approach.approach_name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div flex="25">
+                            <md-input-container>
+                                <label>Programming Environment</label>
+                                <md-select ng-model="main.cm.selectedPenv" placeholder="Select a programming environment" ng-change="main.cm.dataSet = false;">
+                                    <md-option value="OpenMP + gcc">OpenMP + gcc</md-option>
+                                    <md-option value="Java Threads">Java Threads</md-option>
+                                    <md-option value="Pthreads">Pthreads</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <md-button flex="10" class="md-raised md-primary" ng-click="main.cm.setData()">Set Data</md-button>
                     </div>
-                    <div flex="25">
-                        <md-input-container>
-                            <label>Approach</label>
-                            <md-select ng-model="main.cm.selectedApproach" placeholder="Select an approach">
-                                <md-option ng-value="approach" ng-repeat="approach in main.approaches">{{approach.approach_name}}</md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                    <div flex="25">
-                        <md-input-container>
-                            <label>Programming Environment</label>
-                            <md-select ng-model="main.cm.selectedPenv" placeholder="Select a programming environment">
-                                <md-option value="OpenMP + gcc">OpenMP + gcc</md-option>
-                                <md-option value="Java Threads">Java Threads</md-option>
-                                <md-option value="Pthreads">Pthreads</md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                    <md-button flex="10" class="md-raised md-primary" ng-click="main.cm.setData()">Set Data</md-button>
-                </div>
-                <div layout="column">
-                    <div flex="100" ng-repeat="machine in main.cm.selectedMachines">
-                        <div layout="row" layout-align="space-around center">
-                            <div flex="15">
-                                <md-input-container>
-                                    <label>Threads (0 = Serial)</label>
-                                    <md-select ng-model="main.cm.machineSelections[machine._id].selectedThreads" placeholder="Select thread count.." multiple="true">
-                                        <md-option ng-value="thread" ng-repeat="thread in main.cm.machineSelections[machine._id].uniqueThreadCounts">{{thread}}</md-option>
-                                    </md-select>
-                                </md-input-container>
+                    <div layout="column" ng-if="main.cm.dataSet">
+                        <div flex="100" ng-repeat="machine in main.cm.selectedMachines">
+                            <div layout="row" layout-align="space-around center">
+                                <div flex="15">
+                                    <md-input-container>
+                                        <label>Threads (0 = Serial)</label>
+                                        <md-select ng-model="main.cm.machineSelections[machine._id].selectedThreads" placeholder="Select thread count.." multiple="true">
+                                            <md-option ng-value="thread" ng-repeat="thread in main.cm.machineSelections[machine._id].uniqueThreadCounts">{{thread}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div flex="40">
+                                    <center>{{machine.model_name}}</center>
+                                </div>
+                                <div flex="25">
+                                    <md-checkbox ng-model="main.cm.machineSelections[machine._id].plotE2E">
+                                        E2E
+                                    </md-checkbox>
+                                    <md-checkbox ng-model="main.cm.machineSelections[machine._id].plotAlg">
+                                        Alg
+                                    </md-checkbox>
+                                </div>
+                                <md-button flex="10" class="md-raised md-accent" ng-click="main.cm.updateChart(machine)">Update Chart</md-button>
                             </div>
-                            <div flex="40">
-                                <center>{{machine.model_name}}</center>
-                            </div>
-                            <div flex="25">
-                                <md-checkbox ng-model="main.cm.machineSelections[machine._id].plotE2E">
-                                    E2E
-                                </md-checkbox>
-                                <md-checkbox ng-model="main.cm.machineSelections[machine._id].plotAlg">
-                                    Alg
-                                </md-checkbox>
-                            </div>
-                            <md-button flex="10" class="md-raised md-accent" ng-click="main.cm.updateChart(machine)">Update Chart</md-button>
                         </div>
                     </div>
-                </div>
-                <div layout="row" layout-align="space-around center">
-                    <div flex="100">
-                        <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
+                    <div layout="row" layout-align="space-around center" ng-if="main.cm.dataSet">
+                        <div flex="100">
+                            <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
+                        </div>
                     </div>
-                </div>
-                <div layout="row" layout-align="center center">
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='efficiency'}" ng-click="main.cm.changeChartType('efficiency')">Efficiency</md-button>
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='karpFlatt'}" ng-click="main.cm.changeChartType('karpFlatt')">Karp Flatt</md-button>
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='speedup'}" ng-click="main.cm.changeChartType('speedup')">Speedup</md-button>
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='executionTime'}" ng-click="main.cm.changeChartType('executionTime')">Execution Time</md-button>
-                </div>
-                <div layout="row" layout-align="space-around center">
-                    <div flex="90">
-                        <h2>Selected Machines</h2>
-                        <table class="table">
-                            <tr>
-                                <th>Model name</th>
-                                <th>Architecture</th>
-                                <th>CPU Count</th>
-                                <th>Socket Count</th>
-                                <th>Cores per Socket</th>
-                                <th>Threads per Core</th>
-                                <th>CPU (Mhz)</th>
-                                <th>L1 d/i</th>
-                                <th>L2</th>
-                                <th>L3</th>
-                            </tr>
-                            <tr ng-repeat="machine in main.cm.selectedMachines">
-                                <td>
-                                    <center><a href="{{machine.spec_file_link}}" style="color: blue" target="_blank">{{machine.model_name}}</a></center>
-                                </td>
-                                <td>
-                                    <center>{{machine.architecture}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.cpu_count}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.socket_count}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.cores_per_socket}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.threads_per_core}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.cpu_mhz}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.L1d_cache}}/{{machine.L1i_cache}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.L2_cache}}</center>
-                                </td>
-                                <td>
-                                    <center>{{machine.L3_cache}}</center>
-                                </td>
-                            </tr>
-                        </table>
+                    <div layout="row" layout-align="center center" ng-if="main.cm.dataSet">
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='efficiency'}" ng-click="main.cm.changeChartType('efficiency')">Efficiency</md-button>
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='karpFlatt'}" ng-click="main.cm.changeChartType('karpFlatt')">Karp Flatt</md-button>
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='speedup'}" ng-click="main.cm.changeChartType('speedup')">Speedup</md-button>
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.cm.activeChart=='executionTime'}" ng-click="main.cm.changeChartType('executionTime')">Execution Time</md-button>
                     </div>
-                </div>
-                <div layout="row" layout-align="space-around center">
-                    <div flex="90">
-                        <h2>Selected Approach</h2>
-                        <p><b>Approach name</b>: {{main.cm.selectedApproach.approach_name}} - Contributed by: <a href="mailto:letshpc@gmail.com" style="color: blue">LETs HPC team</a></p>
-                        <p><b>Description (Serial)</b>: {{main.cm.selectedApproach.descS}}</p>
-                        <p><b>Description (Parallel)</b>: {{main.cm.selectedApproach.descP}}</p>
-                        <p><b>Complexity (Serial)</b>: {{main.cm.selectedApproach.complexityS}}</p>
-                        <p><b>Complexity (Parallel)</b>: {{main.cm.selectedApproach.complexityP}}</p>
-                        <p><b>Advantage</b>: {{main.cm.selectedApproach.advantage}}</p>
-                        <p><b>Disadvantage</b>: {{main.cm.selectedApproach.disadvantage}}</p>
+                    <div layout="row" layout-align="space-around center" ng-if="main.cm.selectedMachines.length > 0">
+                        <div flex="90">
+                            <h2>Selected Machines</h2>
+                            <table class="table">
+                                <tr>
+                                    <th>Model name</th>
+                                    <th>Architecture</th>
+                                    <th>CPU Count</th>
+                                    <th>Socket Count</th>
+                                    <th>Cores per Socket</th>
+                                    <th>Threads per Core</th>
+                                    <th>CPU (Mhz)</th>
+                                    <th>L1 d/i</th>
+                                    <th>L2</th>
+                                    <th>L3</th>
+                                </tr>
+                                <tr ng-repeat="machine in main.cm.selectedMachines">
+                                    <td>
+                                        <center><a href="{{machine.spec_file_link}}" style="color: blue" target="_blank">{{machine.model_name}}</a></center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.architecture}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.cpu_count}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.socket_count}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.cores_per_socket}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.threads_per_core}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.cpu_mhz}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.L1d_cache}}/{{machine.L1i_cache}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.L2_cache}}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{machine.L3_cache}}</center>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                    <div layout="row" layout-align="space-around center" ng-if="main.cm.selectedApproach.approach_name != undefined">
+                        <div flex="90">
+                            <h2>Selected Approach</h2>
+                            <p><b>Approach name</b>: {{main.cm.selectedApproach.approach_name}} - Contributed by: <a href="mailto:letshpc@gmail.com" style="color: blue">LETs HPC team</a></p>
+                            <p><b>Description (Serial)</b>: {{main.cm.selectedApproach.descS}}</p>
+                            <p><b>Description (Parallel)</b>: {{main.cm.selectedApproach.descP}}</p>
+                            <p><b>Complexity (Serial)</b>: {{main.cm.selectedApproach.complexityS}}</p>
+                            <p><b>Complexity (Parallel)</b>: {{main.cm.selectedApproach.complexityP}}</p>
+                            <p><b>Advantage</b>: {{main.cm.selectedApproach.advantage}}</p>
+                            <p><b>Disadvantage</b>: {{main.cm.selectedApproach.disadvantage}}</p>
+                        </div>
+                    </div>
 
-            </md-tab-body>
-        </md-tab>
-        <md-tab>
-            <md-tab-label>
-                <md-tooltip>Click here to compare different approaches</md-tooltip>
-                Compare Approaches
-            </md-tab-label>
-            <md-tab-body>
-                <div layout="row" layout-align="space-around center" class="pad-up">
-                    <div flex="25">
-                        <md-input-container>
-                            <label>Approaches</label>
-                            <md-select ng-model="main.ca.selectedApproaches" placeholder="Select approaches.." multiple="true">
-                                <md-option ng-value="approach" ng-repeat="approach in main.approaches">{{approach.approach_name}}</md-option>
-                            </md-select>
-                        </md-input-container>
+                </md-tab-body>
+            </md-tab>
+            <md-tab>
+                <md-tab-label>
+                    <md-tooltip>Click here to compare different approaches</md-tooltip>
+                    Compare Approaches
+                </md-tab-label>
+                <md-tab-body>
+                    <div layout="row" layout-align="space-around center" class="pad-up">
+                        <div flex="25">
+                            <md-input-container>
+                                <label>Approaches</label>
+                                <md-select ng-model="main.ca.selectedApproaches" placeholder="Select approaches.." multiple="true" ng-change="main.ca.dataSet = false;">
+                                    <md-option ng-value="approach" ng-repeat="approach in main.approaches">{{approach.approach_name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div flex="25">
+                            <md-input-container>
+                                <label>Machine</label>
+                                <md-select ng-model="main.ca.selectedMachine" placeholder="Select a machine" ng-change="main.ca.dataSet = false;">
+                                    <md-option ng-value="machine" ng-repeat="machine in main.machines">{{machine.model_name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div flex="25">
+                            <md-input-container>
+                                <label>Programming Environment</label>
+                                <md-select ng-model="main.ca.selectedPenv" placeholder="Select a programming environment" ng-change="main.ca.dataSet = false;">
+                                    <md-option value="OpenMP + gcc">OpenMP + gcc</md-option>
+                                    <md-option value="Java Threads">Java Threads</md-option>
+                                    <md-option value="Pthreads">Pthreads</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <md-button flex="10" class="md-raised md-primary" ng-click="main.ca.setData()">Set Data</md-button>
                     </div>
-                    <div flex="25">
-                        <md-input-container>
-                            <label>Machine</label>
-                            <md-select ng-model="main.ca.selectedMachine" placeholder="Select a machine">
-                                <md-option ng-value="machine" ng-repeat="machine in main.machines">{{machine.model_name}}</md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                    <div flex="25">
-                        <md-input-container>
-                            <label>Programming Environment</label>
-                            <md-select ng-model="main.ca.selectedPenv" placeholder="Select a programming environment">
-                                <md-option value="OpenMP + gcc">OpenMP + gcc</md-option>
-                                <md-option value="Java Threads">Java Threads</md-option>
-                                <md-option value="Pthreads">Pthreads</md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                    <md-button flex="10" class="md-raised md-primary" ng-click="main.ca.setData()">Set Data</md-button>
-                </div>
-                <div layout="column">
-                    <div flex="100" ng-repeat="approach in main.ca.selectedApproaches">
-                        <div layout="row" layout-align="space-around center">
-                            <div flex="15">
-                                <md-input-container>
-                                    <label>Threads (0 = Serial)</label>
-                                    <md-select ng-model="main.ca.approachSelections[approach._id].selectedThreads" placeholder="Select thread count.." multiple="true">
-                                        <md-option ng-value="thread" ng-repeat="thread in main.ca.approachSelections[approach._id].uniqueThreadCounts">{{thread}}</md-option>
-                                    </md-select>
-                                </md-input-container>
+                    <div layout="column" ng-if="main.ca.dataSet">
+                        <div flex="100" ng-repeat="approach in main.ca.selectedApproaches">
+                            <div layout="row" layout-align="space-around center">
+                                <div flex="15">
+                                    <md-input-container>
+                                        <label>Threads (0 = Serial)</label>
+                                        <md-select ng-model="main.ca.approachSelections[approach._id].selectedThreads" placeholder="Select thread count.." multiple="true">
+                                            <md-option ng-value="thread" ng-repeat="thread in main.ca.approachSelections[approach._id].uniqueThreadCounts">{{thread}}</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div flex="40">
+                                    <center>{{approach.approach_name}}</center>
+                                </div>
+                                <div flex="25">
+                                    <md-checkbox ng-model="main.ca.approachSelections[approach._id].plotE2E">
+                                        E2E
+                                    </md-checkbox>
+                                    <md-checkbox ng-model="main.ca.approachSelections[approach._id].plotAlg">
+                                        Alg
+                                    </md-checkbox>
+                                </div>
+                                <md-button flex="10" class="md-raised md-accent" ng-click="main.ca.updateChart(approach)">Update Chart</md-button>
                             </div>
-                            <div flex="40">
-                                <center>{{approach.approach_name}}</center>
-                            </div>
-                            <div flex="25">
-                                <md-checkbox ng-model="main.ca.approachSelections[approach._id].plotE2E">
-                                    E2E
-                                </md-checkbox>
-                                <md-checkbox ng-model="main.ca.approachSelections[approach._id].plotAlg">
-                                    Alg
-                                </md-checkbox>
-                            </div>
-                            <md-button flex="10" class="md-raised md-accent" ng-click="main.ca.updateChart(approach)">Update Chart</md-button>
                         </div>
                     </div>
-                </div>
-                <div layout="row" layout-align="space-around center">
-                    <div flex="100">
-                        <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
+                    <div layout="row" layout-align="space-around center" ng-if="main.ca.dataSet">
+                        <div flex="100">
+                            <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
+                        </div>
                     </div>
-                </div>
-                <div layout="row" layout-align="center center">
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='efficiency'}" ng-click="main.ca.changeChartType('efficiency')">Efficiency</md-button>
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='karpFlatt'}" ng-click="main.ca.changeChartType('karpFlatt')">Karp Flatt</md-button>
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='speedup'}" ng-click="main.ca.changeChartType('speedup')">Speedup</md-button>
-                    <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='executionTime'}" ng-click="main.ca.changeChartType('executionTime')">Execution Time</md-button>
-                </div>
-                <div layout="row" layout-align="space-around center">
-                    <div flex="90">
-                        <table class="table">
-                            <h2>Selected Approaches</h2>
-                            <tr>
-                                <th>Approach name</th>
-                                <th>Description (Serial)</th>
-                                <th>Description (Parallel)</th>
-                                <th>Complexity (Serial)</th>
-                                <th>Complexity (Parallel)</th>
-                            </tr>
-                            <tr ng-repeat="approach in main.ca.selectedApproaches">
-                                <td>{{approach.approach_name}}</td>
-                                <td>{{approach.descS}}</td>
-                                <td>{{approach.descP}}</td>
-                                <td>{{approach.complexityS}}</td>
-                                <td>{{approach.complexityP}}</td>
-                            </tr>
-                        </table>
+                    <div layout="row" layout-align="center center" ng-if="main.ca.dataSet">
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='efficiency'}" ng-click="main.ca.changeChartType('efficiency')">Efficiency</md-button>
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='karpFlatt'}" ng-click="main.ca.changeChartType('karpFlatt')">Karp Flatt</md-button>
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='speedup'}" ng-click="main.ca.changeChartType('speedup')">Speedup</md-button>
+                        <md-button flex="15" class="md-raised" ng-class="{'md-primary': main.ca.activeChart=='executionTime'}" ng-click="main.ca.changeChartType('executionTime')">Execution Time</md-button>
                     </div>
-                </div>
-                <div layout="row" layout-align="space-around center">
-                    <div flex="90">
-                        <h2>Selected Machine</h2>
-                        <p><b>Model name</b>: {{main.ca.selectedMachine.model_name}}</p>
-                        <p><b>Architecture</b>: {{main.ca.selectedMachine.architecture}}</p>
-                        <p><b>Threads per core</b>: {{main.ca.selectedMachine.threads_per_core}}</p>
-                        <p><b>Socket count</b>: {{main.ca.selectedMachine.socket_count}}</p>
-                        <p><b>CPU (Mhz)</b>: {{main.ca.selectedMachine.cpu_mhz}}</p>
-                        <p><b>L1d Cache</b>: {{main.ca.selectedMachine.L1d_cache}}</p>
-                        <p><b>L1i Cache</b>: {{main.ca.selectedMachine.L1i_cache}}</p>
+                    <div layout="row" layout-align="space-around center" ng-if="main.ca.selectedApproaches.length > 0">
+                        <div flex="90">
+                            <table class="table">
+                                <h2>Selected Approaches</h2>
+                                <tr>
+                                    <th>Approach name</th>
+                                    <th>Description (Serial)</th>
+                                    <th>Description (Parallel)</th>
+                                    <th>Complexity (Serial)</th>
+                                    <th>Complexity (Parallel)</th>
+                                </tr>
+                                <tr ng-repeat="approach in main.ca.selectedApproaches">
+                                    <td>{{approach.approach_name}}</td>
+                                    <td>{{approach.descS}}</td>
+                                    <td>{{approach.descP}}</td>
+                                    <td>{{approach.complexityS}}</td>
+                                    <td>{{approach.complexityP}}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </md-tab-body>
-        </md-tab>
-        <md-tab ng-disabled="true">
-            <md-tab-label>
-                <md-tooltip>Click here to compare different programming environments</md-tooltip>
-                Compare Environments
-            </md-tab-label>
-            <md-tab-body>
-                Content 3
-            </md-tab-body>
-        </md-tab>
-    </md-tabs>
+                    <div layout="row" layout-align="space-around center" ng-if="main.ca.selectedMachine.model_name != undefined">
+                        <div flex="90">
+                            <h2>Selected Machine</h2>
+                            <p><b>Model name</b>: {{main.ca.selectedMachine.model_name}}</p>
+                            <p><b>Architecture</b>: {{main.ca.selectedMachine.architecture}}</p>
+                            <p><b>Threads per core</b>: {{main.ca.selectedMachine.threads_per_core}}</p>
+                            <p><b>Socket count</b>: {{main.ca.selectedMachine.socket_count}}</p>
+                            <p><b>CPU (Mhz)</b>: {{main.ca.selectedMachine.cpu_mhz}}</p>
+                            <p><b>L1d Cache</b>: {{main.ca.selectedMachine.L1d_cache}}</p>
+                            <p><b>L1i Cache</b>: {{main.ca.selectedMachine.L1i_cache}}</p>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+            <md-tab ng-disabled="true">
+                <md-tab-label>
+                    <md-tooltip>Click here to compare different programming environments</md-tooltip>
+                    Compare Environments
+                </md-tab-label>
+                <md-tab-body>
+                    Content 3
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </div>
 </div>
