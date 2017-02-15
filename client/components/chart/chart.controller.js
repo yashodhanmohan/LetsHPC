@@ -51,10 +51,8 @@ export default class ChartController {
             this.chart.draw(dummyData, this.options.getOptions());
         else if(this.data.getNumberOfColumns() < 2)
             this.chart.draw(dummyData, this.options.getOptions());
-        else {
+        else
             this.chart.draw(this.data, this.options.getOptions());
-            console.log(this.data.getNumberOfColumns());
-        }
     }
 
     exportChart() {

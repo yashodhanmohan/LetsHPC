@@ -9,8 +9,6 @@ import ngMaterial from 'angular-material';
 
 const ngRoute = require('angular-route');
 import bootstrap from '../assets/bootstrap/js/bootstrap.min.js';
-// import bootstrapmaterial from '../assets/bootstrap-material/js/material.min.js';
-// import bootstrapmaterialripple from '../assets/bootstrap-material/js/ripples.min.js';
 
 import {
     routeConfig
@@ -39,7 +37,6 @@ import TableService from '../services/table';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import util from '../components/util/util.module';
-import btorfs_multiselect from '../assets/angular-bootstrap-multiselect/js/angular-bootstrap-multiselect.min';
 import chart from '../components/chart/chart.component';
 
 // Other
@@ -52,7 +49,7 @@ google.load('visualization', '1', {
     packages: ['corechart']
 });
 
-angular.module('yashwantProjectApp', [
+angular.module('letshpc', [
         // Angular Core Modules
         ngCookies, ngAnimate, ngResource, ngSanitize, ngMaterial, ngRoute, _Auth,
         // Controllers
@@ -60,7 +57,7 @@ angular.module('yashwantProjectApp', [
         // Services
         CategoryService, ProblemService, MachineService, NumberService, ApproachService, CalculatorService, TableService,
         // Components/Directives
-        navbar, footer, constants, util, 'btorfs.multiselect', chart
+        navbar, footer, constants, util, chart
     ])
     .config(routeConfig)
     .run(function($rootScope, $location, Auth) {
@@ -104,7 +101,7 @@ angular.module('yashwantProjectApp', [
 
 angular.element(document)
     .ready(() => {
-        angular.bootstrap(document, ['yashwantProjectApp'], {
+        angular.bootstrap(document, ['letshpc'], {
             strictDi: false
         });
     });
