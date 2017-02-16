@@ -5,46 +5,43 @@ export default class DataEntryController {
     /*@ngInject*/
     constructor(MachineService, ProblemService, CategoryService) {
 
-        $(document).ready(() => {
-            window.document.title = 'Data Entry - LETs HPC';
-        })
-        this.machine_service = MachineService;
-        this.problem_service = ProblemService;
-        this.category_service = CategoryService;
+        this.MachineService = MachineService;
+        this.ProblemService = ProblemService;
+        this.CategoryService = CategoryService;
 
-        this.add_problem = {
+        this.addProblem = {
             selected_category: {},
             description: '',
             name: '',
             invalid: false,
             invalid_hint: 'No empty fields are allowed !'
         };
-        this.add_machine = {
+        this.addMachine = {
             invalid: false,
             output: '',
             file_text: ''
         };
-        this.add_approach = {
+        this.addApproach = {
             selected_category: {},
             selected_problem: {},
             selected_machine: {},
             file: {}
         };
 
-        this.category_service
+        this.CategoryService
             .getAllCategories()
             .then(response => {
-                this.add_problem.categories = _.cloneDeep(response);
-                this.add_approach.categories = _.cloneDeep(response);
+                this.addProblem.categories = _.cloneDeep(response);
+                this.addApproach.categories = _.cloneDeep(response);
             });
 
-        this.machine_service
+        this.MachineService
             .getAllMachines()
             .then(response => {
-                this.add_approach.machines = _.cloneDeep(response);
+                this.addApproach.machines = _.cloneDeep(response);
             });
 
-        this.student_data = [{
+        this.studentData = [{
                 "studentID": "201401403-201401421",
                 "problem": "matrix_multiplication",
                 "approach": "transpose",
@@ -277,43 +274,77 @@ export default class DataEntryController {
                 "logLink": "https://db.tt/tPSS4DhtOW"
             }
         ];
-    }
 
-    select_category(category, section) {
-        section.selected_category = category;
-        // this.category_service
-        //     .get_problems_by_category(section.selected_category._id)
-        //     .then(response => {
-        //         section.problems = response;
-        //     });
-    }
-
-    submit_problem() {
-        if (this.add_problem.name == '' || this.add_problem.description == '' || this.selected_category._id == undefined)
-            this.add_problem.invalid = true;
-        else {
-            this.add_problem.invalid = false;
-            // this.problem_service
-            //     .add_problem({
-            //         category_id: this.add_problem.selected_category._id,
-            //         name: this.add_problem.name,
-            //         desc: this.add_problem.description
-            //     });
+        this.trialTree = {
+            title: 'Institute',
+            expanded: true,
+            items: [
+                {
+                    title: 'DAIICT',
+                    expanded: false,
+                    items: [{
+                        title: 'Year',
+                        expanded: false,
+                        items: [
+                            {
+                                title: '2013',
+                                expanded: false,
+                                items: []
+                            },
+                            {
+                                title: '2014',
+                                expanded: false,
+                                items: [{
+                                    title: 'Courses',
+                                    expanded: false,
+                                    items: [
+                                        {
+                                            title: 'CS301',
+                                            expanded: false,
+                                            table: this.studentData
+                                        },
+                                        {
+                                            title: 'CS302',
+                                            expanded: false
+                                        }
+                                    ]
+                                }]
+                            }
+                        ]
+                    }]
+                },
+                {
+                    title: 'Institute 2',
+                    expanded: false,
+                }
+            ]
         }
     }
 
-    read_machine_file(files) {
+    selectCategory(category, section) {
+        section.selected_category = category;
+    }
+
+    submitProblem() {
+        if (this.addProblem.name == '' || this.addProblem.description == '' || this.selected_category._id == undefined)
+            this.addProblem.invalid = true;
+        else {
+            this.addProblem.invalid = false;
+        }
+    }
+
+    readMachineFile(files) {
         var file = files[0];
         var filereader = new FileReader();
         filereader.onload = () => {
-            this.add_machine.file_text = filereader.result;
-            this.add_machine.output = this.add_machine.file_text;
+            this.addMachine.fileText = filereader.result;
+            this.addMachine.output = this.addMachine.fileText;
         }
         filereader.readAsText(file);
     }
 
-    lscpu_file_text_to_object(file_text) {
-        var lines = _.map(_.map(_.split(file_text.trim(), '\n'), function(line) {
+    lscpuFileTextToObject(fileText) {
+        var lines = _.map(_.map(_.split(fileText.trim(), '\n'), function(line) {
             return _.split(line, ':')
         }), function(line) {
             return [line[0].trim(), line[1].trim()]
@@ -322,7 +353,7 @@ export default class DataEntryController {
         _.forEach(lines, function(line) {
             object[line[0]] = line[1];
         });
-        var response_object = {
+        var responseObject = {
             machine_file: 'xasdjhjfn',
             architecture: object['Architecture'],
             cpu_opmode: object['CPU op-mode(s)'],
@@ -348,22 +379,18 @@ export default class DataEntryController {
             L3_cache: object['L3 cache'],
             flags: object['Flags']
         };
-        return response_object;
+        return responseObject;
     }
 
-    submit_machine() {
-        if (this.add_machine.file_text != '') {
-            this.add_machine.invalid = false;
-            var file_object = this.lscpu_file_text_to_object(this.add_machine.file_text);
-            // this.machine_service
-            //     .add_machine(file_object);
-        } else if (this.add_machine.output != '') {
-            this.add_machine.invalid = false;
-            var file_object = this.lscpu_file_text_to_object(this.add_machine.output);
-            // this.machine_service
-            //     .add_machine(file_object);
+    submitMachine() {
+        if (this.addMachine.fileText != '') {
+            this.addMachine.invalid = false;
+            var fileObject = this.lscpuFileTextToObject(this.addMachine.fileText);
+        } else if (this.addMachine.output != '') {
+            this.addMachine.invalid = false;
+            var fileObject = this.lscpuFileTextToObject(this.addMachine.output);
         } else {
-            this.add_machine.invalid = true;
+            this.addMachine.invalid = true;
         }
     }
 

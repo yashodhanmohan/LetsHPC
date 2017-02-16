@@ -38,6 +38,7 @@ import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import util from '../components/util/util.module';
 import chart from '../components/chart/chart.component';
+import treeview from '../components/treeview/treeview.component';
 
 // Other
 import constants from './app.constants';
@@ -57,7 +58,7 @@ angular.module('letshpc', [
         // Services
         CategoryService, ProblemService, MachineService, NumberService, ApproachService, CalculatorService, TableService,
         // Components/Directives
-        navbar, footer, constants, util, chart
+        navbar, footer, constants, util, chart, treeview
     ])
     .config(routeConfig)
     .run(function($rootScope, $location, Auth) {
