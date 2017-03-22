@@ -233,7 +233,7 @@ module.exports = function makeWebpackConfig(options) {
          *
          * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
          */
-        new ForkCheckerPlugin(),
+        // new ForkCheckerPlugin(),
 
         // Reference: https://github.com/webpack/extract-text-webpack-plugin
         // Extract css files
