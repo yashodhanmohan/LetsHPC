@@ -47,9 +47,11 @@ export default class ChartController {
             }
         });
 
+        console.log(this.data);
+
         if(empty)
             this.chart.draw(dummyData, this.options.getOptions());
-        else if(this.data.getNumberOfColumns() < 2)
+        else if(this.data  === undefined)
             this.chart.draw(dummyData, this.options.getOptions());
         else
             this.chart.draw(this.data, this.options.getOptions());

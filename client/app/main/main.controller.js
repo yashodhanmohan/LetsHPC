@@ -35,6 +35,7 @@ export default class MainController {
         chartImage: {},
         chartOptions: Factory.create('chartOption'),
         activeChart: 'executionTime',
+        activeStatistic: 'mean',
 
         updateMachines: () => {
             var selectedApproachIDs = _.map(this.ca.selectedApproaches, '_id');
@@ -107,13 +108,14 @@ export default class MainController {
             approachSelection.lastSelectedThreads = _.cloneDeep(approachSelection.selectedThreads);
 
             // Clonedeep workaround for onChanges not being fired in chart component
-            this.ca.data = _.cloneDeep(this.ca.dataTable.get(this.ca.activeChart));
+            this.ca.data = _.cloneDeep(this.ca.dataTable.get(this.ca.activeChart, this.ca.activeStatistic));
         },
 
-        changeChartType: (chartType) => {
-            this.ca.activeChart = chartType;
-            this.ca.data = this.ca.dataTable.get(chartType);
-            this.ca.chartOptions.setOptions(chartType);
+        changeChartType: (activeChart, activeStatistic) => {
+            this.ca.activeChart = activeChart;
+            this.ca.activeStatistic = activeStatistic;
+            this.ca.data = this.ca.dataTable.get(activeChart, activeStatistic);
+            this.ca.chartOptions.setOptions(activeChart);
         }
     }
 
@@ -133,6 +135,7 @@ export default class MainController {
         chartImage: {},
         chartOptions: Factory.create('chartOption'),
         activeChart: 'executionTime',
+        activeStatistic: 'mean',
 
         updateApproaches: () => {
             var selectedMachineIDs = _.map(this.cm.selectedMachines, '_id');
@@ -204,13 +207,14 @@ export default class MainController {
 
             machineSelection.lastSelectedThreads = _.cloneDeep(machineSelection.selectedThreads);
 
-            this.cm.data = _.cloneDeep(this.cm.dataTable.get(this.cm.activeChart));
+            this.cm.data = _.cloneDeep(this.cm.dataTable.get(this.cm.activeChart, this.cm.activeStatistic));
         },
 
-        changeChartType: (chartType) => {
-            this.cm.activeChart = chartType;
-            this.cm.data = this.cm.dataTable.get(chartType);
-            this.cm.chartOptions.setOptions(chartType);
+        changeChartType: (activeChart, activeStatistic) => {
+            this.cm.activeChart = activeChart;
+            this.cm.activeStatistic = activeStatistic;
+            this.cm.data = this.cm.dataTable.get(activeChart, activeStatistic);
+            this.cm.chartOptions.setOptions(activeChart);
         }
     }
 

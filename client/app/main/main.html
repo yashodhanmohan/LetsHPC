@@ -174,18 +174,32 @@
                         </div>
                         <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1 well">
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='efficiency'}" ng-click="main.cm.changeChartType('efficiency')">Efficiency</button>
+                            <div class="col-md-3 col-md-offset-2">
+                                 <div class="input-group">
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the metric to plot">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</a></li>
+                                            <li><a href="#" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</a></li>
+                                            <li><a href="#" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</a></li>
+                                            <li><a href="#" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Metric" value="{{main.cm.activeChart}}" disabled>
                                 </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='karpFlatt'}" ng-click="main.cm.changeChartType('karpFlatt')">Karp-Flatt metric</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='speedup'}" ng-click="main.cm.changeChartType('speedup')">Speedup</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.cm.activeChart=='executionTime'}" ng-click="main.cm.changeChartType('executionTime')">Execution time</button>
+                            </div>
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="input-group">
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'mean')">Mean</a></li>
+                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'median')">Median</a></li>
+                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'range')">Range</a></li>
+                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Statistic" value="{{main.cm.activeStatistic}}" disabled>
                                 </div>
                             </div>
                         </div>
@@ -302,18 +316,32 @@
                         </div>
                         <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1 well">
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='efficiency'}" ng-click="main.ca.changeChartType('efficiency')">Efficiency</button>
+                            <div class="col-md-3 col-md-offset-2">
+                                 <div class="input-group">
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the metric to plot">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" ng-click="main.ca.changeChartType('executionTime', main.ca.activeStatistic)">Execution time</a></li>
+                                            <li><a href="#" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</a></li>
+                                            <li><a href="#" ng-click="main.ca.changeChartType('karpFlatt', main.ca.activeStatistic)">Karp Flatt</a></li>
+                                            <li><a href="#" ng-click="main.ca.changeChartType('efficiency', main.ca.activeStatistic)">Efficiency</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Metric" value="{{main.ca.activeChart}}" disabled>
                                 </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='karpFlatt'}" ng-click="main.ca.changeChartType('karpFlatt')">Karp-Flatt metric</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='speedup'}" ng-click="main.ca.changeChartType('speedup')">Speedup</button>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: main.ca.activeChart=='executionTime'}" ng-click="main.ca.changeChartType('executionTime')">Execution time</button>
+                            </div>
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="input-group">
+                                    <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'mean')">Mean</a></li>
+                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'median')">Median</a></li>
+                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'range')">Range</a></li>
+                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Statistic" value="{{main.ca.activeStatistic}}" disabled>
                                 </div>
                             </div>
                         </div>

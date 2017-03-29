@@ -6,10 +6,30 @@ export default class Table {
         this.CalculatorService = undefined;
         this.TableService = undefined;
 
-        this.executionTimeData = new google.visualization.DataTable();
-        this.speedupData = new google.visualization.DataTable();
-        this.karpFlattData = new google.visualization.DataTable();
-        this.efficiencyData = new google.visualization.DataTable();
+        this.executionTimeData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
+        this.speedupData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
+        this.karpFlattData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
+        this.efficiencyData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
     }
 
     addServices(CalculatorService, TableService) {
@@ -37,120 +57,149 @@ export default class Table {
         });
 
         // New data
-        let executionTime = this.CalculatorService.averagedExecutionTime(number);
-        let speedup = this.CalculatorService.averagedSpeedup(number, serialNumbers);
-        let karpFlatt = nthreads > 1 ? this.CalculatorService.averagedKarpFlatt(number, serialNumbers, machine) : {};
-        let efficiency = nthreads > 0 ? this.CalculatorService.averagedEfficiency(number, serialNumbers, nthreads) : {};
+        let executionTime = this.CalculatorService.executionTime(number);
+        let speedup = this.CalculatorService.speedup(number, serialNumbers);
+        let karpFlatt = nthreads > 1 ? this.CalculatorService.karpFlatt(number, serialNumbers, machine) : {};
+        let efficiency = nthreads > 0 ? this.CalculatorService.efficiency(number, serialNumbers, nthreads) : {};
 
         // Tables for new data
-        let newExecutionTimeData = this.TableService.objectToTable(executionTime[e2eOrAlg], 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
-        let newSpeedupData = this.TableService.objectToTable(speedup[e2eOrAlg], 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
-        let newKarpFlattData = nthreads > 1 ? this.TableService.objectToTable(karpFlatt[e2eOrAlg], 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) : {};
-        let newEfficiencyData = nthreads > 0 ? this.TableService.objectToTable(efficiency[e2eOrAlg], 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) : {};
-
-        let columnsFromTable = _.range(1, this.executionTimeData.getNumberOfColumns());
-        if (this.executionTimeData.getNumberOfColumns() < 2)
-            this.executionTimeData = newExecutionTimeData;
-        else
-            this.executionTimeData = google.visualization.data.join(this.executionTimeData, newExecutionTimeData, 'full', [
-                [0, 0]
-            ], columnsFromTable, [1]);
-
-        if (this.speedupData.getNumberOfColumns() < 2)
-            this.speedupData = newSpeedupData;
-        else
-            this.speedupData = google.visualization.data.join(this.speedupData, newSpeedupData, 'full', [
-                [0, 0]
-            ], columnsFromTable, [1]);
-
-        if (nthreads > 1) {
-            let columnsFromTable = _.range(1, this.karpFlattData.getNumberOfColumns());
-            if (this.karpFlattData.getNumberOfColumns() < 2)
-                this.karpFlattData = newKarpFlattData;
-            else
-                this.karpFlattData = google.visualization.data.join(this.karpFlattData, newKarpFlattData, 'full', [
-                    [0, 0]
-                ], columnsFromTable, [1]);
+        let newExecutionTimeData = _.mapValues(executionTime[e2eOrAlg], statistic => {
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+        });
+        let newSpeedupData = _.mapValues(speedup[e2eOrAlg], statistic => {
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+        });
+        let newKarpFlattData = nthreads > 1 ? _.mapValues(karpFlatt[e2eOrAlg], statistic => {
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+        }) : {};
+        let newEfficiencyData = nthreads > 0 ? _.mapValues(efficiency[e2eOrAlg], statistic => {
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+        }) : {};
+        
+        // Merge tables
+        _.forEach(this.executionTimeData, (value, key) => {
+            this.executionTimeData[key] = this._mergeTable(this.executionTimeData[key], newExecutionTimeData[key]);
+        });
+        _.forEach(this.speedupData, (value, key) => {
+            this.speedupData[key] = this._mergeTable(this.speedupData[key], newSpeedupData[key]);
+        });
+        if(nthreads > 1) {
+            _.forEach(this.karpFlattData, (value, key) => {
+                this.karpFlattData[key] = this._mergeTable(this.karpFlattData[key], newKarpFlattData[key]);
+            });
         }
-
-        if (nthreads > 0) {
-            let columnsFromTable = _.range(1, this.efficiencyData.getNumberOfColumns());
-            if (this.efficiencyData.getNumberOfColumns() < 2)
-                this.efficiencyData = newEfficiencyData;
-            else
-                this.efficiencyData = google.visualization.data.join(this.efficiencyData, newEfficiencyData, 'full', [
-                    [0, 0]
-                ], columnsFromTable, [1]);
+        if(nthreads > 0) {
+            _.forEach(this.efficiencyData, (value, key) => {
+                this.efficiencyData[key] = this._mergeTable(this.efficiencyData[key], newEfficiencyData[key]);
+            });
         }
     }
 
     removeNumber(approach, nthreads, machine, e2eOrAlg) {
 
-        let numSpeedCol = this.speedupData.getNumberOfColumns();
-        let numExecCol = this.executionTimeData.getNumberOfColumns();
-        let numKarpCol = this.karpFlattData.getNumberOfColumns();
-        let numEffiCol = this.efficiencyData.getNumberOfColumns();
+        let numSpeedCol = this.speedupData.mean.getNumberOfColumns();
+        let numExecCol = this.executionTimeData.mean.getNumberOfColumns();
+        let numKarpCol = this.karpFlattData.mean.getNumberOfColumns();
+        let numEffiCol = this.efficiencyData.mean.getNumberOfColumns();
 
-        for (let j = 1; j < numSpeedCol; j++) {
-            if (this.speedupData.getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
-                this.speedupData.removeColumn(j);
-                break;
+        _.forEach(this.speedupData, (value, key) => {
+            for (let j = 1; j < numSpeedCol; j++) {
+                if (this.speedupData[key].getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
+                    this.speedupData[key].removeColumn(j);
+                    break;
+                }
             }
-        }
-
-        for (let j = 1; j < numExecCol; j++) {
-            if (this.executionTimeData.getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
-                this.executionTimeData.removeColumn(j);
-                break;
+        })
+        
+        _.forEach(this.executionTimeData, (value, key) => {
+            for (let j = 1; j < numExecCol; j++) {
+                if (this.executionTimeData[key].getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
+                    this.executionTimeData[key].removeColumn(j);
+                    break;
+                }
             }
-        }
+        });
 
-        for (let j = 1; j < numKarpCol; j++) {
-            if (this.karpFlattData.getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
-                this.karpFlattData.removeColumn(j);
-                break;
+        _.forEach(this.karpFlattData, (value, key) => {
+            for (let j = 1; j < numKarpCol; j++) {
+                if (this.karpFlattData[key].getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
+                    this.karpFlattData[key].removeColumn(j);
+                    break;
+                }
             }
-        }
+        });
 
-        for (let j = 1; j < numEffiCol; j++) {
-            if (this.efficiencyData.getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
-                this.efficiencyData.removeColumn(j);
-                break;
+        _.forEach(this.efficiencyData, (value, key) => {
+            for (let j = 1; j < numEffiCol; j++) {
+                if (this.efficiencyData[key].getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
+                    this.efficiencyData[key].removeColumn(j);
+                    break;
+                }
             }
-        }
+        });
 
-        if(this.executionTimeData.getNumberOfColumns() < 2) {
+        if(this.executionTimeData.mean.getNumberOfColumns() < 2) {
             this.clear();
         }
     }
 
-    get(type) {
-        switch(type) {
-            case 'executionTime': return this.executionTimeData;
+    get(metricType, statisticType) {
+        switch(metricType) {
+            case 'executionTime': return this.executionTimeData[statisticType];
                 break;
-            case 'speedup': return this.speedupData;
+            case 'speedup': return this.speedupData[statisticType];
                 break;
-            case 'karpFlatt': return this.karpFlattData;
+            case 'karpFlatt': return this.karpFlattData[statisticType];
                 break;
-            case 'efficiency': return this.efficiencyData;
+            case 'efficiency': return this.efficiencyData[statisticType];
                 break;
         }
     }
 
     clear() {
-        this.executionTimeData = new google.visualization.DataTable();
-        this.speedupData = new google.visualization.DataTable();
-        this.karpFlattData = new google.visualization.DataTable();
-        this.efficiencyData = new google.visualization.DataTable();
+        this.executionTimeData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
+        this.speedupData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
+        this.karpFlattData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
+        this.efficiencyData = {
+            mean: new google.visualization.DataTable(),
+            median: new google.visualization.DataTable(),
+            range: new google.visualization.DataTable(),
+            standardDeviation: new google.visualization.DataTable(),
+        };
     }
 
     columnExists(approach, nthreads, machine, e2eOrAlg) {
-        let numExecCol = this.executionTimeData.getNumberOfColumns();
+        let numExecCol = this.executionTimeData.mean.getNumberOfColumns();
         for (let j = 1; j < numExecCol; j++) {
-            if (this.executionTimeData.getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
+            if (this.executionTimeData.mean.getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
                 return true;
             }
         }
         return false;
+    }
+
+    _mergeTable(oldTable, newTable) {
+        let columnsFromTable = _.range(1, oldTable.getNumberOfColumns());
+        if (oldTable.getNumberOfColumns() < 2)
+            return newTable;
+        else
+            return google.visualization.data.join(oldTable, newTable, 'full', [
+                [0, 0]
+            ], columnsFromTable, [1]);
     }
 }
