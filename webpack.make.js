@@ -289,7 +289,8 @@ module.exports = function makeWebpackConfig(options) {
                 },
                 compress: {
                     warnings: false
-                }
+                },
+                sourceMap: false
             }),
 
             // Reference: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
