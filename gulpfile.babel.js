@@ -52,7 +52,7 @@ const paths = {
         }
     },
     karma: 'karma.conf.js',
-    dist: '../LETsHPC'
+    dist: '../LETsHPC-build'
 };
 
 /********************
