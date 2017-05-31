@@ -90,3 +90,16 @@
     text-align-last: center;
     color: #FFFFFF;
 }
+
+.about-hover-tile {
+    min-height: 60px;
+    background-color: #1A237E;
+    color: #FFFFFF;
+    padding: 5px;
+    margin: 5px;
+}
+
+.about-hover-tile:hover {
+    background-color: #FFFFFF;
+    color: #1A237E;
+}
