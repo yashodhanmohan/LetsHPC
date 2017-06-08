@@ -10,4 +10,13 @@ var UserSchema = new mongoose.Schema({
     position: String
 });
 
+UserSchema.methods.authenticate = function(password, callback) {
+    if (this.password == password) {
+        callback(null, true);
+    }
+    else {
+        callback(true, null);
+    }
+};
+
 export default mongoose.model('User', UserSchema);

@@ -7,15 +7,20 @@
 import errors from './components/errors';
 import path from 'path';
 
+import config from './config/environment';
+
+import expressJwt from 'express-jwt';
+const authenticate = expressJwt({secret: config.secrets.session});
+
 export default function(app) {
     // Insert routes below
-    app.use('/api/user', require('./api/user'));
-    app.use('/api/approach', require('./api/approach'));
-    app.use('/api/category', require('./api/category'));
-    app.use('/api/number', require('./api/number'));
-    app.use('/api/problem', require('./api/problem'));
-    app.use('/api/machine', require('./api/machine'));
-    app.use('/api/penv', require('./api/penv'));
+    app.use('/api/user', authenticate, require('./api/user'));
+    app.use('/api/approach', authenticate, require('./api/approach'));
+    app.use('/api/category', authenticate, require('./api/category'));
+    app.use('/api/number', authenticate, require('./api/number'));
+    app.use('/api/problem', authenticate, require('./api/problem'));
+    app.use('/api/machine', authenticate, require('./api/machine'));
+    app.use('/api/penv', authenticate, require('./api/penv'));
     app.use('/auth', require('./auth').default);
 
     // All undefined asset or api routes should return a 404

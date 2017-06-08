@@ -1,0 +1,48 @@
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<navbar></navbar>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign in to LetsHPC</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row login-top-space">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" class="form-control" placeholder="Username or E-mail ID" ng-model="login.username" required>
+                        </div>
+                    </div>
+                    <div class="row login-top-space">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="password" class="form-control" placeholder="Password" ng-model="login.password" required>
+                        </div>
+                    </div>
+                    <div class="row login-top-space">
+                        <div class="col-md-12">
+                            <center>
+                                <div class="btn btn-default btn-primary" ng-click="login.signin()">Sign In</div>
+                            </center>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row login-top-space">
+                        <div class="col-md-12">
+                            <center>Or sign in with:</center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <center>
+                                <div class="btn btn-default" id="google-button">Google</div>
+                                <div class="btn btn-default" id="facebook-button">Facebook</div>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
