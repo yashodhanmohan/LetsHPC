@@ -14,13 +14,14 @@ const authenticate = expressJwt({secret: config.secrets.session});
 
 export default function(app) {
     // Insert routes below
-    app.use('/api/user', authenticate, require('./api/user'));
     app.use('/api/approach', authenticate, require('./api/approach'));
     app.use('/api/category', authenticate, require('./api/category'));
-    app.use('/api/number', authenticate, require('./api/number'));
-    app.use('/api/problem', authenticate, require('./api/problem'));
     app.use('/api/machine', authenticate, require('./api/machine'));
+    app.use('/api/number', authenticate, require('./api/number'));
     app.use('/api/penv', authenticate, require('./api/penv'));
+    app.use('/api/perf', authenticate, require('./api/perf'));
+    app.use('/api/problem', authenticate, require('./api/problem'));
+    app.use('/api/user', authenticate, require('./api/user'));
     app.use('/auth', require('./auth').default);
 
     // All undefined asset or api routes should return a 404

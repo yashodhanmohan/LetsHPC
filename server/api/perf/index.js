@@ -1,10 +1,12 @@
 'use strict';
 
-var express = require('express');
-var controller = require('./thing.controller');
+let express = require('express');
+let controller = require('./perf.controller');
 
-var router = express.Router();
+let router = express.Router();
 
+router.get('/:id/problem', controller.problemByPerf);
+router.get('/:id/approach', controller.approachByPerf);
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);

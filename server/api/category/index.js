@@ -1,9 +1,9 @@
 'use strict';
 
-var express = require('express');
-var controller = require('./category.controller');
+let express = require('express');
+let controller = require('./category.controller');
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/', controller.index);
 router.get('/:id/problems', controller.problemsByCategory);

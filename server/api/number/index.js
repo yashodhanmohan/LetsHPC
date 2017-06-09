@@ -1,9 +1,9 @@
 'use strict';
 
-var express = require('express');
-var controller = require('./number.controller');
+let express = require('express');
+let controller = require('./number.controller');
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/:id/problem', controller.problemByNumber);
 router.get('/:id/approach', controller.approachByNumber);

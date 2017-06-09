@@ -1,9 +1,9 @@
 'use strict';
 
-var express = require('express');
-var controller = require('./penv.controller');
+let express = require('express');
+let controller = require('./penv.controller');
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);
