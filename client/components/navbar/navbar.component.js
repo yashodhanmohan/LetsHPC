@@ -11,10 +11,11 @@ export class NavbarComponent {
     constructor($location, AuthService, UserService) {
         'ngInject';
 
+        this.AuthService = AuthService;
+        this.$location = $location;
 
         this.$location = $location;
-        this.isLoggedIn = AuthService.isLoggedInSync;
-        this.isAdmin = AuthService.isAdminSync;
+        this.isLoggedIn = AuthService.isLoggedIn(is => is);
         this.currentUser = UserService.getUser();
 
         this.menu = [{
@@ -32,14 +33,16 @@ export class NavbarComponent {
         }, {
             title: 'Data Entry',
             link: '/dataentry'
-        }, {
-            title: this.currentUser.name,
-            link: '#'
         }];
     }
 
     isActive(route) {
         return route === this.$location.path();
+    }
+
+    logout() {
+        this.AuthService.logout();
+        this.$location.url("/login");
     }
 }
 

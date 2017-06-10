@@ -31,7 +31,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, UtilServi
         },
 
         isLoggedIn(callback) {
-            callback(!!$cookies.get('token'))
+            return callback(!!$cookies.get('token'))
         },
 
         /**

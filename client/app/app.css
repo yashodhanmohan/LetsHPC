@@ -34,17 +34,14 @@ body {
     padding: 0.2em 0;
 }
 
-.indigo {
-    background-color: #1A237E;
-}
-
-.white {
-    background-color: #FFFFFF;
-}
-
-.text-white {
-    color: #FFFFFF;
-}
+.dark-primary-color    { background: #512DA8; }
+.default-primary-color { background: #673AB7; }
+.light-primary-color   { background: #D1C4E9; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FF9800; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
 
 .pad-up {
     padding-top: 20px
