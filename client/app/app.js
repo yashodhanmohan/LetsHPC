@@ -2,7 +2,7 @@
 
 const ngRoute = require('angular-route');
 import angular from 'angular';
-import bootstrap from '../assets/bootstrap/js/bootstrap.min.js';
+import bootstrap from 'bootstrap';
 import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
@@ -36,7 +36,6 @@ import btorfs_multiselect from '../assets/angular-bootstrap-multiselect/js/angul
 import chart from '../components/chart/chart.component';
 import footer from '../components/footer/footer.component';
 import navbar from '../components/navbar/navbar.component';
-// import util from '../components/util/util.module';
 
 // Other
 import constants from './app.constants';
@@ -55,7 +54,7 @@ angular.module('yashwantProjectApp', [
         // Services
         CategoryService, ProblemService, MachineService, NumberService, ApproachService, UserService, CalculatorService, TableService, UtilService, AuthService,
         // Components/Directives
-        navbar, footer, constants, /*util,*/ 'btorfs.multiselect', chart
+        navbar, footer, constants, 'btorfs.multiselect', chart
     ])
     .config(routeConfig)
     .run(function($rootScope, $location, AuthService) {
