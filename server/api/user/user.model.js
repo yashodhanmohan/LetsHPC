@@ -2,16 +2,61 @@
 
 import mongoose from 'mongoose';
 
+let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let nameRegex = /^[a-z ,.'-]+$/i;
+let usernameRegex = /^[A-Za-z]+(?:[_][A-Za-z0-9]+)*$/
+
 var UserSchema = new mongoose.Schema({
-    name: String,                   // User's name
-    username: String,               // Unique username
-    password: String,               // Secret password
-    affiliationNumber: String,      // If belonging to institute, unique code/number provided by the institute
-    instituteId: String,            // Institute ID stored in the institute schema
-    primaryEmailId: String,         // Primary email ID to be selected from institute email id or personal email id
-    instituteEmailId: String,       // Email ID provided by the institute
-    personalEmailId: String,        // Email ID used by the user personally
-    role: String                    // "INS","STU","IND" - Role of the user
+    name: {
+        type: String,
+        required: true,
+        validate: nameRegex
+    },
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        validate: usernameRegex
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    affiliationNumber: {
+        type: String,
+        required: function() {
+            return this.role!="IND";
+        }
+    },
+    instituteId: {
+        type: String
+    },
+    primaryEmailId: {
+        type: String,
+        required: true,
+        unique: true,
+        validate: function() {
+            return this.primaryEmailId==this.instituteEmailId || this.primaryEmailId==this.personalEmailId;
+        }
+    },
+    instituteEmailId: {
+        type: String,
+        required: function() {
+            return this.role=="STU" || this.role=="INS";
+        },
+        validate: emailRegex
+    },
+    personalEmailId: {
+        type: String,
+        required: function() {
+            return this.role=="IND"
+        },
+        validate: emailRegex
+    },
+    role: {
+        type: String,
+        enum: ["INS", "STU", "IND"]
+    }
 });
 
 UserSchema.methods.authenticate = function(password, callback) {
