@@ -8,20 +8,20 @@ export default class UserService {
     }
 
     cacheUser(user) {
-        this.$window.sessionStorage.user = JSON.stringify(user);
+        this.$window.localStorage.user = JSON.stringify(user);
     }
 
     getUser() {
-        if(this.$window.sessionStorage.user) {
-            return JSON.parse(this.$window.sessionStorage.user);
+        if(this.$window.localStorage.user) {
+            return JSON.parse(this.$window.localStorage.user);
         } else {
             return {};
         }
     }
 
     removeUser() {
-        if(this.$window.sessionStorage.user) {
-            delete this.$window.sessionStorage.user;
+        if(this.$window.localStorage.user) {
+            delete this.$window.localStorage.user;
         }
     }
 
