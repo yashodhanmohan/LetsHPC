@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 let nameRegex = /^[a-z ,.'-]+$/i;
-let usernameRegex = /^[A-Za-z]+(?:[_][A-Za-z0-9]+)*$/
+let usernameRegex = /^[A-Za-z0-9]+(?:[_][A-Za-z0-9]+)*$/
 
 var UserSchema = new mongoose.Schema({
     name: {

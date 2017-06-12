@@ -31,9 +31,12 @@ User.find({})
                 _id: user1,
                 name: 'Yashwant Keswani',
                 username: 'yash1',
-                affiliation: 3,
                 password: 'pabloescobar',
-                position: 'Student'
+                affiliationNumber: "201301047",
+                primaryEmailId: "201301047@daiict.ac.in",
+                instituteEmailId: "201301047@daiict.ac.in",
+                personalEmailId: "yashwant.keswani@gmail.com",
+                role: "STU"
             });
     });
 
