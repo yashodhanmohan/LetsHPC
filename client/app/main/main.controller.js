@@ -118,9 +118,7 @@ export default class MainController {
             this.ca.activeStatistic = activeStatistic;
             this.ca.data = this.ca.dataTable.get(activeChart, activeStatistic);
             this.ca.chartOptions.setOptions(activeChart);
-            if(_.indexOf(this.perfFields, activeChart)) {
-                this.ca.chartOptions.setOption('vAxis.title', activeChart);
-            }
+            this.ca.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart));
         }
     }
 
@@ -220,9 +218,7 @@ export default class MainController {
             this.cm.activeStatistic = activeStatistic;
             this.cm.data = this.cm.dataTable.get(activeChart, activeStatistic);
             this.cm.chartOptions.setOptions(activeChart);
-            if(_.indexOf(this.perfFields, activeChart)) {
-                this.cm.chartOptions.setOption('vAxis.title', activeChart);
-            }
+            this.cm.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart));
         }
     }
 
@@ -342,5 +338,11 @@ export default class MainController {
 
     reload(forceGet) {
         location.reload(forceGet);
+    }
+
+    camelCaseToTitle(str) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, function(str){ return str.toUpperCase(); });
     }
 }

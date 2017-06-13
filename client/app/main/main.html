@@ -202,7 +202,7 @@
                                                         <h3>Advanced Metrics</h3>
                                                         <div class="row pad-up">
                                                             <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.cm.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.cm.changeChartType(field, main.cm.activeStatistic)">
-                                                                {{field}}
+                                                                {{main.camelCaseToTitle(field)}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -227,7 +227,7 @@
                                             <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'standardDeviation')">Standard Deviation</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Statistic" value="{{main.cm.activeStatistic}}" disabled>
+                                    <input type="text" class="form-control" placeholder="Statistic" value="{{main.camelCaseToTitle(main.cm.activeStatistic)}}" disabled>
                                 </div>
                             </div>
                             <div class="col-md-3"></div>
@@ -373,7 +373,7 @@
                                                         <h3>Advanced Metrics</h3>
                                                         <div class="row pad-up">
                                                             <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.ca.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.ca.changeChartType(field, main.ca.activeStatistic)">
-                                                                {{field}}
+                                                                {{main.camelCaseToTitle(field)}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -398,7 +398,7 @@
                                             <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'standardDeviation')">Standard Deviation</a></li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Statistic" value="{{main.ca.activeStatistic}}" disabled>
+                                    <input type="text" class="form-control" placeholder="Statistic" value="{{main.camelCaseToTitle(main.ca.activeStatistic)}}" disabled>
                                 </div>
                             </div>
                             <div class="col-md-3"></div>

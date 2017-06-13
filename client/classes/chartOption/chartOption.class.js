@@ -57,7 +57,6 @@ export default class ChartOption {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Execution time (s)'
             }
         },
         speedup: {
@@ -65,7 +64,6 @@ export default class ChartOption {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Speedup'
             }
         },
         karpFlatt: {
@@ -73,7 +71,6 @@ export default class ChartOption {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Karp flatt coefficient',
                 viewWindowMode: 'explicit',
                 viewWindow: {
                     min: 0,
@@ -87,7 +84,6 @@ export default class ChartOption {
                 title: 'Problem size'
             },
             vAxis: {
-                title: 'Efficiency',
                 viewWindowMode: 'explicit',
                 viewWindow: {
                     min: 0,
