@@ -173,8 +173,9 @@
                             </div>
                         </div>
                         <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
-                        <div class="row">
-                            <div class="col-md-3 col-md-offset-2">
+                        <div class="row pad-up">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
                                  <div class="input-group">
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the metric to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
@@ -189,7 +190,7 @@
                                     <input type="text" class="form-control" placeholder="Metric" value="{{main.cm.activeChart}}" disabled>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-md-offset-2">
+                            <div class="col-md-3">
                                 <div class="input-group">
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
@@ -203,6 +204,7 @@
                                     <input type="text" class="form-control" placeholder="Statistic" value="{{main.cm.activeStatistic}}" disabled>
                                 </div>
                             </div>
+                            <div class="col-md-3"></div>
                         </div>
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
@@ -316,11 +318,12 @@
                             </div>
                         </div>
                         <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
-                        <div class="row">
-                            <div class="col-md-3 col-md-offset-2">
+                        <div class="row pad-up">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
                                  <div class="input-group">
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the metric to plot">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
+                                        <button type="button" class="btn btn-default btn-primary dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <li><a href="#" ng-click="main.ca.changeChartType('executionTime', main.ca.activeStatistic)">Execution time</a></li>
                                             <li><a href="#" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</a></li>
@@ -332,7 +335,7 @@
                                     <input type="text" class="form-control" placeholder="Metric" value="{{main.ca.activeChart}}" disabled>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-md-offset-2">
+                            <div class="col-md-3">
                                 <div class="input-group">
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
@@ -346,6 +349,7 @@
                                     <input type="text" class="form-control" placeholder="Statistic" value="{{main.ca.activeStatistic}}" disabled>
                                 </div>
                             </div>
+                            <div class="col-md-3"></div>
                         </div>
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
