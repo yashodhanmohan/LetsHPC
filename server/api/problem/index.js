@@ -8,6 +8,7 @@ let router = express.Router();
 router.get('/', controller.index);
 router.get('/:id/approaches', controller.approachesByProblem);
 router.get('/:id/numbers', controller.numbersByProblem);
+router.get('/:id/perfs', controller.perfsByProblem);
 router.get('/:id/categories', controller.categoriesByProblem);
 router.get('/:id/machines', controller.machinesByProblem);
 router.get('/:id', controller.show);

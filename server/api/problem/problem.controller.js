@@ -14,6 +14,7 @@ import jsonpatch from 'fast-json-patch';
 import Problem from './problem.model';
 import Approach from '../approach/approach.model';
 import Number from '../number/number.model';
+import Perf from '../perf/perf.model';
 import Machine from '../machine/machine.model';
 import Category from '../category/category.model';
 import _ from 'lodash';
@@ -133,6 +134,18 @@ export function numbersByProblem(req, res) {
                    .distinct('_id')
         .then(handleEntityNotFound(res))
         .then(response => Number.find()
+                                .where('approach_id')
+                                .in(response))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function perfsByProblem(req, res) {
+    return Approach.find({problem_id: req.params.id})
+                   .distinct('_id')
+        .then(handleEntityNotFound(res))
+        .then(response => Perf.find()
                                 .where('approach_id')
                                 .in(response))
         .then(handleEntityNotFound(res))

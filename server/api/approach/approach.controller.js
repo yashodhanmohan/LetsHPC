@@ -13,6 +13,7 @@
 import jsonpatch from 'fast-json-patch';
 import Approach from './approach.model';
 import Numbers from '../number/number.model';
+import Perfs from '../perf/perf.model';
 import Problem from '../problem/problem.model';
 import Category from '../category/category.model';
 
@@ -121,6 +122,13 @@ export function destroy(req, res) {
 
 export function numbersByApproach(req, res) {
     return Numbers.find({approach_id: req.params.id})
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function perfsByApproach(req, res) {
+    return Perfs.find({approach_id: req.params.id})
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

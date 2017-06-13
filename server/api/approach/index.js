@@ -7,6 +7,7 @@ let router = express.Router();
 
 router.get('/', controller.index);
 router.get('/:id/numbers', controller.numbersByApproach);
+router.get('/:id/perfs', controller.perfsByApproach);
 router.get('/:id/problem', controller.problemByApproach);
 router.get('/:id/categories', controller.categoriesByApproach);
 router.get('/:id', controller.show);
