@@ -7,4 +7,4 @@ var CategorySchema = new mongoose.Schema({
     desc: String
 });
 
-export default mongoose.model('Category', CategorySchema);
+export default mongoose.model('Category', CategorySchema, 'categories');

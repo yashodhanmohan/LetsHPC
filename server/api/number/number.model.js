@@ -14,4 +14,4 @@ var NumberSchema = new mongoose.Schema({
     algNS: Number
 });
 
-export default mongoose.model('Number', NumberSchema);
+export default mongoose.model('Number', NumberSchema, 'numbers');

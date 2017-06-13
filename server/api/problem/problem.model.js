@@ -8,4 +8,4 @@ var ProblemSchema = new mongoose.Schema({
     category_id: [String]
 });
 
-export default mongoose.model('Problem', ProblemSchema);
+export default mongoose.model('Problem', ProblemSchema, 'problems');

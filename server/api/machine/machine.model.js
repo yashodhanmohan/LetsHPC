@@ -30,4 +30,4 @@ var MachineSchema = new mongoose.Schema({
     spec_file_link: String
 });
 
-export default mongoose.model('Machine', MachineSchema);
+export default mongoose.model('Machine', MachineSchema, 'machines');

@@ -32,4 +32,4 @@ var PerfSchema = new mongoose.Schema({
 
 });
 
-export default mongoose.model('Perf', PerfSchema);
+export default mongoose.model('Perf', PerfSchema, 'perfs');

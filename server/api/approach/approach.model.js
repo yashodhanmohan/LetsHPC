@@ -43,4 +43,4 @@ var Approach = new mongoose.Schema({
     parallel_code: String
 });
 
-export default mongoose.model('Approach', Approach);
+export default mongoose.model('Approach', Approach, 'approaches');

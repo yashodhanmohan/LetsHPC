@@ -7,4 +7,4 @@ var PenvSchema = new mongoose.Schema({
     desc: String
 });
 
-export default mongoose.model('Penv', PenvSchema);
+export default mongoose.model('Penv', PenvSchema, 'penvs');

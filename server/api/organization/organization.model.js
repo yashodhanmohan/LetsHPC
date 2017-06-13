@@ -7,4 +7,4 @@ var OrganizationSchema = new mongoose.Schema({
     country: String
 });
 
-export default mongoose.model('Category', CategorySchema);
+export default mongoose.model('Organization', OrganizationSchema, 'organizations');

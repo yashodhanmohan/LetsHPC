@@ -68,4 +68,4 @@ UserSchema.methods.authenticate = function(password, callback) {
     }
 };
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema, 'users');
