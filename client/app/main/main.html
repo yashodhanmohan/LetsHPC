@@ -183,6 +183,7 @@
                                             <li><a href="#" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</a></li>
                                             <li><a href="#" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</a></li>
                                             <li><a href="#" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</a></li>
+                                            <li ng-repeat="field in main.perfFields"><a href="#" ng-click="main.cm.changeChartType(field, main.cm.activeStatistic)">{{field}}</a></li>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Metric" value="{{main.cm.activeChart}}" disabled>
@@ -325,6 +326,7 @@
                                             <li><a href="#" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</a></li>
                                             <li><a href="#" ng-click="main.ca.changeChartType('karpFlatt', main.ca.activeStatistic)">Karp Flatt</a></li>
                                             <li><a href="#" ng-click="main.ca.changeChartType('efficiency', main.ca.activeStatistic)">Efficiency</a></li>
+                                            <li ng-repeat="field in main.perfFields"><a href="#" ng-click="main.ca.changeChartType(field, main.ca.activeStatistic)">{{field}}</a></li>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Metric" value="{{main.ca.activeChart}}" disabled>

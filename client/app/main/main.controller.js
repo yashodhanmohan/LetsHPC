@@ -19,6 +19,8 @@ export default class MainController {
     categoriesReady = false;
     peamDataReady = true;
 
+    perfFields = ["cycles","instructions","cacheReferences","cacheMisses","busCycles","L1DcacheLoads","L1DcacheLoadMisses","L1DcacheStores","dTLBLoads","dTLBLoadMisses","LLCLoads","LLCLoadMisses","LLCStores","branches","branchMisses","contextSwitches","cpuMigrations","pageFaults"]
+
     ca = {
         selectedApproaches: [],
         selectedMachine: {},
@@ -116,6 +118,9 @@ export default class MainController {
             this.ca.activeStatistic = activeStatistic;
             this.ca.data = this.ca.dataTable.get(activeChart, activeStatistic);
             this.ca.chartOptions.setOptions(activeChart);
+            if(_.indexOf(this.perfFields, activeChart)) {
+                this.ca.chartOptions.setOption('vAxis.title', activeChart);
+            }
         }
     }
 
@@ -215,11 +220,14 @@ export default class MainController {
             this.cm.activeStatistic = activeStatistic;
             this.cm.data = this.cm.dataTable.get(activeChart, activeStatistic);
             this.cm.chartOptions.setOptions(activeChart);
+            if(_.indexOf(this.perfFields, activeChart)) {
+                this.cm.chartOptions.setOption('vAxis.title', activeChart);
+            }
         }
     }
 
     /*@ngInject*/
-    constructor($scope, $q, CategoryService, ProblemService, NumberService, ApproachService, MachineService, CalculatorService, TableService) {
+    constructor($scope, $q, CategoryService, ProblemService, NumberService, PerfService, ApproachService, MachineService, CalculatorService, TableService) {
 
         $(document).ready(() => {
             window.document.title = 'Comparison Tool - LETs HPC';
@@ -231,6 +239,7 @@ export default class MainController {
         this.ApproachService = ApproachService;
         this.MachineService = MachineService;
         this.NumberService = NumberService;
+        this.PerfService = PerfService;
         this.CalculatorService = CalculatorService;
         this.TableService = TableService;
 
@@ -296,7 +305,12 @@ export default class MainController {
             .getNumbersByProblem(this.selectedProblem._id)
             .then(response => {
                 this.numbers = response;
-            })
+            });
+        var perfFetch = this.PerfService
+            .getPerfsByProblem(this.selectedProblem._id)
+            .then(response => {
+                this.perfs = response;
+            });
         var approachFetch = this.ApproachService
             .getApproachesByProblem(this.selectedProblem._id)
             .then(response => {
@@ -307,8 +321,9 @@ export default class MainController {
             .then(response => {
                 this.machines = response;
             });
-        this.$q.all([numberFetch, approachFetch, machineFetch])
+        this.$q.all([numberFetch, perfFetch, approachFetch, machineFetch])
             .then(() => {
+                this.numbers = _.concat(this.numbers, this.perfs);
                 this.peamDataReady = true;
                 google.visualization.events.addListener(this.ca.chart, 'ready', () => {
                     this.ca.chartImage = chart.getImageURI();

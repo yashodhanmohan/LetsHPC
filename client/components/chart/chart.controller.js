@@ -47,8 +47,6 @@ export default class ChartController {
             }
         });
 
-        console.log(this.data);
-
         if(empty)
             this.chart.draw(dummyData, this.options.getOptions());
         else if(this.data  === undefined)

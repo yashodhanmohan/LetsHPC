@@ -90,9 +90,39 @@ export default class CalculatorService {
         };
     }
 
+    entity(numbers, property) {
+
+        let numbersGroupedByProblemSize = _.groupBy(_.filter(numbers, number => number.hasOwnProperty(property)), 'n');
+
+        let result =  {
+            mean: _.mapValues(_.mapValues(
+                numbersGroupedByProblemSize, 
+                arr => _.map(arr, 
+                obj => obj[property])), 
+                arr => this._mean(arr)),
+            median: _.mapValues(_.mapValues(
+                numbersGroupedByProblemSize, 
+                arr => _.map(arr, 
+                obj => obj[property])), 
+                arr => this._median(arr)),
+            range: _.mapValues(_.mapValues(
+                numbersGroupedByProblemSize, 
+                arr => _.map(arr, 
+                obj => obj[property])), 
+                arr => this._range(arr)),
+            standardDeviation: _.mapValues(_.mapValues(
+                numbersGroupedByProblemSize, 
+                arr => _.map(arr, 
+                obj => obj[property])), 
+                arr => this._standardDeviation(arr))
+        };
+
+        return result;
+    }
+
     executionTime(numbers) {
 
-        let numbersGroupedByProblemSize = _.mapValues(_.groupBy(numbers, 'n'), nums => this._combinedNumbers(nums));
+        let numbersGroupedByProblemSize = _.mapValues(_.groupBy(_.filter(numbers, number => number.hasOwnProperty("e2eS")), 'n'), nums => this._combinedNumbers(nums));
 
         return {
             e2e: {
@@ -138,10 +168,10 @@ export default class CalculatorService {
         
         // Assuming numbers of one thread count and 0 thread count are given as arguments
 
-        let serialNumbersGroupedBySize = _.groupBy(serialNumbers, 'n');
+        let serialNumbersGroupedBySize = _.groupBy(_.filter(serialNumbers, number => number.hasOwnProperty("e2eS")), 'n');
         let serialNumbersGroupedBySizeRunID = _.mapValues(serialNumbersGroupedBySize, arr => _.groupBy(arr, 'run_id'));
 
-        let numbersGroupedBySize = _.groupBy(numbers, 'n');
+        let numbersGroupedBySize = _.groupBy(_.filter(numbers, number => number.hasOwnProperty("e2eS")), 'n');
         let numbersGroupedBySizeRunID = _.mapValues(numbersGroupedBySize, arr => _.groupBy(arr, 'run_id'));
 
         let speedupsGroupedBySize = {};
@@ -206,10 +236,10 @@ export default class CalculatorService {
 
         let p = machine.cpu_count;
 
-        let serialNumbersGroupedBySize = _.groupBy(serialNumbers, 'n');
+        let serialNumbersGroupedBySize = _.groupBy(_.filter(serialNumbers, number => number.hasOwnProperty("e2eS")), 'n');
         let serialNumbersGroupedBySizeRunID = _.mapValues(serialNumbersGroupedBySize, arr => _.groupBy(arr, 'run_id'));
 
-        let numbersGroupedBySize = _.groupBy(numbers, 'n');
+        let numbersGroupedBySize = _.groupBy(_.filter(numbers, number => number.hasOwnProperty("e2eS")), 'n');
         let numbersGroupedBySizeRunID = _.mapValues(numbersGroupedBySize, arr => _.groupBy(arr, 'run_id'));
 
         let karpFlattsGroupedBySize = {};
@@ -274,10 +304,10 @@ export default class CalculatorService {
 
         nthreads = parseInt(nthreads);
 
-        let serialNumbersGroupedBySize = _.groupBy(serialNumbers, 'n');
+        let serialNumbersGroupedBySize = _.groupBy(_.filter(serialNumbers, number => number.hasOwnProperty("e2eS")), 'n');
         let serialNumbersGroupedBySizeRunID = _.mapValues(serialNumbersGroupedBySize, arr => _.groupBy(arr, 'run_id'));
 
-        let numbersGroupedBySize = _.groupBy(numbers, 'n');
+        let numbersGroupedBySize = _.groupBy(_.filter(numbers, number => number.hasOwnProperty("e2eS")), 'n');
         let numbersGroupedBySizeRunID = _.mapValues(numbersGroupedBySize, arr => _.groupBy(arr, 'run_id'));
 
         let efficienciesGroupedBySize = {};

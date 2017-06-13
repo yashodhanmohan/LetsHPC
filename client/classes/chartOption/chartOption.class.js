@@ -15,6 +15,7 @@ export default class ChartOption {
         hAxis: {
             logScale: true,
             format: 'scientific',
+            title: 'Size',
             titleTextStyle: {
                 fontSize: 20
             },

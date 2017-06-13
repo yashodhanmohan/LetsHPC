@@ -6,6 +6,17 @@ export default class Table {
         this.CalculatorService = undefined;
         this.TableService = undefined;
 
+        this.perfFields = ["cycles","instructions","cacheReferences","cacheMisses","busCycles","L1DcacheLoads","L1DcacheLoadMisses","L1DcacheStores","dTLBLoads","dTLBLoadMisses","LLCLoads","LLCLoadMisses","LLCStores","branches","branchMisses","contextSwitches","cpuMigrations","pageFaults"]
+
+        for(let field in this.perfFields) {
+            this[this.perfFields[field]] = {
+                mean: new google.visualization.DataTable(),
+                median: new google.visualization.DataTable(),
+                range: new google.visualization.DataTable(),
+                standardDeviation: new google.visualization.DataTable()
+            }
+        }
+
         this.executionTimeData = {
             mean: new google.visualization.DataTable(),
             median: new google.visualization.DataTable(),
@@ -30,6 +41,8 @@ export default class Table {
             range: new google.visualization.DataTable(),
             standardDeviation: new google.visualization.DataTable(),
         };
+
+        console.log(this);
     }
 
     addServices(CalculatorService, TableService) {
@@ -62,6 +75,20 @@ export default class Table {
         let karpFlatt = nthreads > 1 ? this.CalculatorService.karpFlatt(number, serialNumbers, machine) : {};
         let efficiency = nthreads > 0 ? this.CalculatorService.efficiency(number, serialNumbers, nthreads) : {};
 
+        // New perf data
+        let perf = {};
+        for(let field in this.perfFields) {
+            perf[this.perfFields[field]] = this.CalculatorService.entity(number, this.perfFields[field]);
+        }
+
+        // Tables for perf data
+        let newPerfData = {};
+        for(let field in this.perfFields) {
+            newPerfData[this.perfFields[field]] = _.mapValues(perf[this.perfFields[field]], statistic => {
+                return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, this.perfFields[field]), this.TableService.getID(approach._id, nthreads, machine._id, this.perfFields[field]));
+            });
+        }
+
         // Tables for new data
         let newExecutionTimeData = _.mapValues(executionTime[e2eOrAlg], statistic => {
             return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
@@ -75,7 +102,14 @@ export default class Table {
         let newEfficiencyData = nthreads > 0 ? _.mapValues(efficiency[e2eOrAlg], statistic => {
             return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
         }) : {};
-        
+
+        // Merge Perf data tables
+        for(let field in this.perfFields) {
+            _.forEach(this[this.perfFields[field]], (value, key) => {
+                this[this.perfFields[field]][key] = this._mergeTable(this[this.perfFields[field]][key], newPerfData[this.perfFields[field]][key]);
+            });
+        }
+
         // Merge tables
         _.forEach(this.executionTimeData, (value, key) => {
             this.executionTimeData[key] = this._mergeTable(this.executionTimeData[key], newExecutionTimeData[key]);
@@ -101,6 +135,11 @@ export default class Table {
         let numExecCol = this.executionTimeData.mean.getNumberOfColumns();
         let numKarpCol = this.karpFlattData.mean.getNumberOfColumns();
         let numEffiCol = this.efficiencyData.mean.getNumberOfColumns();
+
+        let perfCols = {};
+        for(let field in this.perfFields) {
+            perfCols[this.perfFields[field]] = this[this.perfFields[field]].mean.getNumberOfColumns();
+        }
 
         _.forEach(this.speedupData, (value, key) => {
             for (let j = 1; j < numSpeedCol; j++) {
@@ -138,6 +177,17 @@ export default class Table {
             }
         });
 
+        for(let field in this.perfFields) {
+            _.forEach(this[this.perfFields[field]], (value, key) => {
+                for(let j = 1; j < perfCols[field]; j++) {
+                    if(this[this.perfFields[field]][key].getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, this.perfFields[field])) {
+                        this[this.perfFields[field]][key].removeColumn(j);
+                        break;
+                    }
+                }
+            })
+        }
+
         if(this.executionTimeData.mean.getNumberOfColumns() < 2) {
             this.clear();
         }
@@ -153,10 +203,22 @@ export default class Table {
                 break;
             case 'efficiency': return this.efficiencyData[statisticType];
                 break;
+            default: return this[metricType][statisticType];
+                break;
         }
     }
 
     clear() {
+
+        for(let field in this.perfFields) {
+            this[this.perfFields[field]] = {
+                mean: new google.visualization.DataTable(),
+                median: new google.visualization.DataTable(),
+                range: new google.visualization.DataTable(),
+                standardDeviation: new google.visualization.DataTable()
+            }
+        }
+        
         this.executionTimeData = {
             mean: new google.visualization.DataTable(),
             median: new google.visualization.DataTable(),
