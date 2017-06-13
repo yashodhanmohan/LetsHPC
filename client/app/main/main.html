@@ -69,7 +69,7 @@
                                 <input type="radio" ng-model="main.selectedMemory" value="distributed" disabled> Distributed Memory
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" ng-model="main.selectedMemory" value="distributed" disabled> Heterogeneous Architecture
+                                <input type="radio" ng-model="main.selectedMemory" value="heterogeneous" disabled> Heterogeneous Architecture
                             </label>
                         </center>
                     </div>
@@ -130,12 +130,44 @@
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
+                          <!--           <div ng-switch on "main.selectedMemory"> -->
+                                            
+                                        <ul class="dropdown-menu" >
                                             <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
                                             <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
-                                            <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
-                                            <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Java Threads'">Java Threads</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Pthreads'">Pthreads</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
                                         </ul>
+                                           
+                                    
+                            <!--            <ul class="dropdown-menu" ng-switch-when="distributed">
+                                          <!-       <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> ->
+                                            
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Mapreduce/Hadoop'">Mapreduce/Hadoop</a></li>
+                                        </ul>
+                                    
+                                      
+                                        <ul class="dropdown-menu" ng-switch-when="heterogeneous">
+                                             <!-    <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> ->
+                                             
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openMP'">MPI+openMP</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+CUDA'">MPI+CUDA</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openCL'">MPI+openCL</a></li>
+                                        </ul>
+                                    
+                                        
+                                    <ul class="dropdown-menu" ng-switch-default>
+                                    <!-   <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> ->
+                                        <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                        <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Java Threads'">Java Threads</a></li>
+                                        <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Pthreads'">Pthreads</a></li>
+                                        <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
+                                    </ul>
+                                        
+                                     </div> -->
+                               
                                     </div>
                                     <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.cm.selectedPenv.name}}" disabled />
                                 </div>
@@ -179,7 +211,7 @@
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the metric to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</a></li>
+                                            <li><a href="new" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</a></li>
                                             <li><a href="#" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</a></li>
                                             <li><a href="#" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</a></li>
                                             <li><a href="#" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</a></li>
@@ -188,6 +220,7 @@
                                     <input type="text" class="form-control" placeholder="Metric" value="{{main.cm.activeChart}}" disabled>
                                 </div>
                             </div>
+                            
                             <div class="col-md-3 col-md-offset-2">
                                 <div class="input-group">
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
@@ -274,9 +307,37 @@
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updatePenvs()">Environment<span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <!-- <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selectedPenv = penv;">{{penv.name}}</a></li> -->
-                                            <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                         <!--   <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
                                             <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
-                                            <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
+                                            <li class="disabled"><a href="#" ng-click="">Pthreads</a></li> -->
+                                            <div ng-switch="main.selectedMemory">
+                                            <div ng-switch-when="Shared Memory">
+                                        <ul class="dropdown-menu">
+                                            <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Java Threads'">Java Threads</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Pthreads'">Pthreads</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
+                                        </ul>
+                                   
+                                      <div ng-switch-when="Distributed Memory">
+                                        <ul class="dropdown-menu">
+                                            <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
+                                            
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Mapreduce/Hadoop'">Mapreduce/Hadoop</a></li>
+                                        </ul>
+                                    </div>
+                                      <div ng-switch-when="Heterogeneous Architecture">
+                                        <ul class="dropdown-menu">
+                                            <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openMP'">MPI+openMP</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+CUDA'">MPI+CUDA</a></li>
+                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openCL'">MPI+openCL</a></li>
+                                        </ul>
+                                    </div>
+                                     </div>
+                                    </div>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selectedPenv.name}}" disabled />

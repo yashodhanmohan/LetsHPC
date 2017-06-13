@@ -35,6 +35,7 @@ export default class MainController {
         chartImage: {},
         chartOptions: Factory.create('chartOption'),
         activeChart: 'executionTime',
+        selectedMetric: 'executionTime',
         activeStatistic: 'mean',
 
         updateMachines: () => {
@@ -116,6 +117,8 @@ export default class MainController {
             this.ca.activeStatistic = activeStatistic;
             this.ca.data = this.ca.dataTable.get(activeChart, activeStatistic);
             this.ca.chartOptions.setOptions(activeChart);
+            this.ca.selectedMetric = activeChart;
+            
         }
     }
 
@@ -215,6 +218,7 @@ export default class MainController {
             this.cm.activeStatistic = activeStatistic;
             this.cm.data = this.cm.dataTable.get(activeChart, activeStatistic);
             this.cm.chartOptions.setOptions(activeChart);
+            window.open('new','_blank');
         }
     }
 

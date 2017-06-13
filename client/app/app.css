@@ -83,6 +83,8 @@ body {
 
 @import 'main/main.css';
 
+@import 'new/new.css';
+
 @import 'reportgenerator/reportgenerator.css';
 
 @import '../components/chart/chart.css';
