@@ -10,7 +10,12 @@ import path from 'path';
 import config from './config/environment';
 
 import expressJwt from 'express-jwt';
-const authenticate = expressJwt({secret: config.secrets.session});
+
+let nullMiddleware = (req, res, next) => {
+    next();
+}
+
+const authenticate = config.authenticate?expressJwt({secret: config.secrets.session}):nullMiddleware;
 
 export default function(app) {
     // Insert routes below
