@@ -211,10 +211,10 @@
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the metric to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="new" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</a></li>
-                                            <li><a href="#" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</a></li>
-                                            <li><a href="#" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</a></li>
-                                            <li><a href="#" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</a></li>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Metric" value="{{main.cm.activeChart}}" disabled>
@@ -226,16 +226,31 @@
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'mean')">Mean</a></li>
-                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'median')">Median</a></li>
-                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'range')">Range</a></li>
-                                            <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType(main.cm.activeChart, 'mean')">Mean</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType(main.cm.activeChart, 'median')">Median</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType(main.cm.activeChart, 'range')">Range</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.cm.changeChartType(main.cm.activeChart, 'standardDeviation')">Standard Deviation</a></li>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Statistic" value="{{main.cm.activeStatistic}}" disabled>
                                 </div>
                             </div>
+
+                            <div id="myModal" class="modal fade">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">{{main.cm.activeChart}}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
                                 <h2>Selected Machines</h2>
@@ -301,48 +316,52 @@
                                     <input type="text" class="form-control" placeholder="Machine" value="{{main.ca.selectedMachine.model_name}}" disabled />
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updatePenvs()">Environment<span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <!-- <li ng-repeat="penv in main.ca.penvs"><a href="#" ng-click="main.ca.selectedPenv = penv;">{{penv.name}}</a></li> -->
-                                         <!--   <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
-                                            <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
-                                            <li class="disabled"><a href="#" ng-click="">Pthreads</a></li> -->
-                                            <div ng-switch="main.selectedMemory">
-                                            <div ng-switch-when="Shared Memory">
-                                        <ul class="dropdown-menu">
-                                            <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Java Threads'">Java Threads</a></li>
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Pthreads'">Pthreads</a></li>
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
-                                        </ul>
-                                   
-                                      <div ng-switch-when="Distributed Memory">
-                                        <ul class="dropdown-menu">
-                                            <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
-                                            
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Mapreduce/Hadoop'">Mapreduce/Hadoop</a></li>
-                                        </ul>
-                                    </div>
-                                      <div ng-switch-when="Heterogeneous Architecture">
-                                        <ul class="dropdown-menu">
-                                            <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openMP'">MPI+openMP</a></li>
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+CUDA'">MPI+CUDA</a></li>
-                                            <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openCL'">MPI+openCL</a></li>
-                                        </ul>
-                                    </div>
-                                     </div>
-                                    </div>
-                                        </ul>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selectedPenv.name}}" disabled />
-                                </div>
-                            </div>
+                              <div class="col-md-4">
+                                  <div class="input-group">
+                                      <div class="input-group-btn">
+                                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
+                            <!--           <div ng-switch on "main.selectedMemory"> -->
+                                              
+                                          <ul class="dropdown-menu" >
+                                              <!-- <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> -->
+                                              <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                              <li><a href="#" ng-click="main.ca.selectedPenv.name = 'Java Threads'">Java Threads</a></li>
+                                              <li><a href="#" ng-click="main.ca.selectedPenv.name = 'Pthreads'">Pthreads</a></li>
+                                              <li><a href="#" ng-click="main.ca.selectedPenv.name = 'MPI'">MPI</a></li>
+                                          </ul>
+                                             
+                                      
+                              <!--            <ul class="dropdown-menu" ng-switch-when="distributed">
+                                            <!-       <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> ->
+                                              
+                                              <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
+                                              <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Mapreduce/Hadoop'">Mapreduce/Hadoop</a></li>
+                                          </ul>
+                                      
+                                        
+                                          <ul class="dropdown-menu" ng-switch-when="heterogeneous">
+                                               <!-    <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> ->
+                                               
+                                              <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openMP'">MPI+openMP</a></li>
+                                              <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+CUDA'">MPI+CUDA</a></li>
+                                              <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI+openCL'">MPI+openCL</a></li>
+                                          </ul>
+                                      
+                                          
+                                      <ul class="dropdown-menu" ng-switch-default>
+                                      <!-   <li ng-repeat="penv in main.penvs"><a href="#" ng-click="">{{penv.name}}</a></li> ->
+                                          <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                          <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Java Threads'">Java Threads</a></li>
+                                          <li><a href="#" ng-click="main.cm.selectedPenv.name = 'Pthreads'">Pthreads</a></li>
+                                          <li><a href="#" ng-click="main.cm.selectedPenv.name = 'MPI'">MPI</a></li>
+                                      </ul>
+                                          
+                                       </div> -->
+                                 
+                                      </div>
+                                      <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selectedPenv.name}}" disabled />
+                                  </div>
+                              </div>
                             <div class="col-md-1">
                                 <center>
                                     <button class="btn btn-default btn-primary" ng-click="main.ca.setData()">Set Data</button>
@@ -382,10 +401,10 @@
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the metric to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Metric <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" ng-click="main.ca.changeChartType('executionTime', main.ca.activeStatistic)">Execution time</a></li>
-                                            <li><a href="#" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</a></li>
-                                            <li><a href="#" ng-click="main.ca.changeChartType('karpFlatt', main.ca.activeStatistic)">Karp Flatt</a></li>
-                                            <li><a href="#" ng-click="main.ca.changeChartType('efficiency', main.ca.activeStatistic)">Efficiency</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType('executionTime', main.ca.activeStatistic)">Execution time</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType('karpFlatt', main.ca.activeStatistic)">Karp Flatt</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType('efficiency', main.ca.activeStatistic)">Efficiency</a></li>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Metric" value="{{main.ca.activeChart}}" disabled>
@@ -396,14 +415,27 @@
                                     <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'mean')">Mean</a></li>
-                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'median')">Median</a></li>
-                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'range')">Range</a></li>
-                                            <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType(main.ca.activeChart, 'mean')">Mean</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType(main.ca.activeChart, 'median')">Median</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType(main.ca.activeChart, 'range')">Range</a></li>
+                                            <li><a href="#myModal" data-toggle="modal" ng-click="main.ca.changeChartType(main.ca.activeChart, 'standardDeviation')">Standard Deviation</a></li>
                                         </ul>
                                     </div>
                                     <input type="text" class="form-control" placeholder="Statistic" value="{{main.ca.activeStatistic}}" disabled>
                                 </div>
+                            </div>
+                            <div id="myModal" class="modal fade">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">{{main.ca.activeChart}}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
+                                </div>
+                            </div>
+                            </div>
                             </div>
                         </div>
                         <div class="row">

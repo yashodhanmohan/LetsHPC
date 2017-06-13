@@ -218,7 +218,6 @@ export default class MainController {
             this.cm.activeStatistic = activeStatistic;
             this.cm.data = this.cm.dataTable.get(activeChart, activeStatistic);
             this.cm.chartOptions.setOptions(activeChart);
-            window.open('new','_blank');
         }
     }
 
