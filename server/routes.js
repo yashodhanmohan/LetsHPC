@@ -15,7 +15,8 @@ let nullMiddleware = (req, res, next) => {
     next();
 }
 
-const authenticate = config.authenticate?expressJwt({secret: config.secrets.session}):nullMiddleware;
+// const authenticate = config.authenticate?expressJwt({secret: config.secrets.session}):nullMiddleware;
+const authenticate = nullMiddleware;
 
 export default function(app) {
     // Insert routes below
