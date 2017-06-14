@@ -31,7 +31,7 @@ export class NavbarComponent {
             title: 'Custom Data',
             link: '/customdata'
         }, {
-            title: 'Data Entry',
+            title: 'Repository',
             link: '/dataentry'
         }];
     }

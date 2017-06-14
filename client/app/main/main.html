@@ -1,6 +1,6 @@
 <navbar></navbar>
 <div class="container-fluid">
-    <div class="row text-primary bg-info">
+    <!-- <div class="row text-primary bg-info">
         <div class="col-md-10">
             <p>
                 <center>
@@ -12,12 +12,12 @@
         <div class="col-md-2" style="padding-top: 0.2%">
             <button class="btn btn-default btn-primary" ng-click="main.reload(false)">Reload</button>
         </div>
-    </div>
+    </div> -->
     <div class="row text-warning bg-warning">
         <div class="col-md-12">
             <p>
                 <center>
-                    For details on how to operate the tool, please refer to the <a href="assets/images/schematic1.png" style="color: blue" target="_blank">schematic</a>.
+                    For details on how to operate the tool, please refer to the <a href="assets/images/schematic1.png" style="color: blue" target="_blank">schematic</a> and <a href="assets/views/ComparisionToolUserManual.html" style="color: blue" target="_blank">user manual</a>
                 </center>
             </p>
         </div>
@@ -90,14 +90,14 @@
 
                 </div>
                 <div class="row pad-up">
-                    <div class="col-md-4 well main-hover-green" ng-click="main.compare='machines'" ng-class="{'main-blue': main.compare=='machines'}" data-toggle="tooltip" data-placement="top" title="Click here to compare different machines">
-                        <center>
-                            Compare Machines
-                        </center>
-                    </div>
                     <div class="col-md-4 well main-hover-green" ng-click="main.compare='approaches'" ng-class="{'main-blue': main.compare=='approaches'}" data-toggle="tooltip" data-placement="top" title="Click here to compare different approaches">
                         <center>
                             Compare Approaches
+                        </center>
+                    </div>
+                    <div class="col-md-4 well main-hover-green" ng-click="main.compare='machines'" ng-class="{'main-blue': main.compare=='machines'}" data-toggle="tooltip" data-placement="top" title="Click here to compare different machines">
+                        <center>
+                            Compare Machines
                         </center>
                     </div>
                     <div class="col-md-4 well main-hover-green" ng-click="main.compare=''" ng-class="{'main-blue': main.compare=='penv'}" data-toggle="tooltip" data-placement="top" title="Feature currently in development">
