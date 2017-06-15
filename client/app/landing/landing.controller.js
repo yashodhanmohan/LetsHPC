@@ -1,5 +1,3 @@
-import freelancer from './freelancer.min';
-
 export default class LandingController {
 
     /*@ngInject*/
