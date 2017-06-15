@@ -277,6 +277,7 @@ export default class DataEntryController {
                 "logLink": "https://db.tt/tPSS4DhtOW"
             }
         ];
+
     }
 
     select_category(category, section) {
@@ -366,5 +367,7 @@ export default class DataEntryController {
             this.add_machine.invalid = true;
         }
     }
+
+    
 
 }

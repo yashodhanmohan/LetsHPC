@@ -118,7 +118,10 @@ export default class MainController {
             this.ca.activeStatistic = activeStatistic;
             this.ca.data = this.ca.dataTable.get(activeChart, activeStatistic);
             this.ca.chartOptions.setOptions(activeChart);
-            this.ca.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart));
+            if(activeChart == "executionTime")
+                this.ca.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart) + ' (s)');
+            else
+                this.ca.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart));
         }
     }
 
@@ -218,7 +221,10 @@ export default class MainController {
             this.cm.activeStatistic = activeStatistic;
             this.cm.data = this.cm.dataTable.get(activeChart, activeStatistic);
             this.cm.chartOptions.setOptions(activeChart);
-            this.cm.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart));
+            if(activeChart == "executionTime")
+                this.cm.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart) + ' (s)');
+            else
+                this.cm.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart));
         }
     }
 
