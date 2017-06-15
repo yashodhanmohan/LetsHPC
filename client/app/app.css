@@ -55,7 +55,7 @@ body {
 }
 
 /* For transitions */
-.fade {
+.fader {
     position: absolute;
     top: 0;
     left: 0;
@@ -63,21 +63,21 @@ body {
     height: 100%;
     opacity: 1;
 }
-.fade.ng-enter,
-.fade.ng-leave {
+.fader.ng-enter,
+.fader.ng-leave {
     -webkit-transition: all 1s ease-in-out;
     transition: all 1s ease-in-out;
 }
-.fade.ng-enter {
+.fader.ng-enter {
     opacity: 0;
 }
-.fade.ng-enter-active {
+.fader.ng-enter-active {
     opacity: 1;
 }
-.fade.ng-leave {
+.fader.ng-leave {
     opacity: 1;
 }
-.fade.ng-leave-active {
+.fader.ng-leave-active {
     opacity: 0;
 }
 /* For transitions */

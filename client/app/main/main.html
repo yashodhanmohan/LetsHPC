@@ -171,13 +171,53 @@
                                 </ul>
                             </div>
                         </div>
-                        <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
+                        <div class="row pad-up">
+                            <div class="col-md-12">
+                                <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
+                            </div>
+                        </div>
                         <div class="row pad-up">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalCM">
                                     Metric Selector
                                 </button>
+                                <!-- Modal for Metric Selection in Compare Approaches -->    
+                                <div class="modal fade" id="myModalCM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-10">
+                                                        <h3>Basic Metrics</h3>
+                                                        <div class="row pad-up">
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==main.cm.activeChart}" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</div>
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==main.cm.activeChart}" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</div>
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==main.cm.activeChart}" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</div>
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==main.cm.activeChart}" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</div>
+                                                        </div>
+                                                        <hr />
+                                                        <h3>Advanced Metrics</h3>
+                                                        <div class="row pad-up">
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.cm.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.cm.changeChartType(field, main.cm.activeStatistic)">
+                                                                {{main.camelCaseToTitle(field)}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
@@ -306,13 +346,53 @@
                                 </ul>
                             </div>
                         </div>
-                        <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
+                            </div>
+                        </div>
                         <div class="row pad-up">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
                                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalCA">
                                     Metric Selector
                                 </button>
+                                <!-- Modal for Metric Selection in Compare Approaches -->
+                                <div class="modal fade" id="myModalCA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-10">
+                                                        <h3>Basic Metrics</h3>
+                                                        <div class="row pad-up">
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==main.ca.activeChart}" ng-click="main.ca.changeChartType('executionTime', main.ca.activeStatistic)">Execution time</div>
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==main.ca.activeChart}" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</div>
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==main.ca.activeChart}" ng-click="main.ca.changeChartType('karpFlatt', main.ca.activeStatistic)">Karp Flatt</div>
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==main.ca.activeChart}" ng-click="main.ca.changeChartType('efficiency', main.ca.activeStatistic)">Efficiency</div>
+                                                        </div>
+                                                        <hr />
+                                                        <h3>Advanced Metrics</h3>
+                                                        <div class="row pad-up">
+                                                            <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.ca.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.ca.changeChartType(field, main.ca.activeStatistic)">
+                                                                {{main.camelCaseToTitle(field)}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
@@ -406,80 +486,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal for Metric Selection in Compare Approaches -->
-    <div class="modal" id="myModalCA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
-                            <h3>Basic Metrics</h3>
-                            <div class="row pad-up">
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==main.ca.activeChart}" ng-click="main.ca.changeChartType('executionTime', main.ca.activeStatistic)">Execution time</div>
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==main.ca.activeChart}" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</div>
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==main.ca.activeChart}" ng-click="main.ca.changeChartType('karpFlatt', main.ca.activeStatistic)">Karp Flatt</div>
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==main.ca.activeChart}" ng-click="main.ca.changeChartType('efficiency', main.ca.activeStatistic)">Efficiency</div>
-                            </div>
-                            <hr />
-                            <h3>Advanced Metrics</h3>
-                            <div class="row pad-up">
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.ca.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.ca.changeChartType(field, main.ca.activeStatistic)">
-                                    {{main.camelCaseToTitle(field)}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Metric Selection in Compare Approaches -->    
-    <div class="modal" id="myModalCM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
-                            <h3>Basic Metrics</h3>
-                            <div class="row pad-up">
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==main.cm.activeChart}" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</div>
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==main.cm.activeChart}" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</div>
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==main.cm.activeChart}" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</div>
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==main.cm.activeChart}" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</div>
-                            </div>
-                            <hr />
-                            <h3>Advanced Metrics</h3>
-                            <div class="row pad-up">
-                                <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.cm.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.cm.changeChartType(field, main.cm.activeStatistic)">
-                                    {{main.camelCaseToTitle(field)}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 <footer></footer>
