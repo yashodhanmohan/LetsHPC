@@ -1,88 +1,86 @@
 <div class="row pad-up">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1 well">
-            <div id="{{chart.id}}"></div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 well">
+                <div id="{{chart.id}}"></div>
+            </div>
+            <div class="col-md-1"></div>            
         </div>
-    </div>
-    <div class="row text-primary bg-info">
-        <p>
-            <center>
-                Drag in a rectangular area to zoom.Right click in chart to reset.
-                <br />Use the buttons below to customize the scale and limits of the axes.
-                <br />Hover or click on points to extract exact data points.
-                <br />Hover or click on labels to select all data points on the curve.
-            </center>
-        </p>
-    </div>
-
-    <div class="row pad-up">
-        <div class="col-md-3"></div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#chartModal">
-                Customize graph
-            </button>
+        <div class="row text-center text-primary bg-info">
+            Drag in a rectangular area to zoom.Right click in chart to reset.
+            <br />Use the buttons below to customize the scale and limits of the axes.
+            <br />Hover or click on points to extract exact data points.
+            <br />Hover or click on labels to select all data points on the curve.
         </div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-primary btn-block" ng-click="chart.exportChart()">Export Graph</button>
+        <div class="row pad-up">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#chartModal">
+                    Customize graph
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary btn-block" ng-click="chart.exportChart()">Export Graph</button>
+            </div>
+            <div class="col-md-3"></div>
         </div>
-        <div class="col-md-3"></div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Customize graph limits</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row pad-up">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.userOptions.hAxis.logScale}" ng-click="chart.userOptions.hAxis.logScale=true; chart.refresh()">X-axis: Log</button>
+        <div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Customize graph limits</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row pad-up">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.userOptions.hAxis.logScale}" ng-click="chart.userOptions.hAxis.logScale=true; chart.refresh()">X-axis: Log</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.userOptions.hAxis.logScale}" ng-click="chart.userOptions.hAxis.logScale=false; chart.refresh()">X-axis: Linear</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.userOptions.hAxis.logScale}" ng-click="chart.userOptions.hAxis.logScale=false; chart.refresh()">X-axis: Linear</button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.userOptions.vAxis.logScale}" ng-click="chart.userOptions.vAxis.logScale=true; chart.refresh()">Y-axis: Log</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.userOptions.vAxis.logScale}" ng-click="chart.userOptions.vAxis.logScale=false; chart.refresh()">Y-axis: Linear</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: chart.userOptions.vAxis.logScale}" ng-click="chart.userOptions.vAxis.logScale=true; chart.refresh()">Y-axis: Log</button>
+                        <div class="row pad-up">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="X-axis min" ng-model="chart.userOptions.hAxis.viewWindow.min" ng-change="chart.refresh()">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="X-axis max" ng-model="chart.userOptions.hAxis.viewWindow.max" ng-change="chart.refresh()">
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !chart.userOptions.vAxis.logScale}" ng-click="chart.userOptions.vAxis.logScale=false; chart.refresh()">Y-axis: Linear</button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Y-axis min" ng-model="chart.userOptions.vAxis.viewWindow.min" ng-change="chart.refresh()">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Y-axis max" ng-model="chart.userOptions.vAxis.viewWindow.max" ng-change="chart.refresh()">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row pad-up">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="X-axis min" ng-model="chart.userOptions.hAxis.viewWindow.min" ng-change="chart.refresh()">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="X-axis max" ng-model="chart.userOptions.hAxis.viewWindow.max" ng-change="chart.refresh()">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Y-axis min" ng-model="chart.userOptions.vAxis.viewWindow.min" ng-change="chart.refresh()">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Y-axis max" ng-model="chart.userOptions.vAxis.viewWindow.max" ng-change="chart.refresh()">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
