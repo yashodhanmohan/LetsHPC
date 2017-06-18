@@ -1,5 +1,5 @@
-<navbar></navbar>
 <div class="container-fluid">
+    <navbar></navbar>
     <!-- <div class="row text-primary bg-info">
         <div class="col-md-10">
             <p>
@@ -87,7 +87,371 @@
             </div>
             <div class="row pad-up" ng-init="main.activateTooltip()">
                 <div class="col-md-12">
-                    <div class="row pad-up">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <center>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="comparison-tabs"><a id="compare-approaches-tab" href="#compare-approaches" data-toggle="tab">Compare Approaches</a></li>
+                                <li class="comparison-tabs"><a id="compare-machines-tab" href="#compare-machines" data-toggle="tab">Compare Machines</a></li>
+                                <li class="comparison-tabs"><a id="compare-penvs-tab" href="#compare-penvs" data-toggle="tab">Compare Programming Environments</a></li>
+                            </ul>
+                            </center>
+                        </div>
+                    </div>
+                    
+                     <div class="tab-content">
+                         <div class="tab-pane fade in" id="compare-approaches">
+                            <div class="row pad-up">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <label for="abc3">Approach</label>
+                                            <multiselect id="abc3" ng-model="main.ca.selectedApproaches" options="main.approachesFn" display-prop="approach_name" id-prop="_id"></multiselect>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                    <div class="row pad-up">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updateMachines()">Machine <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li ng-repeat="machine in main.ca.machines"><a href="#" ng-click="main.ca.selectedMachine = machine;">{{machine.model_name}}</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Machine" value="{{main.ca.selectedMachine.model_name}}" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updatePenvs()">Environment<span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                                        <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
+                                                        <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selectedPenv.name}}" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <button class="btn btn-default btn-primary" ng-click="main.ca.setData()">Set Data</button>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="main.ca.dataSet">
+                                        <div class="col-md-12">
+                                            <ul class="list-inline">
+                                                <li ng-repeat="approach in main.ca.selectedApproaches" class="list-group-item col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <label for="abc4">Number of threads (0 = serial)</label>
+                                                            <multiselect id="abc4" ng-model="main.ca.approachSelections[approach._id].selectedThreads" options="main.ca.approachSelections[approach._id].uniqueThreadCounts"></multiselect>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <input type="text" class="form-control" disabled value="{{approach.approach_name}}"></input>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <center>
+                                                                E2E<input type="checkbox" ng-model="main.ca.approachSelections[approach._id].plotE2E">
+                                                                ALG<input type="checkbox" ng-model="main.ca.approachSelections[approach._id].plotAlg">
+                                                            </center>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <button class="btn btn-default btn-primary" ng-click="main.ca.updateChart(approach)">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <hpc-chart data="main.ca.data" options="main.ca.chartOptions"></hpc-chart>
+                                        </div>
+                                    </div>
+                                    <div class="row pad-up">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalCA">
+                                                Metric Selector
+                                            </button>
+                                            <!-- Modal for Metric Selection in Compare Approaches -->
+                                            <div class="modal fade" id="myModalCA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-1"></div>
+                                                                <div class="col-md-10">
+                                                                    <h3>Basic Metrics</h3>
+                                                                    <div class="row pad-up">
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==main.ca.activeChart}" ng-click="main.ca.changeChartType('executionTime', main.ca.activeStatistic)">Execution time</div>
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==main.ca.activeChart}" ng-click="main.ca.changeChartType('speedup', main.ca.activeStatistic)">Speedup</div>
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==main.ca.activeChart}" ng-click="main.ca.changeChartType('karpFlatt', main.ca.activeStatistic)">Karp Flatt</div>
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==main.ca.activeChart}" ng-click="main.ca.changeChartType('efficiency', main.ca.activeStatistic)">Efficiency</div>
+                                                                    </div>
+                                                                    <hr />
+                                                                    <h3>Advanced Metrics</h3>
+                                                                    <div class="row pad-up">
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.ca.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.ca.changeChartType(field, main.ca.activeStatistic)">
+                                                                            {{main.camelCaseToTitle(field)}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-1"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'mean')">Mean</a></li>
+                                                        <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'median')">Median</a></li>
+                                                        <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'range')">Range</a></li>
+                                                        <li><a href="#" ng-click="main.ca.changeChartType(main.ca.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Statistic" value="{{main.camelCaseToTitle(main.ca.activeStatistic)}}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <table class="table">
+                                                <h2>Selected Approaches</h2>
+                                                <tr>
+                                                    <th>Approach name</th>
+                                                    <th>Description (Serial)</th>
+                                                    <th>Description (Parallel)</th>
+                                                    <th>Complexity (Serial)</th>
+                                                    <th>Complexity (Parallel)</th>
+                                                </tr>
+                                                <tr ng-repeat="approach in main.ca.selectedApproaches">
+                                                    <td>{{approach.approach_name}}</td>
+                                                    <td>{{approach.descS}}</td>
+                                                    <td>{{approach.descP}}</td>
+                                                    <td>{{approach.complexityS}}</td>
+                                                    <td>{{approach.complexityP}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <h2>Selected Machine</h2>
+                                            <p><b>Model name</b>: {{main.ca.selectedMachine.model_name}}</p>
+                                            <p><b>Architecture</b>: {{main.ca.selectedMachine.architecture}}</p>
+                                            <p><b>Threads per core</b>: {{main.ca.selectedMachine.threads_per_core}}</p>
+                                            <p><b>Socket count</b>: {{main.ca.selectedMachine.socket_count}}</p>
+                                            <p><b>CPU (Mhz)</b>: {{main.ca.selectedMachine.cpu_mhz}}</p>
+                                            <p><b>L1d Cache</b>: {{main.ca.selectedMachine.L1d_cache}}</p>
+                                            <p><b>L1i Cache</b>: {{main.ca.selectedMachine.L1i_cache}}</p>
+                                        </div>
+                                        <div class="col-md-1"></div>                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="compare-machines">
+                            <div class="row pad-up">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <label for="abc">Machines</label>
+                                            <multiselect id="abc" ng-model="main.cm.selectedMachines" options="main.machines" display-prop="model_name" id-prop="_id"></multiselect>
+                                        </div>
+                                        <div class="col-md-4"></div>                                
+                                    </div>
+                                    <div class="row pad-up">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.cm.updateApproaches()">Approach <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li ng-repeat="approach in main.cm.approaches"><a href="#" ng-click="main.cm.selectedApproach = approach;">{{approach.approach_name}}</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Approach" value="{{main.cm.selectedApproach.approach_name}}" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                                        <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
+                                                        <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.cm.selectedPenv.name}}" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <button class="btn btn-default btn-primary" ng-click="main.cm.setData()">Set Data</button>
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                    </div>
+                                    <div class="row" ng-if="main.cm.dataSet">
+                                        <div class="col-md-12">
+                                            <ul class="list-inline pad-up col-md-12">
+                                                <li ng-repeat="machine in main.cm.selectedMachines" class="list-group-item col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <label for="abc2">Thread count (0 = Serial)</label>
+                                                            <multiselect id="abc2" ng-model="main.cm.machineSelections[machine._id].selectedThreads" options="main.cm.machineSelections[machine._id].uniqueThreadCounts"></multiselect>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <input type="text" class="form-control" disabled value="{{machine.model_name}}"></input>
+                                                        </div>
+                                                        <div class="col-md-2 text-center">
+                                                                E2E<input type="checkbox" ng-model="main.cm.machineSelections[machine._id].plotE2E"> 
+                                                                ALG<input type="checkbox" ng-model="main.cm.machineSelections[machine._id].plotAlg">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <button class="btn btn-default btn-primary" ng-click="main.cm.updateChart(machine)">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row pad-up">
+                                        <div class="col-md-12">
+                                            <hpc-chart data="main.cm.data" options="main.cm.chartOptions"></hpc-chart>
+                                        </div>
+                                    </div>
+                                    <div class="row pad-up">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalCM">
+                                                Metric Selector
+                                            </button>
+                                            <!-- Modal for Metric Selection in Compare Approaches -->    
+                                            <div class="modal fade" id="myModalCM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-1"></div>
+                                                                <div class="col-md-10">
+                                                                    <h3>Basic Metrics</h3>
+                                                                    <div class="row pad-up">
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==main.cm.activeChart}" ng-click="main.cm.changeChartType('executionTime', main.cm.activeStatistic)">Execution time</div>
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==main.cm.activeChart}" ng-click="main.cm.changeChartType('speedup', main.cm.activeStatistic)">Speedup</div>
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==main.cm.activeChart}" ng-click="main.cm.changeChartType('karpFlatt', main.cm.activeStatistic)">Karp Flatt</div>
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==main.cm.activeChart}" ng-click="main.cm.changeChartType('efficiency', main.cm.activeStatistic)">Efficiency</div>
+                                                                    </div>
+                                                                    <hr />
+                                                                    <h3>Advanced Metrics</h3>
+                                                                    <div class="row pad-up">
+                                                                        <div class="col-md-3 btn btn-default" ng-class="{'active': field==main.cm.activeChart}" ng-repeat="field in main.perfFields" ng-click="main.cm.changeChartType(field, main.cm.activeStatistic)">
+                                                                            {{main.camelCaseToTitle(field)}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-1"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Statistic <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'mean')">Mean</a></li>
+                                                        <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'median')">Median</a></li>
+                                                        <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'range')">Range</a></li>
+                                                        <li><a href="#" ng-click="main.cm.changeChartType(main.cm.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Statistic" value="{{main.camelCaseToTitle(main.cm.activeStatistic)}}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <h2>Selected Machines</h2>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Model name</th>
+                                                    <th>Architecture</th>
+                                                    <th>CPU Count</th>
+                                                    <th>Socket Count</th>
+                                                    <th>Cores per Socket</th>
+                                                    <th>Threads per Core</th>
+                                                    <th>CPU (Mhz)</th>
+                                                    <th>L1 d/i</th>
+                                                    <th>L2</th>
+                                                    <th>L3</th>
+                                                </tr>
+                                                <tr ng-repeat="machine in main.cm.selectedMachines">
+                                                    <td><center><a href="{{machine.spec_file_link}}" style="color: blue" target="_blank">{{machine.model_name}}</a></center></td>
+                                                    <td><center>{{machine.architecture}}</center></td>
+                                                    <td><center>{{machine.cpu_count}}</center></td>
+                                                    <td><center>{{machine.socket_count}}</center></td>
+                                                    <td><center>{{machine.cores_per_socket}}</center></td>
+                                                    <td><center>{{machine.threads_per_core}}</center></td>
+                                                    <td><center>{{machine.cpu_mhz}}</center></td>
+                                                    <td><center>{{machine.L1d_cache}}/{{machine.L1i_cache}}</center></td>
+                                                    <td><center>{{machine.L2_cache}}</center></td>
+                                                    <td><center>{{machine.L3_cache}}</center></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <h2>Selected Approach</h2>
+                                            <p><b>Approach name</b>: {{main.cm.selectedApproach.approach_name}} - Contributed by: <a href="mailto:letshpc@gmail.com" style="color: blue">LETs HPC team</a></p>
+                                            <p><b>Description (Serial)</b>: {{main.cm.selectedApproach.descS}}</p>
+                                            <p><b>Description (Parallel)</b>: {{main.cm.selectedApproach.descP}}</p>
+                                            <p><b>Complexity (Serial)</b>: {{main.cm.selectedApproach.complexityS}}</p>
+                                            <p><b>Complexity (Parallel)</b>: {{main.cm.selectedApproach.complexityP}}</p>
+                                            <p><b>Advantage</b>: {{main.cm.selectedApproach.advantage}}</p>
+                                            <p><b>Disadvantage</b>: {{main.cm.selectedApproach.disadvantage}}</p>
+                                        </div>
+                                        <div class="col-md-1"></div>                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="compare-penvs">...</div>
+                    </div>
+                    <!--<div class="row pad-up">
                         <div class="col-md-4 well main-hover-green text-center" ng-click="main.compare='approaches'" ng-class="{'main-blue': main.compare=='approaches'}" data-toggle="tooltip" data-placement="top" title="Click here to compare different approaches">
                             Compare Approaches
                         </div>
@@ -97,8 +461,8 @@
                         <div class="col-md-4 well main-hover-green text-center" ng-click="main.compare=''" ng-class="{'main-blue': main.compare=='penv'}" data-toggle="tooltip" data-placement="top" title="Feature currently in development">
                             Compare Programming Environments
                         </div>
-                    </div>
-                    <div class="row pad-up" ng-if="main.compare=='machines'">
+                    </div>-->
+                    <!--<div class="row pad-up" ng-if="main.compare=='machines'">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-4"></div>
@@ -175,7 +539,6 @@
                                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalCM">
                                         Metric Selector
                                     </button>
-                                    <!-- Modal for Metric Selection in Compare Approaches -->    
                                     <div class="modal fade" id="myModalCM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
@@ -276,8 +639,8 @@
                                 <div class="col-md-1"></div>                                
                             </div>
                         </div>
-                    </div>
-                    <div class="row pad-up" ng-if="main.compare=='approaches'">
+                    </div>-->
+                    <!--<div class="row pad-up" ng-if="main.compare=='approaches'">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-4"></div>
@@ -355,7 +718,6 @@
                                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalCA">
                                         Metric Selector
                                     </button>
-                                    <!-- Modal for Metric Selection in Compare Approaches -->
                                     <div class="modal fade" id="myModalCA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
@@ -444,7 +806,7 @@
                                 <div class="col-md-1"></div>                                
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <!--<div class="row pad-up" ng-if="main.compare=='penv'">
                         <div class="col-md-12">
                             <div class="row" ng-if="main.compare=='penv'">

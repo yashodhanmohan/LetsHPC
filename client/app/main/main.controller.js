@@ -14,6 +14,8 @@ export default class MainController {
 
     selectedMemory = 'shared';
 
+    compare = '';
+
     // Ready variables
     problemsReady = false;
     categoriesReady = false;
@@ -277,6 +279,18 @@ export default class MainController {
                 this.ca.setData();
         }, true);
 
+        $('.comparison-tabs a').click(function (e, f) {
+            e.preventDefault()
+            console.log(e);
+            console.log(f);
+            let basis = $(this)[0].id.split('-')[1];
+            $(this).tab('show');
+            $scope.main.compare = basis;
+            console.log($scope.main.compare);
+            console.log($scope.main.compare=='approaches');
+            console.log($scope.main.compare=='machines');
+        })
+
         this.activateTooltip();
     }
 
@@ -350,5 +364,14 @@ export default class MainController {
         return str
             .replace(/([A-Z])/g, ' $1')
             .replace(/^./, function(str){ return str.toUpperCase(); });
+    }
+
+    approachesFn() {
+        return this.$q(function(resolve, reject){
+            $timeout(function(){
+                console.log(this);
+                resolve(this.approaches);
+            }, 500);
+        });
     }
 }

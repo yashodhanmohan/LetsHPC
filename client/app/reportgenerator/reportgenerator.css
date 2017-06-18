@@ -1,4 +1,4 @@
-a, a:hover, a:active, a:focus, a:visited {
+#report-generator #latex-form a, #report-generator #latex-form a:hover, #report-generator #latex-form a:active, #report-generator #latex-form a:focus, #report-generator #latex-form a:visited {
     color: #FFFFFF;
 }
 
