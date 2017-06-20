@@ -7,6 +7,7 @@ import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
+import {ngTableModule} from 'ng-table';
 
 import {routeConfig} from './app.config';
 
@@ -49,7 +50,7 @@ google.load('visualization', '1', {
 
 angular.module('yashwantProjectApp', [
         // Angular Core Modules
-        ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute,
+        ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute, ngTableModule.name,
         // Controllers
         LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController, LoginController,
         // Services

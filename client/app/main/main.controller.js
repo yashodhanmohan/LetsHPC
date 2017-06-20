@@ -19,7 +19,8 @@ export default class MainController {
     // Ready variables
     problemsReady = false;
     categoriesReady = false;
-    peamDataReady = true;
+    peamDataReady = false;
+    loadingPeamData = false;
 
     perfFields = ["cycles","instructions","cacheReferences","cacheMisses","busCycles","L1DcacheLoads","L1DcacheLoadMisses","L1DcacheStores","dTLBLoads","dTLBLoadMisses","LLCLoads","LLCLoadMisses","LLCStores","branches","branchMisses","contextSwitches","cpuMigrations","pageFaults"]
 
@@ -50,6 +51,8 @@ export default class MainController {
             }), machine => {
                 return machine != undefined;
             });
+
+            this.ca.selectedApproachesTable = new this.NgTableParams({}, {dataset: this.ca.selectedApproaches});
         },
 
         updatePenvs: () => {
@@ -154,6 +157,8 @@ export default class MainController {
             }), approach => {
                 return approach != undefined;
             });
+
+            this.cm.selectedMachinesTable = new this.NgTableParams({sorting: {model_name: "asc"}}, {dataset: this.cm.selectedMachines});
         },
 
         updatePenvs: () => {
@@ -231,12 +236,13 @@ export default class MainController {
     }
 
     /*@ngInject*/
-    constructor($scope, $q, CategoryService, ProblemService, NumberService, PerfService, ApproachService, MachineService, CalculatorService, TableService) {
+    constructor($scope, $q, CategoryService, ProblemService, NumberService, PerfService, ApproachService, MachineService, CalculatorService, TableService, NgTableParams) {
 
         $(document).ready(() => {
             window.document.title = 'Comparison Tool - LETs HPC';
         })
 
+        this.$scope = $scope;
         this.$q = $q;
         this.CategoryService = CategoryService;
         this.ProblemService = ProblemService;
@@ -246,6 +252,7 @@ export default class MainController {
         this.PerfService = PerfService;
         this.CalculatorService = CalculatorService;
         this.TableService = TableService;
+        this.NgTableParams = NgTableParams;
 
         // Fetch categories
         this.categoriesReady = false;
@@ -279,44 +286,29 @@ export default class MainController {
                 this.ca.setData();
         }, true);
 
-        $('.comparison-tabs a').click(function (e, f) {
+        $('.comparison-tabs a').click(function (e) {
             e.preventDefault()
-            console.log(e);
-            console.log(f);
             let basis = $(this)[0].id.split('-')[1];
             $(this).tab('show');
             $scope.main.compare = basis;
-            console.log($scope.main.compare);
-            console.log($scope.main.compare=='approaches');
-            console.log($scope.main.compare=='machines');
-        })
+        });
 
         this.activateTooltip();
     }
 
-    selectCategory(selectedCategory) {
-        // If category has changed,
-        if (this.selectedCategory != selectedCategory) {
-            this.selectedCategory = selectedCategory;
-            this.problemsReady = false;
-            this.ProblemService
-                .getProblemsByCategory(this.selectedCategory._id)
-                .then(response => {
-                    this.problems = response;
-                    this.problemsReady = true;
-                })
-        }
-    }
-
-    selectProblem(selectedProblem) {
-        // If problem has changed
-        if (this.selectedProblem != selectedProblem) {
-            this.selectedProblem = selectedProblem;
-        }
+    fetchProblems() {
+        this.problemsReady = false;
+        this.ProblemService
+            .getProblemsByCategory(this.selectedCategory._id)
+            .then(response => {
+                this.problems = response;
+                this.problemsReady = true;
+            })
     }
 
     getProblemData() {
         this.peamDataReady = false;
+        this.loadingPeamData = true;
         var numberFetch = this.NumberService
             .getNumbersByProblem(this.selectedProblem._id)
             .then(response => {
@@ -341,6 +333,7 @@ export default class MainController {
             .then(() => {
                 this.numbers = _.concat(this.numbers, this.perfs);
                 this.peamDataReady = true;
+                this.loadingPeamData = false;
                 google.visualization.events.addListener(this.ca.chart, 'ready', () => {
                     this.ca.chartImage = chart.getImageURI();
                 });
@@ -364,14 +357,5 @@ export default class MainController {
         return str
             .replace(/([A-Z])/g, ' $1')
             .replace(/^./, function(str){ return str.toUpperCase(); });
-    }
-
-    approachesFn() {
-        return this.$q(function(resolve, reject){
-            $timeout(function(){
-                console.log(this);
-                resolve(this.approaches);
-            }, 500);
-        });
     }
 }

@@ -1,18 +1,5 @@
-<div class="container-fluid">
-    <navbar></navbar>
-    <!-- <div class="row text-primary bg-info">
-        <div class="col-md-10">
-            <p>
-                <center>
-                    The page is being actively developed and works best in Google Chrome.
-                    In case of any invisible options, please reload the page or press F5.
-                </center>
-            </p>
-        </div>
-        <div class="col-md-2" style="padding-top: 0.2%">
-            <button class="btn btn-default btn-primary" ng-click="main.reload(false)">Reload</button>
-        </div>
-    </div> -->
+<navbar></navbar>
+<div class="container-fluid" id="main">
     <div class="row text-warning bg-warning">
         <div class="col-md-12">
             <p>
@@ -28,36 +15,13 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the category of problems">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.categoriesReady">Category <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li ng-repeat="category in main.categories"><a href="#" ng-click="main.selectCategory(category)">{{category.name}}</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Map Reduce</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Image Processing</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Graph Algorithms</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Linear Systems</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Sorting</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Graph Algorithms</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Combinatorial Search</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">FFT</a></li>
-                                        <li class="disabled" data-toggle="tooltip" data-placement="bottom" title="The data for this category is currently being curated"><a href="#">Finite Difference</a></li>
-                                    </ul>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Category" value="{{main.selectedCategory.name}}" disabled>
-                            </div>
+                        <div class="col-md-6 form-group">
+                            <label for="category-select">Category</label>
+                            <select data-toggle="tooltip" data-placement="top" title="Select the category of problems" class="form-control" ng-model="main.selectedCategory" ng-options="category.name for category in main.categories track by category._id" ng-change="main.fetchProblems()"></select>
                         </div>
                         <div class="col-md-6">
-                            <div class="input-group">
-                                <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the problem to analyse">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="!main.problemsReady">Problem <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li ng-repeat="problem in main.problems"><a href="#" ng-click="main.selectProblem(problem)">{{problem.name}}</a></li>
-                                    </ul>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Problem" value="{{main.selectedProblem.name}}" disabled>
-                            </div>
+                            <label for="problem-select">Problem</label>
+                            <select data-toggle="tooltip" data-placement="top" title="Select the problem to analyse" class="form-control" ng-model="main.selectedProblem" ng-options="problem.name for problem in main.problems track by problem._id" ng-disabled="main.problems.length==0"></select>
                         </div>
                     </div>
                     <div class="row pad-up">
@@ -78,7 +42,20 @@
                     <div class="row pad-up">
                         <div class="col-md-4"></div>
                         <div class="col-md-4 text-center">
-                            <button class="btn btn-default btn-success" ng-click="main.getProblemData()" data-toggle="tooltip" data-placement="top" title="Click here for further filtering">Get Machine, Approach and Programming Environments <span ng-show="!main.peamDataReady">(Loading data...)</span></button>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a class="btn btn-block btn-primary" ng-click="main.getProblemData()" data-toggle="tooltip" data-placement="top" title="Click here for further filtering">Get Problem Data</a>
+                                </div>
+                            </div>
+                            <div class="row pad-up">
+                                <div class="col-md-12 animate-show-hide" ng-show="main.loadingPeamData">
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="col-md-4"></div>
                     </div>
@@ -86,62 +63,49 @@
                 <div class="col-md-1"></div>
             </div>
             <div class="row pad-up" ng-init="main.activateTooltip()">
-                <div class="col-md-12">
+                <div class="col-md-12 animate-show-hide" ng-show="main.peamDataReady">
                     <div class="row">
                         <div class="col-md-12">
                             <center>
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="comparison-tabs"><a id="compare-approaches-tab" href="#compare-approaches" data-toggle="tab">Compare Approaches</a></li>
+                                <li class="comparison-tabs active"><a id="compare-approaches-tab" href="#compare-approaches" data-toggle="tab">Compare Approaches</a></li>
                                 <li class="comparison-tabs"><a id="compare-machines-tab" href="#compare-machines" data-toggle="tab">Compare Machines</a></li>
-                                <li class="comparison-tabs"><a id="compare-penvs-tab" href="#compare-penvs" data-toggle="tab">Compare Programming Environments</a></li>
+                                <li class="comparison-tabs disabled"><a id="compare-penvs-tab" href="#compare-penvs" data-toggle="tab">Compare Programming Environments</a></li>
                             </ul>
                             </center>
                         </div>
                     </div>
                     
-                     <div class="tab-content">
-                         <div class="tab-pane fade in" id="compare-approaches">
+                     <div class="tab-content" >
+                         <div class="tab-pane fade in active" id="compare-approaches">
                             <div class="row pad-up">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-4"></div>
-                                        <div class="col-md-4">
-                                            <label for="abc3">Approach</label>
-                                            <multiselect id="abc3" ng-model="main.ca.selectedApproaches" options="main.approachesFn" display-prop="approach_name" id-prop="_id"></multiselect>
+                                        <div class="col-md-4 form-group">
+                                            <label for="approach-multiselect">Approach</label>
+                                            <select class="form-control" id="approach-multiselect" ng-attr-size="3" ng-model="main.ca.selectedApproaches" multiple="true"  ng-options="approach.approach_name for approach in main.approaches track by approach._id" ng-change="main.ca.updateMachines()" data-toggle="tooltip" data-placement="top" title="Press 'ctrl' and click on approaches to select multiple approaches" required></select>
                                         </div>
-                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="machine-select">Machine</label>
+                                            <select class="form-control" id="machine-select" ng-model="main.ca.selectedMachine" ng-options="machine.model_name for machine in main.ca.machines track by machine._id" ng-disabled="main.ca.selectedApproaches.length==0"></select>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="ca-penv-select">Environment</label>
+                                            <select class="form-control" id="ca-penv-select" ng-model="main.ca.selectedPenv" ng-disabled="main.ca.selectedApproaches.length==0">
+                                                <option>OpenMP + gcc</option>
+                                                <option disabled>Java Threads</option>
+                                                <option disabled>Pthreads</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="row pad-up">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-3">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updateMachines()">Machine <span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li ng-repeat="machine in main.ca.machines"><a href="#" ng-click="main.ca.selectedMachine = machine;">{{machine.model_name}}</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="text" class="form-control" placeholder="Machine" value="{{main.ca.selectedMachine.model_name}}" disabled />
-                                            </div>
-                                        </div>
+                                        <div class="col-md-4"></div>
                                         <div class="col-md-4">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updatePenvs()">Environment<span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
-                                                        <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
-                                                        <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selectedPenv.name}}" disabled />
-                                            </div>
+                                            <button class="btn btn-block btn-primary" ng-click="main.ca.setData()">Set Data</button>                                            
                                         </div>
-                                        <div class="col-md-1 text-center">
-                                            <button class="btn btn-default btn-primary" ng-click="main.ca.setData()">Set Data</button>
-                                        </div>
+                                        <div class="col-md-4"></div>
                                     </div>
-                                    <div class="row" ng-if="main.ca.dataSet">
+                                    <div class="row pad-up" ng-if="main.ca.dataSet">
                                         <div class="col-md-12">
                                             <ul class="list-inline">
                                                 <li ng-repeat="approach in main.ca.selectedApproaches" class="list-group-item col-md-12">
@@ -160,7 +124,9 @@
                                                             </center>
                                                         </div>
                                                         <div class="col-md-1">
-                                                            <button class="btn btn-default btn-primary" ng-click="main.ca.updateChart(approach)">Update</button>
+                                                            <center>
+                                                                <button class="btn btn-default btn-primary" ng-click="main.ca.updateChart(approach)">Update</button>
+                                                            </center>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -233,21 +199,14 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-10 col-md-offset-1">
-                                            <table class="table">
-                                                <h2>Selected Approaches</h2>
-                                                <tr>
-                                                    <th>Approach name</th>
-                                                    <th>Description (Serial)</th>
-                                                    <th>Description (Parallel)</th>
-                                                    <th>Complexity (Serial)</th>
-                                                    <th>Complexity (Parallel)</th>
-                                                </tr>
-                                                <tr ng-repeat="approach in main.ca.selectedApproaches">
-                                                    <td>{{approach.approach_name}}</td>
-                                                    <td>{{approach.descS}}</td>
-                                                    <td>{{approach.descP}}</td>
-                                                    <td>{{approach.complexityS}}</td>
-                                                    <td>{{approach.complexityP}}</td>
+                                            <h2>Selected Approaches</h2>
+                                            <table ng-table="main.ca.selectedApproachesTable" class="table table-striped table-bordered table-hover">
+                                                <tr ng-repeat="approach in $data">
+                                                    <td title="'Approach Name'">{{approach.approach_name}}</td>
+                                                    <td title="'Description (Serial)'">{{approach.descS}}</td>
+                                                    <td title="'Description (Parallel)'">{{approach.descP}}</td>
+                                                    <td title="'Complexity (Serial)'">{{approach.complexityS}}</td>
+                                                    <td title="'Complexity (Parallel)'">{{approach.complexityP}}</td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -272,44 +231,32 @@
                         <div class="tab-pane fade" id="compare-machines">
                             <div class="row pad-up">
                                 <div class="col-md-12">
+
+
                                     <div class="row">
-                                        <div class="col-md-4"></div>
-                                        <div class="col-md-4">
-                                            <label for="abc">Machines</label>
-                                            <multiselect id="abc" ng-model="main.cm.selectedMachines" options="main.machines" display-prop="model_name" id-prop="_id"></multiselect>
+                                        <div class="col-md-4 form-group">
+                                            <label for="machine-multiselect">Machine</label>
+                                            <select class="form-control" id="machine-multiselect" ng-attr-size="3" ng-model="main.cm.selectedMachines" multiple="true"  ng-options="machine.model_name for machine in main.machines track by machine._id" ng-change="main.cm.updateApproaches()" data-toggle="tooltip" data-placement="top" title="Press 'ctrl' and click on machines to select multiple machines" required></select>
                                         </div>
-                                        <div class="col-md-4"></div>                                
+                                        <div class="col-md-4 form-group">
+                                            <label for="approach-select">Approach</label>
+                                            <select class="form-control" id="approach-select" ng-model="main.cm.selectedApproach" ng-options="approach.approach_name for approach in main.cm.approaches track by approach._id" ng-disabled="main.cm.selectedMachines.length==0 || main.cm.approaches.length==0"></select>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="cm-penv-select">Environment</label>
+                                            <select class="form-control" id="cm-penv-select" ng-model="main.cm.selectedPenv" ng-disabled="main.cm.selectedApproaches.length==0">
+                                                <option>OpenMP + gcc</option>
+                                                <option disabled>Java Threads</option>
+                                                <option disabled>Pthreads</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="row pad-up">
-                                        <div class="col-md-1"></div>
+                                        <div class="col-md-4"></div>
                                         <div class="col-md-4">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.cm.updateApproaches()">Approach <span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li ng-repeat="approach in main.cm.approaches"><a href="#" ng-click="main.cm.selectedApproach = approach;">{{approach.approach_name}}</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="text" class="form-control" placeholder="Approach" value="{{main.cm.selectedApproach.approach_name}}" disabled />
-                                            </div>
+                                            <button class="btn btn-block btn-primary" ng-click="main.cm.setData()">Set Data</button>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
-                                                        <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
-                                                        <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.cm.selectedPenv.name}}" disabled />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1 text-center">
-                                            <button class="btn btn-default btn-primary" ng-click="main.cm.setData()">Set Data</button>
-                                        </div>
-                                        <div class="col-md-2"></div>
+                                        <div class="col-md-4"></div>
                                     </div>
                                     <div class="row" ng-if="main.cm.dataSet">
                                         <div class="col-md-12">
@@ -403,30 +350,18 @@
                                         <div class="col-md-1"></div>
                                         <div class="col-md-10">
                                             <h2>Selected Machines</h2>
-                                            <table class="table">
-                                                <tr>
-                                                    <th>Model name</th>
-                                                    <th>Architecture</th>
-                                                    <th>CPU Count</th>
-                                                    <th>Socket Count</th>
-                                                    <th>Cores per Socket</th>
-                                                    <th>Threads per Core</th>
-                                                    <th>CPU (Mhz)</th>
-                                                    <th>L1 d/i</th>
-                                                    <th>L2</th>
-                                                    <th>L3</th>
-                                                </tr>
-                                                <tr ng-repeat="machine in main.cm.selectedMachines">
-                                                    <td><center><a href="{{machine.spec_file_link}}" style="color: blue" target="_blank">{{machine.model_name}}</a></center></td>
-                                                    <td><center>{{machine.architecture}}</center></td>
-                                                    <td><center>{{machine.cpu_count}}</center></td>
-                                                    <td><center>{{machine.socket_count}}</center></td>
-                                                    <td><center>{{machine.cores_per_socket}}</center></td>
-                                                    <td><center>{{machine.threads_per_core}}</center></td>
-                                                    <td><center>{{machine.cpu_mhz}}</center></td>
-                                                    <td><center>{{machine.L1d_cache}}/{{machine.L1i_cache}}</center></td>
-                                                    <td><center>{{machine.L2_cache}}</center></td>
-                                                    <td><center>{{machine.L3_cache}}</center></td>
+                                            <table ng-table="main.cm.selectedMachinesTable" class="table table-striped table-bordered table-hover" show-filter="true" data-toggle="tooltip" data-placement="top" title="Click on column headings to sort by that field">
+                                                <tr ng-repeat="machine in $data">
+                                                    <td title="'Model Name'" filter="{ model_name: 'text'}" sortable="'machine.model_name'"><a href="{{machine.spec_file_link}}" style="color: blue" target="_blank">{{machine.model_name}}</a></td>
+                                                    <td title="'Architecture'" filter="{ architecture: 'text'}" sortable="'architecture'">{{machine.architecture}}</td>
+                                                    <td title="'CPU Count'" filter="{ cpu_count: 'number'}" sortable="'cpu_count'">{{machine.cpu_count}}</td>
+                                                    <td title="'Socket Count'" filter="{ socket_count: 'number'}" sortable="'socket_count'">{{machine.socket_count}}</td>
+                                                    <td title="'Cores per Socket'" filter="{ cores_per_socket: 'number'}" sortable="'cores_per_socket'">{{machine.cores_per_socket}}</td>
+                                                    <td title="'Threads per Core'" filter="{ threads_per_core: 'number'}" sortable="'threads_per_core'">{{machine.threads_per_core}}</td>
+                                                    <td title="'CPU (MHz)'" filter="{ cpu_mhz: 'number'}" sortable="'cpu_mhz'">{{machine.cpu_mhz}}</td>
+                                                    <td title="'L1 d/i'" filter="{ L1d_cache: 'text'}" sortable="'L1d_cache'">{{machine.L1d_cache}}/{{machine.L1i_cache}}</td>
+                                                    <td title="'L2'" filter="{ L2_cache: 'text'}" sortable="'L2_cache'">{{machine.L2_cache}}</td>
+                                                    <td title="'L3'" filter="{ L3_cache: 'text'}" sortable="'L3_cache'">{{machine.L3_cache}}</td>
                                                 </tr>
                                             </table>
                                         </div>
