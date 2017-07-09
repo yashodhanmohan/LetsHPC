@@ -126,9 +126,10 @@
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Environment<span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="#" ng-click="main.cm.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                                <li><a href="#" ng-click="main.cm.selectedPenv.name = 'openMP'">openMP</a></li>
                                                 <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
-                                                <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
+                                                <li class="disabled"><a href="#" ng-click="">POSIX threads</a></li>
+                                                <li class="disabled"><a href="#" ng-click="">MPI</a></li>
                                             </ul>
                                         </div>
                                         <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.cm.selectedPenv.name}}" disabled />
@@ -304,9 +305,10 @@
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="main.ca.updatePenvs()">Environment<span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="#" ng-click="main.ca.selectedPenv.name = 'OpenMP + gcc'">OpenMP + gcc</a></li>
+                                                <li><a href="#" ng-click="main.ca.selectedPenv.name = 'openMP'">openMP</a></li>
                                                 <li class="disabled"><a href="#" ng-click="">Java Threads</a></li>
-                                                <li class="disabled"><a href="#" ng-click="">Pthreads</a></li>
+                                                <li class="disabled"><a href="#" ng-click="">POSIX threads</a></li>
+                                                <li class="disabled"><a href="#" ng-click="">MPI</a></li>
                                             </ul>
                                         </div>
                                         <input type="text" class="form-control" placeholder="Programming Environment" value="{{main.ca.selectedPenv.name}}" disabled />

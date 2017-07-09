@@ -91,9 +91,16 @@
                             <button type="button" class="btn btn-default btn-block" ng-class="{active: report.active_chart=='timeseries'}" ng-click="report.refresh_chart('timeseries')">Time series</button>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-block" ng-click="report.export_chart()">Export Graph</a>
+                            <button type="button" title='Use Google Chrome' class="btn btn-primary btn-block" ng-click="report.export_chart()">Export Graph</a>
                         </div>
                     </div>
+                </div>
+            </div>
+            <hr />
+            <h3>Advanced Metrics</h3>
+            <div class="row pad-up">
+                <div class="col-md-3 btn btn-default" ng-class="{'active': report.active_chart==field}" ng-repeat="field in report.perfFields" ng-click="report.refresh_chart(field)">
+                    {{main.camelCaseToTitle(field)}}
                 </div>
             </div>
         </div>

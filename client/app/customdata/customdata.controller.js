@@ -16,6 +16,7 @@ export default class CustomDataController {
     execution_time_chart_options = {};
     speedup_chart_options = {};
     karpflatt_chart_options = {};
+
     active_chart = '';
 
     // Warning flags
