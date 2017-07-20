@@ -1,5 +1,6 @@
 <navbar></navbar>
 <div class="container-fluid">
+
     <div class="row">
         <div class="row text-warning bg-warning">
             <div class="col-md-12">
@@ -15,7 +16,10 @@
                 <div class="col-md-6 col-md-offset-3 well">
                     Upload CSV file:&nbsp;&nbsp;&nbsp;&nbsp;
                     <label class="btn btn-primary btn-file">
-                        Upload <input type="file" style="display: none;" onchange="angular.element(this).scope().custom.read_file(this.files)">
+                        Normal <input type="file" style="display: none;" onchange="angular.element(this).scope().custom.read_file(this.files, true)">
+                    </label>&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="btn btn-primary btn-file">
+                        Advanced <input type="file" style="display: none;" onchange="angular.element(this).scope().custom.read_file(this.files, false)">
                     </label>&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;
                     <button class="btn btn-default btn-primary" ng-click="custom.download_default_data()">Download Default Data</button>
                 </div>
@@ -49,7 +53,15 @@
                 </div>
             </center>
         </div>
-        <div class="row pad-up">
+
+        <div class="row pad-up" ng-if="custom.error">
+            <center>
+                <div class="col-md-10 col-md-offset-1 well">
+                    <span class="text-danger" ng-repeat="x in custom.errorMessage">{{x}} </br> </span>
+                </div>
+            </center>
+        </div>
+      <!--   <div class="row pad-up">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 well">
                     <div id="chart_div" />
@@ -77,8 +89,94 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+        <div  ng-show="this.custom.threadsCounted">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="hello">Number of threads (0 = serial)</label>
+                    <multiselect id="hello" ng-model="this.custom.selectedThreads" options="this.custom.threadsShown"></multiselect>
+                </div>
+                <div class="col-md-3">
+                    <center>
+                        E2E<input type="checkbox" ng-model="this.custom.plotE2E">
+                        ALG<input type="checkbox" ng-model="this.custom.plotAlg">
+                    </center>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default btn-primary" ng-click="this.custom.ca.updateChart()">Update</button>
+                </div>
+            </div>
+
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <hpc-chart data="this.custom.ca.data" options="this.custom.ca.chartOptions"></hpc-chart>
+                
+            </div>
+        </div>
+        <div class="row pad-up">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalca">
+                    Metric Selector
+                </button>
+                <!-- Modal for Metric Selection in Compare Approaches -->    
+                <div class="modal fade" id="myModalca" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <h3>Basic Metrics</h3>
+                                        <div class="row pad-up">
+                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==custom.ca.activeChart}" ng-click="custom.ca.changeChartType('executionTime', custom.ca.activeStatistic)">Execution time</div>
+                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==custom.ca.activeChart}" ng-click="custom.ca.changeChartType('speedup', custom.ca.activeStatistic)">Speedup</div>
+                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==custom.ca.activeChart}" ng-click="custom.ca.changeChartType('karpFlatt', custom.ca.activeStatistic)">Karp Flatt</div>
+                                            <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==custom.ca.activeChart}" ng-click="custom.ca.changeChartType('efficiency', custom.ca.activeStatistic)">Efficiency</div>
+                                        </div>
+                                        <hr />
+                                        <div class="row" ng-if="this.custom.perfData">
+                                            <h3>Advanced Metrics</h3>
+                                            <div class="row pad-up">
+                                                <div class="col-md-3 btn btn-default" ng-class="{'active': field==custom.ca.activeChart}" ng-repeat="field in custom.perfFields" ng-click="custom.ca.changeChartType(field, custom.ca.activeStatistic)">
+                                                    {{custom.camelCaseToTitle(field)}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="custom.problemsReady">Statistic <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" ng-click="custom.ca.changeChartType(custom.ca.activeChart, 'mean')">Mean</a></li>
+                            <li><a href="#" ng-click="custom.ca.changeChartType(custom.ca.activeChart, 'median')">Median</a></li>
+                            <li><a href="#" ng-click="custom.ca.changeChartType(custom.ca.activeChart, 'range')">Range</a></li>
+                            <li><a href="#" ng-click="custom.ca.changeChartType(custom.ca.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Statistic" value="{{custom.camelCaseToTitle(custom.ca.activeStatistic)}}" disabled>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <!-- <div class="row">
             <div class="col-md-8 col-md-offset-2 well">
                 <div class="col-md-4">
                     <button type="button" class="btn btn-default btn-block" ng-class="{active: custom.active_chart=='speedup'}" ng-click="custom.refresh_chart('speedup')">Speedup</button>
@@ -90,7 +188,7 @@
                     <button type="button" title='Use Google Chrome' class="btn btn-primary btn-block" ng-click="custom.export_chart()">Export Graph</a>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <footer></footer>
