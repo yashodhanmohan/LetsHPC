@@ -1,3 +1,17 @@
 a, a:hover, a:active, a:focus, a:visited {
     color: #FFFFFF;
 }
+
+#drop {
+    padding-left: 4cm;
+}
+
+#check{
+	position: relative;
+   	top:25px;
+}
+
+#btnupdate{
+	position: relative;
+	top:20px;
+}

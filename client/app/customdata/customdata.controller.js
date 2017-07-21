@@ -1251,7 +1251,8 @@ export default class CustomDataController {
             object = [];
 
             if (lines[0].split(",").length!=5) {
-                alert("The file is not in the right format. Kindly refresh the page and upload the proper file.");
+                alert("The file is not in the right format. Kindly upload the proper file.");
+                setTimeout(location.reload.bind(location));
             }
         for (var i in lines) {
             var line = _.map(_.split(lines[i], ','), (x) => {
@@ -1416,6 +1417,7 @@ export default class CustomDataController {
         var incrementer = 0;
         if(header.length==5 && header.indexOf("algS")!=-1 && header.indexOf("e2eS")!=-1) {
             alert("It looks like you have uploaded the time file instead of the perf file. Please check again");
+            setTimeout(location.reload.bind(location));
         }
         if (header[0] === "problem_name")
             incrementer+=2
@@ -1640,12 +1642,6 @@ export default class CustomDataController {
 
         this.activateTooltip();
     }
-
-
-
-
-
-
 
     export_chart() {
         var download = document.createElement('a');

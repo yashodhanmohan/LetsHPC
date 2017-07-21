@@ -20,12 +20,38 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row pad-up">
-                <div class="col-md-2 col-md-offset-5 well">
-                    Upload CSV file:&nbsp;&nbsp;
-                    <label class="btn btn-primary btn-file">
-                        Upload <input type="file" style="display: none;" onchange="angular.element(this).scope().report.read_file(this.files)">
-                    </label>
+                <center>
+                    <div class="col-md-6 col-md-offset-3 well">
+                        Upload CSV file:&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="btn btn-primary btn-file" title='Upload Time file'>
+                            Normal <input type="file" style="display: none;" onchange="angular.element(this).scope().report.read_file(this.files, true)">
+                        </label>&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="btn btn-primary btn-file" title='Upload Perf data file'>
+                            Advanced <input type="file" style="display: none;" onchange="angular.element(this).scope().report.read_file(this.files, false)">
+                        </label><!-- &nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-default btn-primary" onclick="window.open('https://github.com/letshpcorg/samplefiles')">Download Default Data</button> -->
+                    </div>
+            <div  ng-show="this.report.threadsCounted">
+
+                <div class="col-md-6 col-md-offset-3 well">
+                    <div class="col-md-6" id="drop">
+                        <label for="hello">Number of threads (0 = serial)</label>
+                        <multiselect id="hello" ng-model="this.report.selectedThreads" options="this.report.threadsShown"></multiselect>
+                    </div>
+                    <div class="col-md-3" id="check">
+                        <center>
+                            E2E <input type="checkbox" ng-model="this.report.plotE2E">
+                            ALG <input type="checkbox" ng-model="this.report.plotAlg">
+                        </center>
+                    </div>
+                    <div class="col-md-3" id="btnupdate">
+                        <button class="btn btn-default btn-primary" ng-click="this.report.ca.updateChart()">Update</button>
+                    </div>
                 </div>
+
+            </div>
+            
+               </center>
             </div>
             <div class="row pad-up" ng-if="report.low_p">
                 <div class="col-md-10 col-md-offset-1 well text-center">
@@ -47,62 +73,88 @@
                     <span class="text-danger">Error: The data does not contain runs for 0 thread counts which represent serial execution of the data. Since speedup is calculated based on the execution time of the serial code, no speedup plot will be available. Execution time plots are available normally. Add data for 0 thread count to activate speedup plots</span>
                 </div>
             </div>
-            <div class="row pad-up">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1 well">
-                            <div id="chart_div" />
-                        </div>
+            <div class="row pad-up" ng-if="report.error">
+                <center>
+                    <div class="col-md-10 col-md-offset-1 well">
+                        <span class="text-danger" ng-repeat="x in report.errorMessage">{{x}} </br> </span>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-2 well">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: report.chart_options.hAxis.logScale}" ng-click="report.chart_options.hAxis.logScale=true; report.refresh_chart(report.active_chart)">X-axis: Log</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !report.chart_options.hAxis.logScale}" ng-click="report.chart_options.hAxis.logScale=false; report.refresh_chart(report.active_chart)">X-axis: Linear</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 well">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: report.chart_options.vAxis.logScale}" ng-click="report.chart_options.vAxis.logScale=true; report.refresh_chart(report.active_chart)">Y-axis: Log</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="button" class="btn btn-default btn-block" ng-class="{active: !report.chart_options.vAxis.logScale}" ng-click="report.chart_options.vAxis.logScale=false; report.refresh_chart(report.active_chart)">Y-axis: Linear</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </center>
             </div>
             <div class="row">
-                <div class="col-md-8 col-md-offset-2 well">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: report.active_chart=='karpflatt'}" ng-click="report.refresh_chart('karpflatt')" disabled="disabled">Karp-Flatt metric</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: report.active_chart=='speedup'}" ng-click="report.refresh_chart('speedup')">Speedup</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-default btn-block" ng-class="{active: report.active_chart=='timeseries'}" ng-click="report.refresh_chart('timeseries')">Time series</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" title='Use Google Chrome' class="btn btn-primary btn-block" ng-click="report.export_chart()">Export Graph</a>
+                <div class="col-md-12">
+                    <hpc-chart data="this.report.ca.data" options="this.report.ca.chartOptions"></hpc-chart>
+                </div>
+            </div>
+            <div class="row pad-up" style="padding-bottom: 1cm;">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalca">
+                        Metric Selector
+                    </button>
+                    <!-- Modal for Metric Selection in Compare Approaches -->    
+                    <div class="modal fade" id="myModalca" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Select a metric</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <div class="row" ng-if="!this.report.perfData">
+                                            <h3>Basic Metrics</h3>
+                                            <div class="row pad-up">
+                                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==report.ca.activeChart}" ng-click="report.ca.changeChartType('executionTime', report.ca.activeStatistic)">Execution time</div>
+                                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'speedup'==report.ca.activeChart}" ng-click="report.ca.changeChartType('speedup', report.ca.activeStatistic)">Speedup</div>
+                                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==report.ca.activeChart}" ng-click="report.ca.changeChartType('karpFlatt', report.ca.activeStatistic)">Karp Flatt</div>
+                                                <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==report.ca.activeChart}" ng-click="report.ca.changeChartType('efficiency', report.ca.activeStatistic)">Efficiency</div>
+                                            </div>
+                                        </div>
+                                            <hr />
+                                            <div class="row" ng-if="this.report.perfData">
+                                                <h3>Advanced Metrics</h3>
+                                                <div class="row pad-up">
+                                                    <div class="col-md-3 btn btn-default" ng-class="{'active': field==report.ca.activeChart}" ng-repeat="field in report.perfFields" ng-click="report.ca.changeChartType(field, report.ca.activeStatistic)">
+                                                        {{report.camelCaseToTitle(field)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-btn" data-toggle="tooltip" data-placement="top" title="Select the statistic to plot">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-disabled="report.problemsReady">Statistic <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" ng-click="report.ca.changeChartType(report.ca.activeChart, 'mean')">Mean</a></li>
+                                <li><a href="#" ng-click="report.ca.changeChartType(report.ca.activeChart, 'median')">Median</a></li>
+                                <li><a href="#" ng-click="report.ca.changeChartType(report.ca.activeChart, 'range')">Range</a></li>
+                                <li><a href="#" ng-click="report.ca.changeChartType(report.ca.activeChart, 'standardDeviation')">Standard Deviation</a></li>
+                            </ul>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Statistic" value="{{report.camelCaseToTitle(report.ca.activeStatistic)}}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
             </div>
             <hr />
-            <h3>Advanced Metrics</h3>
+            <!-- <h3>Advanced Metrics</h3>
             <div class="row pad-up">
                 <div class="col-md-3 btn btn-default" ng-class="{'active': report.active_chart==field}" ng-repeat="field in report.perfFields" ng-click="report.refresh_chart(field)">
                     {{main.camelCaseToTitle(field)}}
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="row">

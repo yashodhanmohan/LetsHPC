@@ -136,6 +136,7 @@
                                 <div class="row">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-10">
+                                        <div class="row" ng-if="!this.custom.perfData">
                                         <h3>Basic Metrics</h3>
                                         <div class="row pad-up">
                                             <div class="col-md-3 btn btn-default" ng-class="{'active': 'executionTime'==custom.ca.activeChart}" ng-click="custom.ca.changeChartType('executionTime', custom.ca.activeStatistic)">Execution time</div>
@@ -143,6 +144,7 @@
                                             <div class="col-md-3 btn btn-default" ng-class="{'active': 'karpFlatt'==custom.ca.activeChart}" ng-click="custom.ca.changeChartType('karpFlatt', custom.ca.activeStatistic)">Karp Flatt</div>
                                             <div class="col-md-3 btn btn-default" ng-class="{'active': 'efficiency'==custom.ca.activeChart}" ng-click="custom.ca.changeChartType('efficiency', custom.ca.activeStatistic)">Efficiency</div>
                                         </div>
+                                    </div>
                                         <hr />
                                         <div class="row" ng-if="this.custom.perfData">
                                             <h3>Advanced Metrics</h3>

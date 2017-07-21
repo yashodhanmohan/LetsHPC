@@ -1,3 +1,7 @@
+import _ from 'lodash';
+import ChartOption from '../../classes/chartOption';
+import Factory from '../../classes/factory';
+
 export default class ReportGeneratorController {
 
     tex_string = '';
@@ -59,115 +63,6 @@ export default class ReportGeneratorController {
     run_threshold = 2;
 
 
-    constructor($http) {
-        window.document.title = 'Report Generator - LETs HPC';
-        this.iBCDSI = '';
-        this.iBCSPI = '';
-        this.iCoSeCo = '';
-        this.iCoPaCo = '';
-        this.iCoPa = '';
-        this.iThSpu = '';
-        this.iEstSerFra = '';
-        this.iTub = '';
-        this.iNuMA = '';
-        this.iNoCom = '';
-        this.iTCRAProc = '';
-        this.iTCRAProSize = '';
-        this.iSCRA = '';
-        this.iECRA = '';
-        this.iKFRA = '';
-        this.iMSPO = '';
-        this.iMWRA = '';
-        this.iCCRA = '';
-        this.iFSRA = '';
-        this.iSraRA = '';
-        this.iLBRA = '';
-        this.iSyncRA = '';
-        this.iGRA = '';
-        this.iScaRA = '';
-        this.iAOC = '';
-        this.iCBMB = '';
-        this.iADDADA = '';
-        this.iDFIA = '';
-        this.iAAC = '';
-
-        this.tex_string = `\n\\documentclass[runningheads, a4paper, oribibl]{llncs}\n\n\\setcounter{tocdepth}{3}\n\\usepackage{graphicx}\n\\graphicspath{{../images/}}\n\\usepackage{epstopdf}\n\\usepackage{standalone}\n\\usepackage{xcolor}\n\\usepackage{tikz}\n\\usetikzlibrary{fit}\n\\usetikzlibrary{shapes,snakes,calc}\n\n\n\n\\usepackage{listings, color}\n\n\\definecolor{dkgreen}{rgb}{0,0.6,0}\n\\definecolor{gray}{rgb}{0.5,0.5,0.5}\n\\definecolor{mauve}{rgb}{0.58,0,0.82}\n\n\n\n\\lstset{frame=tb,\n  language=Matlab,\n  aboveskip=3mm,\n  belowskip=3mm,\n  showstringspaces=false,\n  columns=flexible,\n  basicstyle={\\small\\ttfamily},\n  numbers=none,\n  numberstyle=\\tiny\\color{gray},\n  keywordstyle=\\color{blue},\n  commentstyle=\\color{dkgreen},\n  stringstyle=\\color{mauve},\n  breaklines=true,\n  breakatwhitespace=false,\n  tabsize=2,\n  numbers=left,\n  numbersep=5pt,\n  title=\\lstname\n}\n\n\n\n\\usepackage[section]{placeins}\n\n\\usepackage{amsmath,amssymb, cancel}\n%\n\\usepackage{url}\n\\urldef{\\mailsa}\\path|201301442@daiict.ac.in|\n\\urldef{\\mailsb}\\path|201301047@daiict.ac.in|\n\\newcommand{\\keywords}[1]{\\par\\addvspace\\baselineskip\n\\noindent\\keywordname\\enspace\\ignorespaces#1}\n\n\n\\renewcommand\\thesubsection{\\thesection(\\alph{subsection})}\n\n\n\\begin{document}\n\n\\mainmatter\n\n\\title{High Performance Computing Report}\n\n\\titlerunning{High Performance Computing Report}\n\n\\author{Author 1 ()\\\\Author 2 ()}%\n%\n\\authorrunning{Author 1 \\& Author 2}\n\\institute{Institute Name\\\\\n  \\mailsa\\\\\n  \\mailsb\\\\\n}\n\n\\maketitle\n\\section{Implementation Details}\n\\subsection{Brief and clear description about the Serial implementation}\n${this.iBCDSI}\n\\subsection{Brief and clear description about the implementation of the approach (Parallelization Strategy, Mapping of computation to threads)}\n${this.iBCSPI}\n\\section{Complexity and Analysis}\n\\subsection{Complexity of serial code}\n${this.iCoSeCo}\n\\subsection{Complexity of parallel code (split as needed into work, step, etc.) }\n${this.iCoPaCo}\n\\subsection{Cost of Parallel Algorithm}\n${this.iCoPa}\n\\subsection{Theoretical Speedup (using asymptotic analysis, etc.)}\n${this.iThSpu}\n\\subsection{Estimated Serial Fraction }\n${this.iEstSerFra}\n\\subsection{Tight upper bound based on Amdahl\'s Law}\n${this.iTub}\n\\subsection{Number of memory accesses}\n${this.iNuMA}\n\\subsection{Number of computations}\n${this.iNoCom}\n\n\\section{Curve Based Analysis}\n\\subsection{Time Curve related analysis (as no. of processor increases)}\n${this.iTCRAProc}\n\\subsection{Time Curve related analysis (as problem size increases, also for serial)}\n${this.iTCRAProSize}\n\\subsection{Speedup Curve related analysis (as problem size and no. of processors increase)}\n${this.iSCRA}\n\\subsection{Efficiency Curve related analysis}\n${this.iECRA}\n\\subsection{Karp-Flatt metric related analysis}\n${this.iKFRA}\n\n\\section{Further Detailed Analysis}\n\\subsection{Major serial and parallel overheads}\n${this.iMSPO}\n\\subsection{Memory wall related analysis}\n${this.iMWRA}\n\\subsection{Cache coherence related analysis}\n${this.iCCRA}\n\\subsection{False sharing related analysis}\n${this.iFSRA}\n\\subsection{Scheduling related analysis}\n${this.iSraRA}\n\\subsection{Load balance analysis}\n${this.iLBRA}\n\\subsection{Synchronisation related analysis}\n${this.iSyncRA}\n\\subsection{Granularity related analysis}\n${this.iGRA}\n\\subsection{Scalability related analysis}\n${this.iScaRA}\n\n\\section{Additional Approach Analysis}\n\\subsection{Analysis of any other concepts/factors you think were important in your problem-approach combination}\n${this.iAOC}\n\\subsection{Further details (Code balance , machine balance analysis, how much of peak performance achieved in terms of \\%)}\n${this.iCBMB}\n\\subsection{Advantages/Disadvantages of your approach}\n${this.iADDADA}\n\\subsection{Difficulties faced while implementing this approach}\n${this.iDFIA}\n\\subsection{Additional Comments}\n${this.iAAC}\n\n\\end{document}\n\n`;
-
-        this.selection = [];
-        this.file = {};
-        this.chart_options = {
-            titlePosition: 'in',
-            height: 600,
-            pointShape: 'circle',
-            pointsVisible: true,
-            explorer: {
-                keepInBounds: true,
-                maxZoomOut: 1
-            },
-            hAxis: {
-                logScale: true
-            },
-            vAxis: {
-                logScale: false
-            },
-            chartArea: {
-                backgroundColor: {
-                    stroke: '#000',
-                    strokeWidth: 1
-                }
-            },
-            crosshair: {
-                color: 'black',
-                trigger: 'both'
-            },
-            selectionMode: 'multiple'
-        };
-
-        this.execution_time_chart_options = {
-            title: 'Problem size vs. Execution time',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Execution time'
-            }
-        };
-
-        this.speedup_chart_options = {
-            title: 'Problem size vs. Speedup',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Speedup'
-            }
-        };
-
-        this.karpflatt_chart_options = {
-            title: 'Problem size vs. Karp Flatt coefficient',
-            hAxis: {
-                title: 'Problem size'
-            },
-            vAxis: {
-                title: 'Karp flatt coefficient'
-            }
-        };
-
-        this.execution_time_data = new google.visualization.DataTable();
-        this.speedup_data = new google.visualization.DataTable();
-        this.karp_flatt_data = new google.visualization.DataTable();
-
-        this.chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-        google.visualization.events.addListener(this.chart, 'ready', () => {
-            this.chart_image = this.chart.getImageURI();
-        });
-
-        this.data_fetch_complete = false;
-        this.active_chart = 'timeseries';
-
-        this.refresh_chart(this.active_chart);
-    }
-
     generate_report() {
         var download = document.createElement('a');
         this.tex_string = `\n\\documentclass[runningheads, a4paper, oribibl]{llncs}\n\n\\setcounter{tocdepth}{3}\n\\usepackage{graphicx}\n\\graphicspath{{../images/}}\n\\usepackage{epstopdf}\n\\usepackage{standalone}\n\\usepackage{xcolor}\n\\usepackage{tikz}\n\\usetikzlibrary{fit}\n\\usetikzlibrary{shapes,snakes,calc}\n\n\n\n\\usepackage{listings, color}\n\n\\definecolor{dkgreen}{rgb}{0,0.6,0}\n\\definecolor{gray}{rgb}{0.5,0.5,0.5}\n\\definecolor{mauve}{rgb}{0.58,0,0.82}\n\n\n\n\\lstset{frame=tb,\n  language=Matlab,\n  aboveskip=3mm,\n  belowskip=3mm,\n  showstringspaces=false,\n  columns=flexible,\n  basicstyle={\\small\\ttfamily},\n  numbers=none,\n  numberstyle=\\tiny\\color{gray},\n  keywordstyle=\\color{blue},\n  commentstyle=\\color{dkgreen},\n  stringstyle=\\color{mauve},\n  breaklines=true,\n  breakatwhitespace=false,\n  tabsize=2,\n  numbers=left,\n  numbersep=5pt,\n  title=\\lstname\n}\n\n\n\n\\usepackage[section]{placeins}\n\n\\usepackage{amsmath,amssymb, cancel}\n%\n\\usepackage{url}\n\\urldef{\\mailsa}\\path|201301442@daiict.ac.in|\n\\urldef{\\mailsb}\\path|201301047@daiict.ac.in|\n\\newcommand{\\keywords}[1]{\\par\\addvspace\\baselineskip\n\\noindent\\keywordname\\enspace\\ignorespaces#1}\n\n\n\\renewcommand\\thesubsection{\\thesection(\\alph{subsection})}\n\n\n\\begin{document}\n\n\\mainmatter\n\n\\title{High Performance Computing Report}\n\n\\titlerunning{High Performance Computing Report}\n\n\\author{Author 1 ()\\\\Author 2 ()}%\n%\n\\authorrunning{Author 1 \\& Author 2}\n\\institute{Institute Name\\\\\n  \\mailsa\\\\\n  \\mailsb\\\\\n}\n\n\\maketitle\n\\section{Implementation Details}\n\\subsection{Brief and clear description about the Serial implementation}\n${this.iBCDSI}\n\\subsection{Brief and clear description about the implementation of the approach (Parallelization Strategy, Mapping of computation to threads)}\n${this.iBCSPI}\n\\section{Complexity and Analysis}\n\\subsection{Complexity of serial code}\n${this.iCoSeCo}\n\\subsection{Complexity of parallel code (split as needed into work, step, etc.) }\n${this.iCoPaCo}\n\\subsection{Cost of Parallel Algorithm}\n${this.iCoPa}\n\\subsection{Theoretical Speedup (using asymptotic analysis, etc.)}\n${this.iThSpu}\n\\subsection{Estimated Serial Fraction }\n${this.iEstSerFra}\n\\subsection{Tight upper bound based on Amdahl\'s Law}\n${this.iTub}\n\\subsection{Number of memory accesses}\n${this.iNuMA}\n\\subsection{Number of computations}\n${this.iNoCom}\n\n\\section{Curve Based Analysis}\n\\subsection{Time Curve related analysis (as no. of processor increases)}\n${this.iTCRAProc}\n\\subsection{Time Curve related analysis (as problem size increases, also for serial)}\n${this.iTCRAProSize}\n\\subsection{Speedup Curve related analysis (as problem size and no. of processors increase)}\n${this.iSCRA}\n\\subsection{Efficiency Curve related analysis}\n${this.iECRA}\n\\subsection{Karp-Flatt metric related analysis}\n${this.iKFRA}\n\n\\section{Further Detailed Analysis}\n\\subsection{Major serial and parallel overheads}\n${this.iMSPO}\n\\subsection{Memory wall related analysis}\n${this.iMWRA}\n\\subsection{Cache coherence related analysis}\n${this.iCCRA}\n\\subsection{False sharing related analysis}\n${this.iFSRA}\n\\subsection{Scheduling related analysis}\n${this.iSraRA}\n\\subsection{Load balance analysis}\n${this.iLBRA}\n\\subsection{Synchronisation related analysis}\n${this.iSyncRA}\n\\subsection{Granularity related analysis}\n${this.iGRA}\n\\subsection{Scalability related analysis}\n${this.iScaRA}\n\n\\section{Additional Approach Analysis}\n\\subsection{Analysis of any other concepts/factors you think were important in your problem-approach combination}\n${this.iAOC}\n\\subsection{Further details (Code balance , machine balance analysis, how much of peak performance achieved in terms of \\%)}\n${this.iCBMB}\n\\subsection{Advantages/Disadvantages of your approach}\n${this.iADDADA}\n\\subsection{Difficulties faced while implementing this approach}\n${this.iDFIA}\n\\subsection{Additional Comments}\n${this.iAAC}\n\n\\end{document}\n\n`;
@@ -215,297 +110,584 @@ export default class ReportGeneratorController {
 
     // File related function =============================================
 
-    read_file(files) {
-        var file = files[0];
-        var read = new FileReader();
-        read.onload = () => {
-            var file_text = read.result;
-            var file_object = this.file_to_object(file_text);
-            this.set_warning_flags(file_object);
-            this.plot_file(file_object);
-        }
-        read.readAsText(file);
-    }
 
-    file_to_object(file_text) {
-        var lines = _.remove(_.split(file_text, '\n'), function(x) {
-                return x != ""
-            }),
-            object = [];
-        for (var i in lines) {
-            var line = _.map(_.split(lines[i], ','), (x) => {
-                return parseFloat(x)
-            });
-            var number = {
-                "n": line[0],
-                "p": line[1],
-                "run_id": line[2],
-                "algS": line[3],
-                "algNS": 0,
-                "e2eS": line[4],
-                "e2eNS": 0
+        download_default_data() {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.data));
+            element.setAttribute('download', 'default_data.csv');
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+
+        uploadedPerfData = null;
+        uploadedTimeData = null;
+        perfData = false;
+        numberData = false;
+        threadsInPerfFile = ['1', '2', '3', '4', '0'];
+        threadsInTimeFile = ['1', '2'];
+        // threadsShown = [{"p":'4'}, {"p":'3'}, {"p":'2'}, {"p":'1'}, {"p":'0'}, {"p":'100'} , {"p":'200'}];
+        threadsShown = ['1', '2', '3', '4', '0', '400', '500'];
+        threadsCounted = false;
+        selectedThreads = [];
+
+
+        error = false;
+        errorMessage = [];
+        check_for_errors() {
+
+            if(this.perfData && this.numberData) {
+                var all_n_time =  _.map(_.uniq(_.map(_.filter(this.uploadedTimeData, selectedNumber => {
+                        return selectedNumber;
+                    }), 'n')), _.toString);
+                var all_n_perf =  _.map(_.uniq(_.map(_.filter(this.uploadedPerfData, selectedNumber => {
+                        return selectedNumber;
+                    }), 'n')), _.toString);;
+                var all_p_time =  _.map(_.uniq(_.map(_.filter(this.uploadedTimeData, selectedNumber => {
+                        return selectedNumber;
+                    }), 'p')), _.toString);;
+                var all_p_perf =  _.map(_.uniq(_.map(_.filter(this.uploadedPerfData, selectedNumber => {
+                        return selectedNumber;
+                    }), 'p')), _.toString);;
+
+                //Check both have same n
+                if(all_n_time.length!=all_n_perf.length) {
+                    this.error = true;
+                    this.errorMessage.push("The problem sizes in the perf file and the time file do not correspond.");
+                }
+                else {
+                    for(var i=0; i<all_n_time.length; i++) {
+                        if(all_n_perf.indexOf(all_n_time[i]) == -1) {
+                            this.error = true;
+                        this.errorMessage.push("The problem sizes in the perf file and the time file do not correspond.");
+                        }
+                    }
+                }
+
+                if(all_p_time.length!=all_p_perf.length) {
+                    this.error = true;
+                    this.errorMessage.push("The processors in the perf data file and the time data file do not correspond.");
+                }
+                else {
+                    for(var i=0; i<all_p_time.length; i++) {
+                        if(all_p_perf.indexOf(all_p_time[i]) == -1) {
+                            this.error = true;
+                            this.errorMessage.push("The processors in the perf data file and the time data file do not correspond.");
+                        }
+                    }
+                }
+
+
+            
+            }
+
+        }
+
+        read_file(files, numbers) {
+            var file = files[0];
+            var read = new FileReader();
+            
+            var file_object;
+
+            read.onload = () => {
+                var file_text = read.result;
+                //console.log(file_text);
+                if (numbers)
+                {
+                    this.uploadedTimeData = this.file_to_object_number(file_text);
+                    this.numberData = true;
+                    this.threadsCounted = true;
+                    this.threadsInTimeFile  = _.map(_.uniq(_.map(_.filter(this.uploadedTimeData, selectedNumber => {
+                        return selectedNumber;
+                    }), 'p')), _.toString);
+
+                    if(!this.uploadedPerfData)
+                        this.threadsShown = angular.copy(this.threadsInTimeFile);
+                    
+
+                }
+                else
+                {
+                    this.uploadedPerfData = this.file_to_object_perf(file_text);
+                    this.perfData = true;
+                    this.threadsCounted = true;
+                    this.threadsInPerfFile = _.map(_.uniq(_.map(_.filter(this.uploadedPerfData, selectedNumber => {
+                        return selectedNumber;
+                    }), 'p')), _.toString);
+                    
+                    if(!this.uploadedTimeData)
+                        this.threadsShown = angular.copy(this.threadsInPerfFile);
+
+                }
+
+                this.check_for_errors();
+                this.getProblemData(this.uploadedTimeData, this.uploadedPerfData);
+                //console.log(file_object);
+                //return file_object;
+                //this.set_warning_flags(file_object);
+                //this.plot_file(file_object);
+            }
+            read.readAsText(file);
+        }
+
+        updatedOnce = false;
+        getProblemData(numberFile, perfFile) {
+            this.peamDataReady = false;
+
+            var numberFetch = numberFile;
+            var perfFetch = perfFile;
+            
+
+            this.$q.all([numberFetch, perfFetch])
+                .then(() => {
+                    //console.log(numberFetch);
+                    //console.log(perfFetch);
+                    this.numbers = _.concat(numberFetch, perfFetch);
+                    this.peamDataReady = true;
+                    if(!this.updatedOnce) {
+                        this.ca.setData();
+                        this.updatedOnce = true;
+                    }
+                    console.log("Chart Updated");
+                    this.ca.updateChart();
+                    google.visualization.events.addListener(this.ca.chart, 'ready', () => {
+                        this.ca.chartImage = chart.getImageURI();
+                    });
+                   // google.visualization.events.addListener(this.cm.chart, 'ready', () => {
+                    //    this.cm.chartImage = chart.getImageURI();
+                    //});
+                });
+        }
+
+
+        file_to_object_number(file_text) {
+            var lines = _.remove(_.split(file_text, '\n'), function(x) {
+                    return x != ""
+                }),
+                object = [];
+
+                if (lines[0].split(",").length!=5) {
+                    alert("The file is not in the right format. Kindly upload the proper file.");
+                    setTimeout(location.reload.bind(location));
+                }
+            for (var i in lines) {
+                var line = _.map(_.split(lines[i], ','), (x) => {
+                    return parseFloat(x)
+                });
+                if(!isNaN(line[0])) {
+                    var number = {
+                        "n": line[0],
+                        "p": line[1],
+                        "run_id": line[2],
+                        "algS": line[3],
+                        "algNS": 0,
+                        "e2eS": line[4],
+                        "e2eNS": 0,
+                        "approach_id" : "approach",
+                        "machine_id" : "machine"
+                    };
+                    object.push(number);
+                }
+            }
+            this.set_warning_flags(object);
+            return object;
+        }
+
+        comparator(a,b) {
+            return a - b;
+        }
+
+        median(l) {
+            l.sort(this.comparator);
+            return l[Math.floor(l.length/2)];
+        }
+
+        mean(l) {
+            var sum = 0;
+            for(var i=0; i<l.length; i++)
+                sum+=l[i]
+            return sum/l.length;
+        }
+
+        range(l) {
+            l.sort(this.comparator);
+            return l[l.length-1] - l[0];
+        }
+
+
+        std_dev(l) {
+            var m = this.mean(l);
+            var sum = 0;
+            for(var i =0; i<l.length; i++)
+                sum+= Math.pow((l[i]-m),2);
+            sum = sum/l.length
+            return Math.pow(sum, 0.5)
+        }
+
+
+        google_chart_object(all_p, data, plotFor, parameter, statistic) {
+            var chartObject = [];
+            var allData = {};
+            var serial_data = {};
+            var all_n = _.map(_.uniq(_.map(_.filter(data, selectedNumber => {
+                        return selectedNumber;
+                    }), 'n')), _.toString);
+            for(var i = 0; i < all_n.length; i++) {
+                allData[all_n[i]] = {};
+                for (var j = 0; j < all_p.length; j++) {
+                        let number = _.filter(data, {
+                            'n' : parseInt(all_n[i]),
+                            'p': all_p[j]
+                        });
+                        var specific_array = [];
+                        for(var k=0; k<number.length; k++)
+                            specific_array.push(number[k][parameter])
+                        //if (statistic === "mean")
+                        allData[all_n[i]][all_p[j]] = statistic(specific_array)
+                        
+               }
+            }
+
+            if (plotFor === "speedup" || plotFor === "karpflatt" || plotFor === "efficiency") {
+                for(var i=0; i<all_n.length; i++) {
+                    let number = _.filter(data, {
+                        'n' : parseInt(all_n[i]),
+                        'p': 0
+                    });
+                    var specific_array = [];
+                    for(var j=0; j<number.length; j++)
+                        specific_array.push(number[j][parameter])
+                    serial_data[all_n[i]] = statistic(specific_array);
+                }
+            }
+
+            if (plotFor === "speedup") {
+                for(var i=0; i<all_n.length; i++) {
+                    for(var j=0; j<all_p.length; j++) {
+                        allData[all_n[i]][all_p[j]] = serial_data[all_n[i]]/ allData[all_n[i]][all_p[j]]; 
+                    }
+                }
+            }
+            else if(plotFor === "efficiency") {
+                for(var i=0; i<all_n.length; i++) {
+                    for(var j=0; j<all_p.length; j++) {
+                        allData[all_n[i]][all_p[j]] = (serial_data[all_n[i]]/ allData[all_n[i]][all_p[j]])/all_p[j]; 
+                    }
+                }
+            }
+            else if (plotFor === "karpflatt") {
+                for(var i=0; i<all_n.length; i++) {
+                    for(var j=0; j<all_p.length; j++) {
+                        allData[all_n[i]][all_p[j]] = (allData[all_n[i]][all_p[j]]/serial_data[all_n[i]] - 1/all_p[j])/(1 - 1/all_p[j]); 
+                    }
+                }
+            }
+            var test = new google.visualization.DataTable();
+            test.addColumn('number', 'problem_size');
+            for (var j=0; j<all_p.length; j++)                       //  addColumn(type, label, id) label and id are optional, all values are initially set to null
+                test.addColumn('number', all_p[j] + ' threads data');
+            for (var i=0; i<all_n.length; i++) {
+                var testObject = []
+                testObject.push(parseInt(all_n[i]));
+                for(var j=0; j<all_p.length; j++)
+                    testObject.push(allData[all_n[i]][all_p[j]]);
+                test.addRows([testObject]);
+
+            }
+            this.ca.data = _.cloneDeep(test);
+        }   
+
+
+        file_to_object_perf(file_text) {
+            var lines = _.remove(_.split(file_text, '\n'), function(x) {
+                    return x != ""
+                }),
+                object = [];
+            var perfMap = {
+            "problem_name" : "problem_name",
+            "problem_approach" : "problem_approach",
+            "n" : "n",
+            "p" : "p",
+            "run_id" : "run_id",
+            "cycles":"cycles",
+            "instructions" : "instructions",
+            "cache-references" : "cacheReferences",
+            "cache-misses" : "cacheMisses",
+            "bus-cycles" : "busCycles",
+            "L1-dcache-loads" : "L1DcacheLoads",
+            "L1-dcache-load-misses" : "L1DcacheLoadMisses",
+            "L1-dcache-stores" : "L1DcacheStores",
+            "dTLB-loads" : "dTLBLoads",
+            "dTLB-load-misses" : "dTLBLoadMisses",
+            "LLC-loads" : "LLCLoads",
+            "LLC-load-misses" : "LLCLoadMisses",
+            "LLC-stores" : "LLCStores",
+            "branches" : "branches",
+            "branch-misses" : "branchMisses",
+            "context-switches" : "contextSwitches",
+            "cpu-migrations" : "cpuMigrations",
+            "page-faults" : "pageFaults"        
             };
-            object.push(number);
-        }
-        return object;
-    }
 
-    plot_file(file_object) {
-        var unique_p = _.map(_.uniq(_.map(file_object, 'p')), function(t) {
-            return t.toString()
-        });
-
-        for (var i in unique_p) {
-            this.add_number_in_table(file_object, unique_p[i], 'e2e');
-            this.add_number_in_table(file_object, unique_p[i], 'alg');
-        }
-
-        this.refresh_chart(this.active_chart);
-
-    }
-
-    set_warning_flags(file_object) {
-        var unique_p = _.map(_.uniq(_.map(file_object, 'p')), function(t) {
-            return t.toString()
-        });
-        var unique_n = _.map(_.uniq(_.map(file_object, 'n')), function(t) {
-            return t.toString()
-        });
-        var unique_runs = _.map(_.uniq(_.map(file_object, 'run_id')), function(t) {
-            return t.toString()
-        });
-
-        if(unique_runs.length < this.run_threshold) {
-            this.low_runs = true;
-        }
-        if(unique_n.length < this.n_threshold) {
-            this.low_n = true;
-        }
-        if(unique_p.length < this.p_threshold) {
-            this.low_p = true;
-        }
-        if(_.indexOf(unique_p, "0")==-1) {
-            this.no_serial = true;
-        }
-    }
-
-    // Computation functions =============================================
-
-    averaged_execution_time(number) {
-        var e2e_execution_time_by_problem_size = {};
-        var alg_execution_time_by_problem_size = {};
-
-        var number_grouped_by_problem_size = _.groupBy(number, function(x) {
-            return x.n
-        });
-        for (var size in number_grouped_by_problem_size) {
-            var e2e_averaged_execution_time = 0;
-            var alg_averaged_execution_time = 0;
-            var count = 0;
-            for (var i in number_grouped_by_problem_size[size]) {
-                count++;
-                var e2eS = parseFloat(number_grouped_by_problem_size[size][i].e2eS);
-                var algS = parseFloat(number_grouped_by_problem_size[size][i].algS);
-                var e2eNS = parseFloat(number_grouped_by_problem_size[size][i].e2eNS);
-                var algNS = parseFloat(number_grouped_by_problem_size[size][i].algNS);
-
-                e2e_averaged_execution_time += (e2eS + (e2eNS * 1e-9))
-                alg_averaged_execution_time += (algS + (algNS * 1e-9))
+            var perfIndexMap = [];
+            var header = lines[0].split(",");
+            var incrementer = 0;
+            if(header.length==5 && header.indexOf("algS")!=-1 && header.indexOf("e2eS")!=-1) {
+                alert("It looks like you have uploaded the time file instead of the perf file. Please check again");
+                setTimeout(location.reload.bind(location));
             }
-            e2e_averaged_execution_time /= count;
-            alg_averaged_execution_time /= count;
+            if (header[0] === "problem_name")
+                incrementer+=2
 
-            e2e_execution_time_by_problem_size[size] = e2e_averaged_execution_time;
-            alg_execution_time_by_problem_size[size] = alg_averaged_execution_time;
-        }
-
-        return {
-            e2e: e2e_execution_time_by_problem_size,
-            alg: alg_execution_time_by_problem_size
-        };
-    }
-
-    averaged_speedup(number, number_for_serial) {
-        var e2e_speedup_by_problem_size = {};
-        var alg_speedup_by_problem_size = {};
-
-        var average_execution_time = this.averaged_execution_time(number);
-        var e2e_execution_time = average_execution_time.e2e;
-        var alg_execution_time = average_execution_time.alg;
-
-        var average_execution_time0 = this.averaged_execution_time(number_for_serial);
-        var e2e_execution_time0 = average_execution_time0.e2e;
-        var alg_execution_time0 = average_execution_time0.alg;
-
-        for (var size in e2e_execution_time) {
-            e2e_speedup_by_problem_size[size] = e2e_execution_time0[size] / e2e_execution_time[size];
-        }
-
-        for (var size in alg_execution_time) {
-            alg_speedup_by_problem_size[size] = alg_execution_time0[size] / alg_execution_time[size];
-        }
-
-        return {
-            e2e: e2e_speedup_by_problem_size,
-            alg: alg_speedup_by_problem_size
-        };
-    }
-
-    // Table related functions =============================================
-
-    add_number_in_table(numbers, nthreads, e2e_or_alg) {
-        var number = _.filter(numbers, function(number) {
-            return (number.p == nthreads);
-        });
-        var serialnumbers = _.filter(numbers, function(number) {
-            return (number.p == 0);
-        })
-        var execution_time = this.averaged_execution_time(number);
-        var speedup = this.averaged_speedup(number, serialnumbers);
-
-
-        if (e2e_or_alg == 'e2e') {
-            var e2e_execution_time_table = this.object_to_table(execution_time.e2e, 'SIZE', 'size', this.getLabel(nthreads, 'e2e'), this.getID(nthreads, 'e2e'));
-            var e2e_speedup_table = this.object_to_table(speedup.e2e, 'SIZE', 'size', this.getLabel(nthreads, 'e2e'), this.getID(nthreads, 'e2e'));
-
-            var columns_from_table1 = [];
-            for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
-                columns_from_table1.push(x + 1);
+            for(var i = 0; i < header.length; i++) {
+                perfIndexMap.push(perfMap[header[i]]);
             }
 
-            if (this.execution_time_data.getNumberOfColumns() < 2)
-                this.execution_time_data = e2e_execution_time_table;
-            else
-                this.execution_time_data = google.visualization.data.join(this.execution_time_data, e2e_execution_time_table, 'full', [
-                    [0, 0]
-                ], columns_from_table1, [1]);
-
-            if (this.speedup_data.getNumberOfColumns() < 2)
-                this.speedup_data = e2e_speedup_table;
-            else
-                this.speedup_data = google.visualization.data.join(this.speedup_data, e2e_speedup_table, 'full', [
-                    [0, 0]
-                ], columns_from_table1, [1]);
-        } else if (e2e_or_alg == 'alg') {
-            var alg_execution_time_table = this.object_to_table(execution_time.alg, 'SIZE', 'size', this.getLabel(nthreads, 'alg'), this.getID(nthreads, 'alg'));
-            var alg_speedup_table = this.object_to_table(speedup.alg, 'SIZE', 'size', this.getLabel(nthreads, 'alg'), this.getID(nthreads, 'alg'));
-
-            var columns_from_table1 = [];
-            for (var x = 0; x < this.execution_time_data.getNumberOfColumns() - 1; x++) {
-                columns_from_table1.push(x + 1);
+            for (var i in lines) {
+                var line = _.map(_.split(lines[i], ','), (x) => {
+                    return parseFloat(x)
+                });
+                if(!isNaN(line[incrementer])) {
+                    var number = {}
+                    for (var k =incrementer; k<line.length; k++) {
+                        number[perfIndexMap[k]] = parseFloat(line[k]);
+                        //console.log(perfIndexMap[k]);
+                    }
+                    number["approach_id"] = "approach";
+                    number["machine_id"]= "machine";
+                    object.push(number);
+                }
             }
-
-            if (this.execution_time_data.getNumberOfColumns() < 2)
-                this.execution_time_data = alg_execution_time_table;
-            else
-                this.execution_time_data = google.visualization.data.join(this.execution_time_data, alg_execution_time_table, 'full', [
-                    [0, 0]
-                ], columns_from_table1, [1]);
-
-            if (this.speedup_data.getNumberOfColumns() < 2)
-                this.speedup_data = alg_speedup_table;
-            else
-                this.speedup_data = google.visualization.data.join(this.speedup_data, alg_speedup_table, 'full', [
-                    [0, 0]
-                ], columns_from_table1, [1]);
+    //        console.log(object);
+            return object;
         }
-    }
 
-    remove_number_from_table(nthreads, e2e_or_alg) {
-        var numCol = this.execution_time_data.getNumberOfColumns();
-        for (var j = 1; j < numCol; j++) {
-            if (this.execution_time_data.getColumnId(j) == this.getID(nthreads, e2e_or_alg)) {
-                this.execution_time_data.removeColumn(j);
-                this.speedup_data.removeColumn(j);
-                numCol--;
-                break;
+
+        set_warning_flags(file_object) {
+            var unique_p = _.map(_.uniq(_.map(file_object, 'p')), function(t) {
+                return t.toString()
+            });
+            var unique_n = _.map(_.uniq(_.map(file_object, 'n')), function(t) {
+                return t.toString()
+            });
+            var unique_runs = _.map(_.uniq(_.map(file_object, 'run_id')), function(t) {
+                return t.toString()
+            });
+
+            if (unique_runs.length < this.run_threshold) {
+                this.low_runs = true;
+            }
+            if (unique_n.length < this.n_threshold) {
+                this.low_n = true;
+            }
+            if (unique_p.length < this.p_threshold) {
+                this.low_p = true;
+            }
+            if (_.indexOf(unique_p, "0") == -1) {
+                this.no_serial = true;
             }
         }
+
+
+    perfFields = ["cycles","instructions","cacheReferences","cacheMisses","busCycles","L1DcacheLoads","L1DcacheLoadMisses","L1DcacheStores","dTLBLoads","dTLBLoadMisses","LLCLoads","LLCLoadMisses","LLCStores","branches","branchMisses","contextSwitches","cpuMigrations","pageFaults"]
+
+    plotE2E = false;
+    plotAlg = true;
+
+    ca = {
+        selectedApproaches: [{"_id":"approach", "approach_name":"user approach"}],
+        selectedMachine: {"_id":"machine", "machine_name":"Machine 1", "model_name":"user machine"},
+        selectedPenv: {},
+
+        machines: [],
+        approaches: [],
+        penvs: [],
+
+        dataTable: Factory.create('table'),
+        data: {},
+
+        chart: {},
+        chartImage: {},
+        chartOptions: Factory.create('chartOption'),
+        activeChart: 'executionTime',
+        activeStatistic: 'mean',
+
+        initialize: () => {
+
+            this.ca.selectedApproaches =  [{"_id":"approach", "approach_name":"user approach"}];
+            this.ca.selectedMachine = {"_id":"machine", "machine_name":"Machine 1", "model_name":"user machine"};
+            this.ca.selectedPenv = {};
+
+            this.ca.machines =  [];
+            this.ca.approaches = [];
+            this.ca.penvs = [];
+
+            this.ca.dataTable = Factory.create('table');
+            this.ca.data = {};
+
+            this.ca.chart = {};
+            this.ca.chartImage = {};
+            this.ca.chartOptions = Factory.create('chartOption');
+            this.ca.activeChart = 'speedup';
+            this.ca.activeStatistic = 'mean';
+        }, 
+
+        setData: () => {
+            this.ca.dataSet = false;
+            this.ca.approachSelections = {};
+            this.ca.dataTable.clear();
+
+            var selectedApproachIDs = _.map(this.ca.selectedApproaches, '_id');
+            this.ca.selectedNumbers = _.filter(this.numbers, number => {
+                return number!=null && selectedApproachIDs.indexOf(number.approach_id) != -1 && this.ca.selectedMachine._id == number.machine_id;
+            });
+
+            _.forEach(this.ca.selectedApproaches, (selectedApproach) => {
+
+                this.ca.approachSelections[selectedApproach._id] = {
+                    uniqueThreadCounts: [],
+                    plotE2E: this.plotE2E,
+                    plotAlg: this.plotAlg,
+                    selectedThreads: this.selectedThreads,
+                    lastSelectedThreads: [],
+                    _id : "approach",
+                    approach_name : "user approach"
+                }
+
+                this.ca.approachSelections[selectedApproach._id].uniqueThreadCounts = _.map(_.uniq(_.map(_.filter(this.ca.selectedNumbers, selectedNumber => {
+                    return selectedNumber.approach_id == selectedApproach._id;
+                }), 'p')), _.toString);
+            });
+
+            this.ca.data = this.ca.dataTable.get(this.ca.activeChart);
+
+            this.ca.dataSet = true;
+        },
+
+        updateChart: () => {
+            let approachID = "approach";
+            let approachSelection = this.ca.approachSelections[approachID];
+            let approach = approachSelection;
+            
+            _.forEach(approachSelection.lastSelectedThreads, nthreads => {
+                this.ca.dataTable.removeNumber(approach, nthreads, this.ca.selectedMachine, 'e2e');
+                this.ca.dataTable.removeNumber(approach, nthreads, this.ca.selectedMachine, 'alg');
+            })
+
+            approachSelection.selectedThreads = _.cloneDeep(this.selectedThreads);
+            _.forEach(approachSelection.selectedThreads, nthreads => {
+                if (this.plotE2E)
+                    this.ca.dataTable.addNumber(approach, nthreads, this.ca.selectedMachine, 'e2e', this.numbers);
+                if (this.plotAlg)
+                    this.ca.dataTable.addNumber(approach, nthreads, this.ca.selectedMachine, 'alg', this.numbers);
+            })
+
+            approachSelection.lastSelectedThreads = _.cloneDeep(approachSelection.selectedThreads);
+
+            // Clonedeep workaround for onChanges not being fired in chart component
+            
+            this.ca.data = _.cloneDeep(this.ca.dataTable.get(this.ca.activeChart, this.ca.activeStatistic));
+            //this.google_chart_object([1,2,3], this.uploadedTimeData, "speedup", "e2eS", this.mean)
+        },
+
+
+        changeChartType: (activeChart, activeStatistic) => {
+            this.ca.activeChart = activeChart;
+            this.ca.activeStatistic = activeStatistic;
+            this.ca.data = this.ca.dataTable.get(activeChart, activeStatistic);
+            this.ca.chartOptions.setOptions(activeChart);
+            if(activeChart == "executionTime")
+                this.ca.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart) + ' (s)');
+            else
+                this.ca.chartOptions.setOption('vAxis.title', this.camelCaseToTitle(activeStatistic) + ' of ' + this.camelCaseToTitle(activeChart));
+        }
     }
 
-    object_to_table(object, keylabel, keyid, vallabel, valid) {
-        var table = new google.visualization.DataTable();
-        var rows = [];
-        for (var key in object) {
-            rows.push([parseFloat(key), parseFloat(object[key])]);
+    count = 0;
+
+    categories = [];
+    selectedCategory = '';
+
+    problems = [];
+    selectedProblem = '';
+
+    selectedMemory = 'shared';
+
+    // Ready variables
+    problemsReady = false;
+    categoriesReady = false;
+    peamDataReady = true;    
+
+    options_func = null;
+
+
+    constructor($http, $scope, $q, CalculatorService, TableService) {
+        window.document.title = 'Report Generator - LETs HPC';
+        this.iBCDSI = '';
+        this.iBCSPI = '';
+        this.iCoSeCo = '';
+        this.iCoPaCo = '';
+        this.iCoPa = '';
+        this.iThSpu = '';
+        this.iEstSerFra = '';
+        this.iTub = '';
+        this.iNuMA = '';
+        this.iNoCom = '';
+        this.iTCRAProc = '';
+        this.iTCRAProSize = '';
+        this.iSCRA = '';
+        this.iECRA = '';
+        this.iKFRA = '';
+        this.iMSPO = '';
+        this.iMWRA = '';
+        this.iCCRA = '';
+        this.iFSRA = '';
+        this.iSraRA = '';
+        this.iLBRA = '';
+        this.iSyncRA = '';
+        this.iGRA = '';
+        this.iScaRA = '';
+        this.iAOC = '';
+        this.iCBMB = '';
+        this.iADDADA = '';
+        this.iDFIA = '';
+        this.iAAC = '';
+
+        this.tex_string = `\n\\documentclass[runningheads, a4paper, oribibl]{llncs}\n\n\\setcounter{tocdepth}{3}\n\\usepackage{graphicx}\n\\graphicspath{{../images/}}\n\\usepackage{epstopdf}\n\\usepackage{standalone}\n\\usepackage{xcolor}\n\\usepackage{tikz}\n\\usetikzlibrary{fit}\n\\usetikzlibrary{shapes,snakes,calc}\n\n\n\n\\usepackage{listings, color}\n\n\\definecolor{dkgreen}{rgb}{0,0.6,0}\n\\definecolor{gray}{rgb}{0.5,0.5,0.5}\n\\definecolor{mauve}{rgb}{0.58,0,0.82}\n\n\n\n\\lstset{frame=tb,\n  language=Matlab,\n  aboveskip=3mm,\n  belowskip=3mm,\n  showstringspaces=false,\n  columns=flexible,\n  basicstyle={\\small\\ttfamily},\n  numbers=none,\n  numberstyle=\\tiny\\color{gray},\n  keywordstyle=\\color{blue},\n  commentstyle=\\color{dkgreen},\n  stringstyle=\\color{mauve},\n  breaklines=true,\n  breakatwhitespace=false,\n  tabsize=2,\n  numbers=left,\n  numbersep=5pt,\n  title=\\lstname\n}\n\n\n\n\\usepackage[section]{placeins}\n\n\\usepackage{amsmath,amssymb, cancel}\n%\n\\usepackage{url}\n\\urldef{\\mailsa}\\path|201301442@daiict.ac.in|\n\\urldef{\\mailsb}\\path|201301047@daiict.ac.in|\n\\newcommand{\\keywords}[1]{\\par\\addvspace\\baselineskip\n\\noindent\\keywordname\\enspace\\ignorespaces#1}\n\n\n\\renewcommand\\thesubsection{\\thesection(\\alph{subsection})}\n\n\n\\begin{document}\n\n\\mainmatter\n\n\\title{High Performance Computing Report}\n\n\\titlerunning{High Performance Computing Report}\n\n\\author{Author 1 ()\\\\Author 2 ()}%\n%\n\\authorrunning{Author 1 \\& Author 2}\n\\institute{Institute Name\\\\\n  \\mailsa\\\\\n  \\mailsb\\\\\n}\n\n\\maketitle\n\\section{Implementation Details}\n\\subsection{Brief and clear description about the Serial implementation}\n${this.iBCDSI}\n\\subsection{Brief and clear description about the implementation of the approach (Parallelization Strategy, Mapping of computation to threads)}\n${this.iBCSPI}\n\\section{Complexity and Analysis}\n\\subsection{Complexity of serial code}\n${this.iCoSeCo}\n\\subsection{Complexity of parallel code (split as needed into work, step, etc.) }\n${this.iCoPaCo}\n\\subsection{Cost of Parallel Algorithm}\n${this.iCoPa}\n\\subsection{Theoretical Speedup (using asymptotic analysis, etc.)}\n${this.iThSpu}\n\\subsection{Estimated Serial Fraction }\n${this.iEstSerFra}\n\\subsection{Tight upper bound based on Amdahl\'s Law}\n${this.iTub}\n\\subsection{Number of memory accesses}\n${this.iNuMA}\n\\subsection{Number of computations}\n${this.iNoCom}\n\n\\section{Curve Based Analysis}\n\\subsection{Time Curve related analysis (as no. of processor increases)}\n${this.iTCRAProc}\n\\subsection{Time Curve related analysis (as problem size increases, also for serial)}\n${this.iTCRAProSize}\n\\subsection{Speedup Curve related analysis (as problem size and no. of processors increase)}\n${this.iSCRA}\n\\subsection{Efficiency Curve related analysis}\n${this.iECRA}\n\\subsection{Karp-Flatt metric related analysis}\n${this.iKFRA}\n\n\\section{Further Detailed Analysis}\n\\subsection{Major serial and parallel overheads}\n${this.iMSPO}\n\\subsection{Memory wall related analysis}\n${this.iMWRA}\n\\subsection{Cache coherence related analysis}\n${this.iCCRA}\n\\subsection{False sharing related analysis}\n${this.iFSRA}\n\\subsection{Scheduling related analysis}\n${this.iSraRA}\n\\subsection{Load balance analysis}\n${this.iLBRA}\n\\subsection{Synchronisation related analysis}\n${this.iSyncRA}\n\\subsection{Granularity related analysis}\n${this.iGRA}\n\\subsection{Scalability related analysis}\n${this.iScaRA}\n\n\\section{Additional Approach Analysis}\n\\subsection{Analysis of any other concepts/factors you think were important in your problem-approach combination}\n${this.iAOC}\n\\subsection{Further details (Code balance , machine balance analysis, how much of peak performance achieved in terms of \\%)}\n${this.iCBMB}\n\\subsection{Advantages/Disadvantages of your approach}\n${this.iADDADA}\n\\subsection{Difficulties faced while implementing this approach}\n${this.iDFIA}\n\\subsection{Additional Comments}\n${this.iAAC}\n\n\\end{document}\n\n`;
+
+        this.$q = $q;
+        this.CalculatorService = CalculatorService;
+        this.TableService = TableService;
+
+        this.ca.initialize();
+        this.ca.dataTable.addServices(CalculatorService, TableService);
+
+        this.options_func = function() {
+          return $q(function (resolve, reject) {
+            $timeout(function () {
+              resolve([ 
+                  $scope.searchFilter + '1',
+                  $scope.searchFilter + '2'
+                ])
+            }, 1000);
+          });
         }
-        table.addColumn('number', keylabel, keyid);
-        table.addColumn('number', vallabel, valid);
-        table.addRows(rows);
-        return table;
-    }
+        $scope.$watch(() => {
+            return {
+                p: this.uploadedPerfData,
+                n: this.uploadedTimeData
+            }
+        }, newVal => {
+            this.threadsShown = angular.copy(this.threadsShown);
+        }, true);
 
-    // Label & ID related functions =============================================
-    getLabel(nthreads, e2e_or_alg) {
-        var part1 = '',
-            part3 = '';
-        if (e2e_or_alg == 'e2e')
-            part1 = 'E2E ';
-        else
-            part1 = 'ALG ';
-        part3 = 'P ' + nthreads + ' ';
-
-        return part1 + part3;
-    }
-
-    getID(nthreads, machine_id, e2e_or_alg, table_type) {
-        var part1 = '',
-            part3 = '';
-
-        if (e2e_or_alg == 'e2e')
-            part1 = 'e2e_';
-        else
-            part1 = 'alg_';
-        part3 = nthreads + '_';
-
-        return part1 + part3;
-    }
-
-    // Chart related functions =============================================
-
-    chart_option_selection() {
-
-        if (this.active_chart == 'timeseries') {
-            _.merge(this.chart_options, this.execution_time_chart_options);
-        }
-
-        if (this.active_chart == 'speedup') {
-            _.merge(this.chart_options, this.speedup_chart_options);
-        }
-
-        // if(this.active_chart=='karpflatt') {
-        //     _.merge(this.chart_options, this.karpflatt_chart_options);
-        // }
-    }
-
-    refresh_chart(type) {
-        if (type != this.active_chart) {
-            this.active_chart = type;
-        }
-        var data;
-        switch (this.active_chart) {
-            case 'timeseries':
-                data = this.execution_time_data;
-                break;
-            case 'speedup':
-                data = this.speedup_data;
-                break;
-            case 'karpflatt':
-                data = this.karp_flatt_data;
-                break;
-            default:
-                data = new google.visualization.DataTable();
-        }
-        if (data.getNumberOfColumns() > 1) {
-            this.chart_option_selection();
-            this.chart.draw(data, this.chart_options);
-        } else {
-            var dummy_data = new google.visualization.DataTable();
-            dummy_data.addColumn('number', 'd1');
-            dummy_data.addColumn('number', 'd2');
-            dummy_data.addRow([0, 0]);
-            this.chart.draw(dummy_data, this.chart_options);
-        }
+        this.activateTooltip();
+        
     }
 
     export_chart() {
@@ -513,5 +695,21 @@ export default class ReportGeneratorController {
         download.href = this.chart_image;
         download.download = 'image.png';
         download.click();
+    }
+
+    activateTooltip() {
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    }
+
+    reload(forceGet) {
+        location.reload(forceGet);
+    }
+
+    camelCaseToTitle(str) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, function(str){ return str.toUpperCase(); });
     }
 }
