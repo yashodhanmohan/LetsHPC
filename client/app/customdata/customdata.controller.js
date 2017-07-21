@@ -1414,6 +1414,9 @@ export default class CustomDataController {
         var perfIndexMap = [];
         var header = lines[0].split(",");
         var incrementer = 0;
+        if(header.length==5 && header.indexOf("algS")!=-1 && header.indexOf("e2eS")!=-1) {
+            alert("It looks like you have uploaded the time file instead of the perf file. Please check again");
+        }
         if (header[0] === "problem_name")
             incrementer+=2
 
