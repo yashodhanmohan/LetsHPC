@@ -1249,6 +1249,10 @@ export default class CustomDataController {
                 return x != ""
             }),
             object = [];
+
+            if (lines[0].split(",").length!=5) {
+                alert("The file is not in the right format. Kindly refresh the page and upload the proper file.");
+            }
         for (var i in lines) {
             var line = _.map(_.split(lines[i], ','), (x) => {
                 return parseFloat(x)
@@ -1268,7 +1272,7 @@ export default class CustomDataController {
                 object.push(number);
             }
         }
-
+        this.set_warning_flags(object);
         return object;
     }
 

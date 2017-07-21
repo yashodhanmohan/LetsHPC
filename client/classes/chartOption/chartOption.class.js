@@ -53,6 +53,7 @@ export default class ChartOption {
 
     defaultOptions = {
         executionTime: {
+          //  title: 'Problem size vs. Execution time',
             hAxis: {
                 title: 'Problem size'
             },
@@ -60,6 +61,7 @@ export default class ChartOption {
             }
         },
         speedup: {
+          //  title: 'Problem size vs. Speedup',
             hAxis: {
                 title: 'Problem size'
             },
@@ -67,6 +69,7 @@ export default class ChartOption {
             }
         },
         karpFlatt: {
+          //  title: 'Problem size vs. Karp Flatt',
             hAxis: {
                 title: 'Problem size'
             },
@@ -79,7 +82,7 @@ export default class ChartOption {
             }
         },
         efficiency: {
-            title: 'Problem size vs. Efficiency',
+        //  title: 'Problem size vs. Efficiency',
             hAxis: {
                 title: 'Problem size'
             },

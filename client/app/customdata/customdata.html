@@ -15,15 +15,35 @@
             <center>
                 <div class="col-md-6 col-md-offset-3 well">
                     Upload CSV file:&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label class="btn btn-primary btn-file">
+                    <label class="btn btn-primary btn-file" title='Upload Time file'>
                         Normal <input type="file" style="display: none;" onchange="angular.element(this).scope().custom.read_file(this.files, true)">
                     </label>&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label class="btn btn-primary btn-file">
+                    <label class="btn btn-primary btn-file" title='Upload Perf data file'>
                         Advanced <input type="file" style="display: none;" onchange="angular.element(this).scope().custom.read_file(this.files, false)">
                     </label>&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="btn btn-default btn-primary" ng-click="custom.download_default_data()">Download Default Data</button>
+                    <button class="btn btn-default btn-primary" onclick="window.open('https://github.com/letshpcorg/samplefiles')">Download Default Data</button>
                 </div>
-            </center>
+        <div  ng-show="this.custom.threadsCounted">
+
+            <div class="col-md-6 col-md-offset-3 well">
+                <div class="col-md-6" id="drop">
+                    <label for="hello">Number of threads (0 = serial)</label>
+                    <multiselect id="hello" ng-model="this.custom.selectedThreads" options="this.custom.threadsShown"></multiselect>
+                </div>
+                <div class="col-md-3" id="check">
+                    <center>
+                        E2E <input type="checkbox" ng-model="this.custom.plotE2E">
+                        ALG <input type="checkbox" ng-model="this.custom.plotAlg">
+                    </center>
+                </div>
+                <div class="col-md-3" id="btnupdate">
+                    <button class="btn btn-default btn-primary" ng-click="this.custom.ca.updateChart()">Update</button>
+                </div>
+            </div>
+
+        </div>
+       
+           </center>
         </div>
         <div class="row pad-up" ng-if="custom.low_p">
             <center>
@@ -90,32 +110,15 @@
                 </div>
             </div>
         </div> -->
-        <div  ng-show="this.custom.threadsCounted">
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="hello">Number of threads (0 = serial)</label>
-                    <multiselect id="hello" ng-model="this.custom.selectedThreads" options="this.custom.threadsShown"></multiselect>
-                </div>
-                <div class="col-md-3">
-                    <center>
-                        E2E<input type="checkbox" ng-model="this.custom.plotE2E">
-                        ALG<input type="checkbox" ng-model="this.custom.plotAlg">
-                    </center>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-default btn-primary" ng-click="this.custom.ca.updateChart()">Update</button>
-                </div>
-            </div>
-
-        </div>
+        
+        
         <div class="row">
             <div class="col-md-12">
                 <hpc-chart data="this.custom.ca.data" options="this.custom.ca.chartOptions"></hpc-chart>
                 
             </div>
         </div>
-        <div class="row pad-up">
+        <div class="row pad-up" style="padding-bottom: 1cm;">
             <div class="col-md-3"></div>
             <div class="col-md-3">
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalca">
