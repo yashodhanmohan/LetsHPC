@@ -7,6 +7,8 @@ export default angular.module('yashwantProjectApp.directive.chart', [])
         bindings: {
             data: '<',
             options: '<',
+            statistic: '<',
+            metric: '<',
 
         },
         controller: ChartController,

@@ -58,7 +58,14 @@ export default class ChartController {
     exportChart() {
         let download = document.createElement('a');
         download.href = this.chartImage;
-        download.download = 'image.png';
+
+        var chartName = "image";
+        console.log(this.metric)
+        if (this.statistic != null && this.metric != null)
+        	chartName = this.statistic + "_" + this.metric
+
+        console.log(this.statistic + "_" + this.metric);
+        download.download = chartName + '.png';
         download.click();
     }
 
