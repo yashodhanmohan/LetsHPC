@@ -10,7 +10,9 @@ export default class ChartController {
             'hAxis.viewWindow.max': undefined,
             'vAxis.viewWindow.max': undefined,
             'hAxis.logScale': false,
-            'vAxis.logScale': false
+            'vAxis.logScale': false,
+            'hAxis.textStyle.fontSize': 20,
+            'vAxis.textStyle.fontSize': 20
         }
         $timeout(() => {
             this.chart = new google.visualization.LineChart(document.getElementById(this.id));
@@ -41,11 +43,7 @@ export default class ChartController {
             ['', 0],
         ]);
 
-        _.forEach(this.userOptions, (value, key) => {
-            if(value != undefined && value != '') {
-                this.options.setOption(key, value)
-            }
-        });
+        this.options.mergeOptions(this.userOptions);
 
         if(empty)
             this.chart.draw(dummyData, this.options.getOptions());

@@ -5,7 +5,7 @@
             <div class="col-md-10 well">
                 <div id="{{chart.id}}"></div>
             </div>
-            <div class="col-md-1"></div>            
+            <div class="col-md-1"></div>
         </div>
         <div class="row text-center text-primary bg-info">
             Drag in a rectangular area to zoom.Right click in chart to reset.
@@ -75,6 +75,14 @@
                                         <input type="text" class="form-control" placeholder="Y-axis max" ng-model="chart.userOptions.vAxis.viewWindow.max" ng-change="chart.refresh()">
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row pad-up">
+                            <div class="col-md-6">
+                                X-axis Font size<input type="range" min="5" max="30" step="2" value="{{chart.userOptions.hAxis.textStyle.fontSize}}" class="form-control" placeholder="Y-axis font size" ng-model="chart.userOptions.hAxis.textStyle.fontSize" ng-change="chart.refresh()">
+                            </div>
+                            <div class="col-md-6">
+                                Y-axis Font size<input type="range" min="5" max="30" step="2" value="{{chart.userOptions.vAxis.textStyle.fontSize}}" class="form-control" placeholder="X-axis font size" ng-model="chart.userOptions.vAxis.textStyle.fontSize" ng-change="chart.refresh()">
                             </div>
                         </div>
                     </div>

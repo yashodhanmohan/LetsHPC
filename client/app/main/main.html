@@ -106,7 +106,7 @@
                                     <label for="abc">Machines</label>
                                     <multiselect id="abc" ng-model="main.cm.selectedMachines" options="main.machines" display-prop="model_name" id-prop="_id"></multiselect>
                                 </div>
-                                <div class="col-md-4"></div>                                
+                                <div class="col-md-4"></div>
                             </div>
                             <div class="row pad-up">
                                 <div class="col-md-1"></div>
@@ -153,7 +153,7 @@
                                                     <input type="text" class="form-control" disabled value="{{machine.model_name}}"></input>
                                                 </div>
                                                 <div class="col-md-2 text-center">
-                                                        E2E<input type="checkbox" ng-model="main.cm.machineSelections[machine._id].plotE2E"> 
+                                                        E2E<input type="checkbox" ng-model="main.cm.machineSelections[machine._id].plotE2E">
                                                         ALG<input type="checkbox" ng-model="main.cm.machineSelections[machine._id].plotAlg">
                                                 </div>
                                                 <div class="col-md-1">
@@ -175,7 +175,7 @@
                                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalCM">
                                         Metric Selector
                                     </button>
-                                    <!-- Modal for Metric Selection in Compare Approaches -->    
+                                    <!-- Modal for Metric Selection in Compare Approaches -->
                                     <div class="modal fade" id="myModalCM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
@@ -273,7 +273,7 @@
                                     <p><b>Advantage</b>: {{main.cm.selectedApproach.advantage}}</p>
                                     <p><b>Disadvantage</b>: {{main.cm.selectedApproach.disadvantage}}</p>
                                 </div>
-                                <div class="col-md-1"></div>                                
+                                <div class="col-md-1"></div>
                             </div>
                         </div>
                     </div>
@@ -433,15 +433,19 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <h2>Selected Machine</h2>
-                                    <p><b>Model name</b>: {{main.ca.selectedMachine.model_name}}</p>
+                                    <p><b>Model name</b>: <a href="{{main.ca.selectedMachine.spec_file_link}}" style="color: blue" target="_blank">{{main.ca.selectedMachine.model_name}}</a></p>
                                     <p><b>Architecture</b>: {{main.ca.selectedMachine.architecture}}</p>
-                                    <p><b>Threads per core</b>: {{main.ca.selectedMachine.threads_per_core}}</p>
+                                    <p><b>CPU Count</b>: {{main.ca.selectedMachine.cpu_count}}</p>
                                     <p><b>Socket count</b>: {{main.ca.selectedMachine.socket_count}}</p>
+                                    <p><b>Cores per Socket</b>: {{main.ca.selectedMachine.cores_per_socket}}</p>
+                                    <p><b>Threads per core</b>: {{main.ca.selectedMachine.threads_per_core}}</p>
                                     <p><b>CPU (Mhz)</b>: {{main.ca.selectedMachine.cpu_mhz}}</p>
                                     <p><b>L1d Cache</b>: {{main.ca.selectedMachine.L1d_cache}}</p>
                                     <p><b>L1i Cache</b>: {{main.ca.selectedMachine.L1i_cache}}</p>
+                                    <p><b>L2</b>: {{main.ca.selectedMachine.L2_cache}}</p>
+                                    <p><b>L3</b>: {{main.ca.selectedMachine.L3_cache}}</p>
                                 </div>
-                                <div class="col-md-1"></div>                                
+                                <div class="col-md-1"></div>
                             </div>
                         </div>
                     </div>

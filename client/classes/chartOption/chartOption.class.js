@@ -20,7 +20,7 @@ export default class ChartOption {
                 fontSize: 20
             },
             textStyle: {
-                fontSize: 15
+                fontSize: 20
             }
         },
         vAxis: {
@@ -29,7 +29,7 @@ export default class ChartOption {
                 fontSize: 20
             },
             textStyle: {
-                fontSize: 15
+                fontSize: 20
             }
         },
         chartArea: {
@@ -55,42 +55,66 @@ export default class ChartOption {
         executionTime: {
           //  title: 'Problem size vs. Execution time',
             hAxis: {
-                title: 'Problem size'
+                title: 'Problem size',
+                textStyle: {
+                    fontSize: 20
+                }
             },
             vAxis: {
+                textStyle: {
+                    fontSize: 20
+                }
             }
         },
         speedup: {
           //  title: 'Problem size vs. Speedup',
             hAxis: {
-                title: 'Problem size'
+                title: 'Problem size',
+                textStyle: {
+                    fontSize: 20
+                }
             },
             vAxis: {
+                textStyle: {
+                    fontSize: 20
+                }
             }
         },
         karpFlatt: {
           //  title: 'Problem size vs. Karp Flatt',
             hAxis: {
-                title: 'Problem size'
+                title: 'Problem size',
+                textStyle: {
+                    fontSize: 20
+                }
             },
             vAxis: {
                 viewWindowMode: 'explicit',
                 viewWindow: {
                     min: 0,
                     max: 1
+                },
+                textStyle: {
+                    fontSize: 20
                 }
             }
         },
         efficiency: {
         //  title: 'Problem size vs. Efficiency',
             hAxis: {
-                title: 'Problem size'
+                title: 'Problem size',
+                textStyle: {
+                    fontSize: 20
+                }
             },
             vAxis: {
                 viewWindowMode: 'explicit',
                 viewWindow: {
                     min: 0,
                     max: 2
+                },
+                textStyle: {
+                    fontSize: 20
                 }
             }
         }
@@ -106,6 +130,10 @@ export default class ChartOption {
 
     setOptions(type) {
         _.merge(this.options, this.defaultOptions[type]);
+    }
+
+    mergeOptions(optionsToBeMerged) {
+        _.merge(this.options, optionsToBeMerged);
     }
 
     getOption(key) {
