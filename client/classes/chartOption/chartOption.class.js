@@ -3,7 +3,7 @@ import _ from 'lodash';
 export default class ChartOption {
 
     options = {
-        titlePosition: 'in',
+        titlePosition: 'out',
         height: 600,
         pointShape: 'circle',
         pointsVisible: true,
@@ -13,7 +13,7 @@ export default class ChartOption {
             actions: ['dragToZoom', 'rightClickToReset']
         },
         hAxis: {
-            logScale: true,
+            logScale: false,
             format: 'scientific',
             title: 'Size',
             titleTextStyle: {
@@ -61,6 +61,7 @@ export default class ChartOption {
                 }
             },
             vAxis: {
+                title: 'Execution time (s)',
                 textStyle: {
                     fontSize: 20
                 }
@@ -75,6 +76,7 @@ export default class ChartOption {
                 }
             },
             vAxis: {
+                title: 'Speedup',
                 textStyle: {
                     fontSize: 20
                 }
@@ -89,6 +91,7 @@ export default class ChartOption {
                 }
             },
             vAxis: {
+                title: 'Karp Flatt coefficient',
                 viewWindowMode: 'explicit',
                 viewWindow: {
                     min: 0,
@@ -108,6 +111,7 @@ export default class ChartOption {
                 }
             },
             vAxis: {
+                title: 'Efficiency',
                 viewWindowMode: 'explicit',
                 viewWindow: {
                     min: 0,

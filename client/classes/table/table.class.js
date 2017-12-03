@@ -5,6 +5,8 @@ export default class Table {
     constructor() {
         this.CalculatorService = undefined;
         this.TableService = undefined;
+        this.approaches = [];
+        this.machines = [];
 
         this.perfFields = ["cycles","instructions","cacheReferences","cacheMisses","busCycles","L1DcacheLoads","L1DcacheLoadMisses","L1DcacheStores","dTLBLoads","dTLBLoadMisses","LLCLoads","LLCLoadMisses","LLCStores","branches","branchMisses","contextSwitches","cpuMigrations","pageFaults"]
 
@@ -41,8 +43,6 @@ export default class Table {
             range: new google.visualization.DataTable(),
             standardDeviation: new google.visualization.DataTable(),
         };
-
-        console.log(this);
     }
 
     addServices(CalculatorService, TableService) {
@@ -55,6 +55,12 @@ export default class Table {
         if(this.columnExists(approach, nthreads, machine, e2eOrAlg)) {
             return;
         }
+
+        if (_.findIndex(this.approaches, aprch => { return aprch._id == approach._id }) == -1)
+            this.approaches.push(approach);
+
+        if (_.findIndex(this.machines, mchn => { return mchn._id == machine._id }) == -1)
+            this.machines.push(machine);
 
         nthreads = parseInt(nthreads);
 
@@ -81,6 +87,12 @@ export default class Table {
             perf[this.perfFields[field]] = this.CalculatorService.entity(number, this.perfFields[field]);
         }
 
+        let approachNumber = this._approachNumber(approach) + 1;
+        let machineNumber = this._machineNumber(machine) + 1;
+
+        let label = this.TableService.getLabel(approachNumber, nthreads, machineNumber, e2eOrAlg);
+        let id = this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg);
+
         // Tables for perf data
         let newPerfData = {};
         for(let field in this.perfFields) {
@@ -91,16 +103,16 @@ export default class Table {
 
         // Tables for new data
         let newExecutionTimeData = _.mapValues(executionTime[e2eOrAlg], statistic => {
-            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', label, id);
         });
         let newSpeedupData = _.mapValues(speedup[e2eOrAlg], statistic => {
-            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', label, id);
         });
         let newKarpFlattData = nthreads > 1 ? _.mapValues(karpFlatt[e2eOrAlg], statistic => {
-            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', label, id);
         }) : {};
         let newEfficiencyData = nthreads > 0 ? _.mapValues(efficiency[e2eOrAlg], statistic => {
-            return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, e2eOrAlg), this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg));
+            return this.TableService.objectToTable(statistic, 'SIZE', 'size', label, id);
         }) : {};
 
         // Merge Perf data tables
@@ -149,7 +161,7 @@ export default class Table {
                 }
             }
         })
-        
+
         _.forEach(this.executionTimeData, (value, key) => {
             for (let j = 1; j < numExecCol; j++) {
                 if (this.executionTimeData[key].getColumnId(j) == this.TableService.getID(approach._id, nthreads, machine._id, e2eOrAlg)) {
@@ -194,18 +206,23 @@ export default class Table {
     }
 
     get(metricType, statisticType) {
+        let data = {
+            legend: this.getTableLegend(),
+            data: undefined
+        };
         switch(metricType) {
-            case 'executionTime': return this.executionTimeData[statisticType];
+            case 'executionTime': data.data = this.executionTimeData[statisticType];
                 break;
-            case 'speedup': return this.speedupData[statisticType];
+            case 'speedup': data.data = this.speedupData[statisticType];
                 break;
-            case 'karpFlatt': return this.karpFlattData[statisticType];
+            case 'karpFlatt': data.data = this.karpFlattData[statisticType];
                 break;
-            case 'efficiency': return this.efficiencyData[statisticType];
+            case 'efficiency': data.data = this.efficiencyData[statisticType];
                 break;
-            default: return this[metricType][statisticType];
+            default: data.data = this[metricType][statisticType];
                 break;
         }
+        return data;
     }
 
     clear() {
@@ -218,7 +235,7 @@ export default class Table {
                 standardDeviation: new google.visualization.DataTable()
             }
         }
-        
+
         this.executionTimeData = {
             mean: new google.visualization.DataTable(),
             median: new google.visualization.DataTable(),
@@ -263,5 +280,36 @@ export default class Table {
             return google.visualization.data.join(oldTable, newTable, 'full', [
                 [0, 0]
             ], columnsFromTable, [1]);
+    }
+
+    _approachNumber(approach) {
+        return _.findIndex(this.approaches, aprch => { return aprch._id == approach._id; });
+    }
+
+    _machineNumber(machine) {
+        return _.findIndex(this.machines, mchn => { return mchn._id == machine._id; });
+    }
+
+    getApproaches() {
+        return this.approaches;
+    }
+
+    getMachines() {
+        return this.machines;
+    }
+
+    getTableLegend() {
+        let legendString = `ALG: Algorithmic Time, E2E: End-to-end Time, `;
+        for(let i in this.approaches) {
+            let approach = this.approaches[i];
+            let approachNumber = this._approachNumber(approach) + 1;
+            legendString += `APR${approachNumber}: ${approach.approach_name}, `;
+        }
+        for(let i in this.machines) {
+            let machine = this.machines[i];
+            let machineNumber = this._machineNumber(machine) + 1;
+            legendString += `MCN${machineNumber}: ${machine.model_name}, `
+        }
+        return legendString;
     }
 }

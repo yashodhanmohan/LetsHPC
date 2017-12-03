@@ -10,8 +10,8 @@ export default class TableService {
         return `${e2eOrAlg}_${approachID}_${nthreads}_${machineID}`;
     }
 
-    getLabel(approach, nthreads, machine, e2eOrAlg) {
-        return `${e2eOrAlg.toUpperCase()} for ${approach.approach_name} - ${nthreads} threads @ ${machine.model_name}`;
+    getLabel(approachNumber, nthreads, machineNumber, e2eOrAlg) {
+        return `${e2eOrAlg.toUpperCase()}; APR${approachNumber}@MCN${machineNumber}, ${nthreads} threads`;
     }
 
     objectToTable(object, keylabel, keyid, vallabel, valid) {

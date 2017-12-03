@@ -47,10 +47,14 @@ export default class ChartController {
 
         if(empty)
             this.chart.draw(dummyData, this.options.getOptions());
-        else if(this.data  === undefined)
+        else if(this.data.data === undefined)
             this.chart.draw(dummyData, this.options.getOptions());
-        else
-            this.chart.draw(this.data, this.options.getOptions());
+        else {
+            this.options.mergeOptions({
+                title: this.data.legend
+            });
+            this.chart.draw(this.data.data, this.options.getOptions());
+        }
     }
 
     exportChart() {
@@ -65,9 +69,5 @@ export default class ChartController {
         console.log(this.statistic + "_" + this.metric);
         download.download = chartName + '.png';
         download.click();
-    }
-
-    something(arg) {
-        console.log(arg);
     }
 }

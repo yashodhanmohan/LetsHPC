@@ -87,7 +87,6 @@ export default class MainController {
             });
 
             this.ca.data = this.ca.dataTable.get(this.ca.activeChart);
-
             this.ca.dataSet = true;
         },
 
