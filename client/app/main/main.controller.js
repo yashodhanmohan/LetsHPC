@@ -12,7 +12,7 @@ export default class MainController {
     problems = [];
     selectedProblem = '';
 
-    selectedMemory = 'shared';
+    architecture = 'shared';
 
     // Ready variables
     problemsReady = false;
@@ -303,22 +303,22 @@ export default class MainController {
     getProblemData() {
         this.peamDataReady = false;
         var numberFetch = this.NumberService
-            .getNumbersByProblem(this.selectedProblem._id)
+            .getNumbersByProblemAndArchitecture(this.selectedProblem._id, this.architecture)
             .then(response => {
                 this.numbers = response;
             });
         var perfFetch = this.PerfService
-            .getPerfsByProblem(this.selectedProblem._id)
+            .getPerfsByProblemAndArchitecture(this.selectedProblem._id, this.architecture)
             .then(response => {
                 this.perfs = response;
             });
         var approachFetch = this.ApproachService
-            .getApproachesByProblem(this.selectedProblem._id)
+            .getApproachesByProblemAndArchitecture(this.selectedProblem._id, this.architecture)
             .then(response => {
                 this.approaches = response;
             });
         var machineFetch = this.MachineService
-            .getMachinesByProblem(this.selectedProblem._id)
+            .getMachinesByProblemAndArchitecture(this.selectedProblem._id, this.architecture)
             .then(response => {
                 this.machines = response;
             });

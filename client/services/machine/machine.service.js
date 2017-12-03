@@ -30,14 +30,26 @@ export default class MachineService {
 
     getMachinesByProblem(id) {
         return this.$http
-                .get(`/api/problem/${id}/machines`)
-                .then(response => {
-                    _.map(response.data, approach => {
-                        this.cache.addKeyValue(approach._id, approach);
-                    });
-                    return response;
-                })
-                .then(response => response.data);
+            .get(`/api/problem/${id}/machines`)
+            .then(response => {
+                _.map(response.data, approach => {
+                    this.cache.addKeyValue(approach._id, approach);
+                });
+                return response;
+            })
+            .then(response => response.data);
+    }
+
+    getMachinesByProblemAndArchitecture(id, arch) {
+        return this.$http
+            .get(`/api/problem/${id}/architecture/${arch}/machines`)
+            .then(response => {
+                _.map(response.data, approach => {
+                    this.cache.addKeyValue(approach._id, approach);
+                });
+                return response;
+            })
+            .then(response => response.data);
     }
 
     addMachine(machine) {

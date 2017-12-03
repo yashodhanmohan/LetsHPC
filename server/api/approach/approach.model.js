@@ -7,10 +7,10 @@ var Approach = new mongoose.Schema({
     user_id : [String],
     problem_id: String,
     penv_id: String,
+    architecture: String,
 
     // Content fields
     approach_name : String,
-    shared_or_distributed: String,
     descS: String,
     descP: String,
     complexityS: String,

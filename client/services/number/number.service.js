@@ -19,8 +19,14 @@ export default class NumberService {
 
     getNumbersByProblem(id) {
         return this.$http
-                .get(`/api/problem/${id}/numbers`)
-                .then(response => response.data);
+            .get(`/api/problem/${id}/numbers`)
+            .then(response => response.data);
+    }
+
+    getNumbersByProblemAndArchitecture(id, arch) {
+        return this.$http
+            .get(`/api/problem/${id}/architecture/${arch}/numbers`)
+            .then(response => response.data);
     }
 
     getNumbersByApproach(id) {

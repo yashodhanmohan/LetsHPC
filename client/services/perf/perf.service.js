@@ -19,8 +19,14 @@ export default class PerfService {
 
     getPerfsByProblem(id) {
         return this.$http
-                .get(`/api/problem/${id}/perfs`)
-                .then(response => response.data);
+            .get(`/api/problem/${id}/perfs`)
+            .then(response => response.data);
+    }
+
+    getPerfsByProblemAndArchitecture(id, arch) {
+        return this.$http
+            .get(`/api/problem/${id}/architecture/${arch}/perfs`)
+            .then(response => response.data);
     }
 
     getPerfsByApproach(id) {

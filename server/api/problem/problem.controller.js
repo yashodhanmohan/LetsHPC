@@ -123,31 +123,71 @@ export function destroy(req, res) {
 }
 
 export function approachesByProblem(req, res) {
-    return Approach.find({problem_id: req.params.id})
+    return Approach.find({ problem_id: req.params.id })
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function approachesByProblemAndArchitecture(req, res) {
+    return Approach.find({
+            problem_id: req.params.id,
+            architecture: req.params.arch
+        })
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 export function numbersByProblem(req, res) {
-    return Approach.find({problem_id: req.params.id})
-                   .distinct('_id')
+    return Approach.find({ problem_id: req.params.id })
+        .distinct('_id')
         .then(handleEntityNotFound(res))
         .then(response => Number.find()
-                                .where('approach_id')
-                                .in(response))
+            .where('approach_id')
+            .in(response))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function numbersByProblemAndArchitecture(req, res) {
+    return Approach.find({
+        problem_id: req.params.id,
+        architecture: req.params.arch
+    })
+        .distinct('_id')
+        .then(handleEntityNotFound(res))
+        .then(response => Number.find()
+            .where('approach_id')
+            .in(response))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 export function perfsByProblem(req, res) {
-    return Approach.find({problem_id: req.params.id})
-                   .distinct('_id')
+    return Approach.find({ problem_id: req.params.id })
+        .distinct('_id')
         .then(handleEntityNotFound(res))
         .then(response => Perf.find()
-                                .where('approach_id')
-                                .in(response))
+            .where('approach_id')
+            .in(response))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function perfsByProblemAndArchitecture(req, res) {
+    return Approach.find({
+        problem_id: req.params.id,
+        architecture: req.params.arch
+    })
+        .distinct('_id')
+        .then(handleEntityNotFound(res))
+        .then(response => Perf.find()
+            .where('approach_id')
+            .in(response))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -163,17 +203,37 @@ export function categoriesByProblem(req, res) {
 }
 
 export function machinesByProblem(req, res) {
-    return Approach.find({problem_id: req.params.id})
-                   .distinct('_id')
+    return Approach.find({ problem_id: req.params.id })
+        .distinct('_id')
         .then(handleEntityNotFound(res))
         .then(response => Number.find()
-                                .where('approach_id')
-                                .in(response)
-                                .distinct('machine_id'))
+            .where('approach_id')
+            .in(response)
+            .distinct('machine_id'))
         .then(handleEntityNotFound(res))
         .then(response => Machine.find()
-                                 .where('_id')
-                                 .in(response))
+            .where('_id')
+            .in(response))
+        .then(handleEntityNotFound(res))
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function machinesByProblemAndArchitecture(req, res) {
+    return Approach.find({
+        problem_id: req.params.id,
+        architecture: req.params.arch
+    })
+        .distinct('_id')
+        .then(handleEntityNotFound(res))
+        .then(response => Number.find()
+            .where('approach_id')
+            .in(response)
+            .distinct('machine_id'))
+        .then(handleEntityNotFound(res))
+        .then(response => Machine.find()
+            .where('_id')
+            .in(response))
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

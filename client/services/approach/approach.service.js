@@ -30,14 +30,26 @@ export default class ApproachService {
 
     getApproachesByProblem(id) {
         return this.$http
-                .get(`/api/problem/${id}/approaches`)
-                .then(response => {
-                    _.map(response.data, approach => {
-                        this.cache.addKeyValue(approach._id, approach);
-                    });
-                    return response;
-                })
-                .then(response => response.data);
+            .get(`/api/problem/${id}/approaches`)
+            .then(response => {
+                _.map(response.data, approach => {
+                    this.cache.addKeyValue(approach._id, approach);
+                });
+                return response;
+            })
+            .then(response => response.data);
+    }
+
+    getApproachesByProblemAndArchitecture(id, architecture) {
+        return this.$http
+            .get(`/api/problem/${id}/architecture/${architecture}/approaches`)
+            .then(response => {
+                _.map(response.data, approach => {
+                    this.cache.addKeyValue(approach._id, approach);
+                });
+                return response;
+            })
+            .then(response => response.data);
     }
 
     getApproachByNumber(id) {
