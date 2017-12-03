@@ -1,0 +1,360 @@
+<navbar></navbar>
+<div>
+
+</div>
+<div class="row pad-up">
+    <div class="col-md-10 col-md-offset-1">
+        <b><h2>Projects</h2></b>
+        <table class="table table-bordered table-striped table-condensed table-responsive">
+            <thead>
+                <tr>
+                    <th>
+                        <center>Title</center>
+                    </th>
+                    <th>
+                        <center>Abstract</center>
+                    </th>
+                    <th>
+                        <center>Application</center>
+                    </th>
+                    <th>
+                        <center>Challenges</center>
+                    </th>
+                    <th>
+                        <center>Project Report</center>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Parallelisation of Travelling Salesman Problem
+                    </td>
+                    <td>
+                        Given a graph, this problems deals with finding the shortest Hamiltonian path joining the nodes given that the graph has
+                        atleast a single Hamiltonian path.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>In computer networks, for finding the shortest path connecting all the nodes in a single network.</li>
+                            <li>In power grids, for finding the shortest path through which electricity can reach all the cities connecting
+                                the power source.</li>
+                            </ul>
+                    </td>
+                    <td>
+                        Understanding the dependencies, load balance.
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1nnL9xLo9nRhFf6HgkfNcPSDfpSiNv5X6">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Sparse Linear Algebra (Page Rank Algorithm)
+                    </td>
+                    <td>
+                        Given a sparse matrix (which can be seen as Adjacency Matrix of Directed Graph), the aim is to parallelize matrix operations(like
+                        transpose, multiplication), which are used in page rank.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>PageRank Algorithm : To rank websites on impact of hyperlinks mentioned on that page.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Load Balancing</li>
+                            <li>Removing Dependencies</li>
+                            <li>Parallelizing Different Matrix Operations</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1Fyh2E70Gdv3cFC0m4R-XRsLBg6868USo">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallelization of Shortest Path Algorithms
+                    </td>
+                    <td>
+                        Parallel implementations of various Single Source Shortest Path Algorithms using OpenMP and performing analysis with sequential
+                        counterparts.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Finding optimal sequence of choices for abstract graphical representations of problems</li>
+                            <li>Navigation Applications</li>
+                            <li>Networking Routing</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Removing different kind of dependencies.</li>
+                            <li>Trade off between communication overhead and problem size.</li>
+                            <li>Finding optimal number of nodes for graph.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1rzwyW0Qyf6qPc9DqIW8dCdyoSPeHugTs">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallel implementation of 2D FFT for an image
+                    </td>
+                    <td>
+                        Implement Cooley Tukey FFT algorithm for an image and aim to parallelize it using OpenMP
+
+                    </td>
+                    <td>
+                        Areas of Digital Image Processing like filtering, edge detection
+
+                    </td>
+                    <td>
+                        Working with loop dependencies, race conditions and synchronization
+
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1WrJnFZswm4q1Zfj7oiNnpAqKXhx8QZdA">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallelization of Quick sort and Selection Sort
+                    </td>
+                    <td>
+                        Comparing parallel performance of 2 sorting algorithms for different sizes of inputs
+
+                    </td>
+                    <td>
+                        One can choose best sorting algorithm according to required input size.
+                    </td>
+                    <td>
+                        Large random input array element generation,Load balancing, Synchronization and Dependencies.
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1zTzu--QnH4VXSPG4wYueTSjeV4oQU04h">Project</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallelization of Radix Sort
+                    </td>
+                    <td>
+                        Implementation of parallel algorithm for radix sort using binary bucket sort(counting sort).
+                    </td>
+                    <td>
+                        Radix Sort is much faster than other sorting algorithms. To sort large data efficiently radix sort is more preferable.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Data dependency</li>
+                            <li>Synchronization</li>
+                            <li>Load balancing</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1HR7AaUfo9BDkMpVO9Rf1HtLPI7zRpROP">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallelization of Plotting The Fractal structure: Mandelbrot Set
+                    </td>
+                    <td>
+                        Generating high pixel image of Mandelbrot set with help of OpenMP in less amount of time compared to its serial counterpart.
+                    </td>
+                    <td>
+                        Applications of general fractal structures
+                        <ul>
+                            <li>Analysis of shoreline patterns</li>
+                            <li>Data compression</li>
+                            <li>Generating natural geometries like mountain</li>
+                        </ul>
+                    </td>
+                    <td>
+                        As output is generated in a image, addressing race conditions and dependencies are challenging.
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1Grle7enxTZjvIOddi3ZSVbIW4k3wy9pz">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallel Implementation of Lazy Propagation Technique
+                    </td>
+                    <td>
+                        The project aims at improving the querying rate on intervals/segments of collection of data items.
+
+                    </td>
+                    <td>
+                        Can be used at all the places having large amount of updates on range of data.
+
+                    </td>
+                    <td>
+                        Data accessing, updating and validating issues along with synchronization problem
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1_eA7_QQZIBGtSWPyfS5uSJN7cssmnWTI">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallel implementation of Finite Difference method
+                    </td>
+                    <td>
+                        Simulation of standing wave using parallel finite difference method.
+                    </td>
+                    <td>
+                        The approximation of derivatives by finite differences plays an important role in finite difference methods for the numerical
+                        solution of differential equations. Certain recurrence relations can be written as difference equations by
+                        replacing iteration notation with finite differences.
+
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Load Balancing</li>
+                            <li>Synchronization</li>
+                            <li>Race conditions</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=14FxHvwYbEiIqCCW-y8J1A3Z42PkrqGz7">Project</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        QR decomposition of a Matrix
+                    </td>
+                    <td>
+                        Computing Decomposition of a square matrix into a product of orthogonal matrix and upper triangular matrix using Gram-Schmidt
+                        Process or Givens rotations (for sparse matrix).
+                    </td>
+                    <td>
+                        It is a basis for solving least linear squares (fitting a mathematical model to data) and also better used for linear inverse
+                        problems.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Load Balancing and Synchronization</li>
+                            <li>Removing dependencies</li>
+                            <li>Computing rotation matrix for each iteration parallel (Givens Rotations)</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1jQYPyzRlmanhMTJpaf9LltoGnaEBsVH9">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallel implementation of Root Finding Algorithm
+
+                    </td>
+                    <td>
+                        Parallel implementation of root finding algorithms for a given function in a domain, and comparing different algorithms according
+                        to their performance.
+
+                    </td>
+                    <td>
+                        Accurate calculation of roots of an equation are useful in solving some engineering and physics domain problems.
+
+                    </td>
+                    <td>
+                        Load balancing and Synchronization
+
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1z6PCNC1u0NbhqgiGeh0sDZV7KZhQQLD1">Project</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallel Implementation of Gaussian Elimination
+
+                    </td>
+                    <td>
+                        In linear algebra, Gaussian elimination is an algorithm for solving systems of linear equations. It is usually understood
+                        as a sequence of operations performed on the corresponding matrix of coefficients.
+
+                    </td>
+                    <td>
+                        Gaussian Elimination can also be used to find the rank of a matrix, to calculate the determinant of a matrix, and to calculate
+                        the inverse of an invertible square matrix.
+
+                    </td>
+                    <td>
+                        Concurrency of operation, loop dependencies, loop decompostion, and load balancing.
+
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1yYV1NLQ339TM9BaGngdq2ugm56LskVC7">Project</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallel implementation of first N Fibonacci number generator
+
+                    </td>
+                    <td>
+                        Generate first N Fibonacci number(modulus 1e18+9) parallely using openMp.
+
+                    </td>
+                    <td>
+                        Fibonacci sequence generate mathematical patterns that can be found in all aspects of life,From human body to the physiology
+                        of plants and animals. They also form the basis of Fibonacci heap and Fibonacci spiral construction.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Load balancing</li>
+                            <li>Removing dependencies</li>
+                            <li>Use of locality concept</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1JpI2b3297q2isl_dxBAfWU9BECEVjJrP">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallel generation of Mandelbrot fractals
+                    </td>
+                    <td>
+                        The project deals with the transformation of the sequential calculation of the Mandelbrot set into a parallel one using OpenMP
+                        and analysis of the approaches used.
+                    </td>
+                    <td>
+                        In producing realistic computer graphics, file compression systems, network architecture and analysis of other chaotic systems.
+                    </td>
+                    <td>
+                        Load balancing, Synchronization and Dependencies.
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1u4_RCwqNY23jrT8Un5kgeXPKjVLt9g0M">Report</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parallelizing Quick-Sort
+                    </td>
+                    <td>
+                        Improving the performance of quick-sort algorithm. Exploring different strategies of implementation.
+                    </td>
+                    <td>
+                        Quicksort (sometimes called partition-exchange sort) is an efficient sorting algorithm, serving as a systematic method for
+                        placing the elements of an array in order.We try to increase performance of this algorithm.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Load Balancing</li>
+                            <li>Synchronization</li>
+                            <li>Parallelizing the partitioning step efficiently in-place</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="https://drive.google.com/open?id=1fFfzg0vtXJAENCyq5-hz0si5Xp0Zgdyl">Project</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

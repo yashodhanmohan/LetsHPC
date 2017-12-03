@@ -7,5 +7,10 @@ export default function routes($routeProvider) {
         template: require('./dataentry.html'),
         controller: 'DataEntryController',
         controllerAs: 'dataentry'
+    })
+    .when('/dataentry/projects', {
+        template: require('./projects.html')
     });
+
+
 }

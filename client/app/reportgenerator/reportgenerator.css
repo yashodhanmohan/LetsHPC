@@ -1,4 +1,5 @@
-a, a:hover, a:active, a:focus, a:visited {
+#report-generator a, #report-generator a:hover, #report-generator a:active, #report-generator a:focus, #report-generator a:visited {
+
     color: #FFFFFF;
 }
 
