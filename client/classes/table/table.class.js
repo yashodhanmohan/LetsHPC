@@ -97,7 +97,7 @@ export default class Table {
         let newPerfData = {};
         for(let field in this.perfFields) {
             newPerfData[this.perfFields[field]] = _.mapValues(perf[this.perfFields[field]], statistic => {
-                return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approach, nthreads, machine, this.perfFields[field]), this.TableService.getID(approach._id, nthreads, machine._id, this.perfFields[field]));
+                return this.TableService.objectToTable(statistic, 'SIZE', 'size', this.TableService.getLabel(approachNumber, nthreads, machineNumber, this.perfFields[field]), this.TableService.getID(approach._id, nthreads, machine._id, this.perfFields[field]));
             });
         }
 
