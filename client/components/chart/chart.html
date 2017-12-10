@@ -85,6 +85,14 @@
                                 Y-axis Font size<input type="range" min="5" max="30" step="2" value="{{chart.userOptions.vAxis.textStyle.fontSize}}" class="form-control" placeholder="X-axis font size" ng-model="chart.userOptions.vAxis.textStyle.fontSize" ng-change="chart.refresh()">
                             </div>
                         </div>
+                        <div class="row pad-up">
+                            <div class="col-md-6">
+                                Chart height<input type="text" min="0" max="100" placeholder="Chart height (like '60%')" value="{{chart.userOptions.chartArea.height}}" class="form-control" ng-model="chart.userOptions.chartArea.height" ng-change="chart.refresh()">
+                            </div>
+                            <div class="col-md-6">
+                                Chart width<input type="text" min="0" max="100" placeholder="Chart width (like '60%')" value="{{chart.userOptions.chartArea.width}}" class="form-control" ng-model="chart.userOptions.chartArea.width" ng-change="chart.refresh()">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

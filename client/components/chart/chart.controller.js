@@ -12,7 +12,9 @@ export default class ChartController {
             'hAxis.logScale': false,
             'vAxis.logScale': false,
             'hAxis.textStyle.fontSize': 20,
-            'vAxis.textStyle.fontSize': 20
+            'vAxis.textStyle.fontSize': 20,
+            'chartArea.height': '60%',
+            'chartArea.width': '60%',
         }
         $timeout(() => {
             this.chart = new google.visualization.LineChart(document.getElementById(this.id));

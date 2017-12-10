@@ -33,6 +33,8 @@ export default class ChartOption {
             }
         },
         chartArea: {
+            width: '60%',
+            height: '60%',
             backgroundColor: {
                 stroke: '#000',
                 strokeWidth: 1
