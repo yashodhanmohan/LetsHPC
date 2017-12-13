@@ -12,6 +12,7 @@ import {routeConfig} from './app.config';
 
 // Import Angular Controller modules
 import AboutController from './about';
+import DiscussionBoardController from './discussionboard';
 import CustomDataController from './customdata';
 import DataEntryController from './dataentry';
 import LandingController from './landing';
@@ -51,7 +52,7 @@ angular.module('yashwantProjectApp', [
         // Angular Core Modules
         ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute,
         // Controllers
-        LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController, LoginController,
+        LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController, LoginController, DiscussionBoardController,
         // Services
         CategoryService, ProblemService, MachineService, NumberService, PerfService, ApproachService, UserService, CalculatorService, TableService, UtilService, AuthService,
         // Components/Directives

@@ -104,6 +104,8 @@ body {
 
 @import 'dataentry/dataentry.css';
 
+@import 'discussionboard/discussionboard.css';
+
 @import 'landing/landing.css';
 
 @import 'login/login.css';
