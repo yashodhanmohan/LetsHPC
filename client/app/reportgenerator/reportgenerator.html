@@ -159,14 +159,21 @@
     </div>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="form-group">
+             <div class="form-group">
                 <div class="panel panel-primary">
                     <div class="panel-heading text-center">
-                        <a href="#trivial" data-toggle="collapse">Basic Implementation Details</a>
+                        <div class="row">
+                            <a href="#trivial" data-toggle="collapse">Basic Implementation Details</a>
+                            <!--<input type="checkbox" ng-model="report.iImplDetF" class="checkboxFive">-->
+                            <input type="checkbox" id="checkbox1" class="css-checkbox med" checked="checked" ng-model="report.iImplDetF"/>
+                            <label for="checkbox1" name="checkbox1_lbl" class="css-label med elegant"></label>
+                        </div>
                     </div>
                     <div id="trivial" class="panel-body collapse">
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="BCDSI"><h4>Serial Implementation</h4></label>
+                            <input type="checkbox" id="checkbox2" class="css-checkbox med" checked="checked" ng-model="report.iBCDSIF"/>
+                            <label for="checkbox2" name="checkbox2_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="BCDSI" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -176,6 +183,8 @@
                         </div>
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="BCSPI"><h4>Implementation of Approach</h4></label>
+                            <input type="checkbox" id="checkbox3" class="css-checkbox med" checked="checked" ng-model="report.iBCSPIF"/>
+                            <label for="checkbox3" name="checkbox3_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="BCSPI" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -188,11 +197,15 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading text-center">
                         <a href="#CoAnRe" data-toggle="collapse">Complexity and Analysis Related</a>
+                        <input type="checkbox" id="checkbox4" class="css-checkbox med" checked="checked" ng-model="report.iCoAnReF"/>
+                        <label for="checkbox4" name="checkbox4_lbl" class="css-label med elegant"></label>
                     </div>
                     <div id="CoAnRe" class="panel-body collapse">
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="CoSeCo"><h4>Complexity of serial code</h4></label>
+                            <input type="checkbox" id="checkbox5" class="css-checkbox med" checked="checked" ng-model="report.iCoSeCoF"/>
+                            <label for="checkbox5" name="checkbox5_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="CoSeCo" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -203,6 +216,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="CoPaCo"><h4>Complexity of parallel code</h4></label>
+                            <input type="checkbox" id="checkbox6" class="css-checkbox med" checked="checked" ng-model="report.iCoPaCoF"/>
+                            <label for="checkbox6" name="checkbox6_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="CoPaCo" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -213,6 +228,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="CoPa"><h4>Cost of Parallel Algorithm</h4></label>
+                            <input type="checkbox" id="checkbox7" class="css-checkbox med" checked="checked" ng-model="report.iCoPaF"/>
+                            <label for="checkbox7" name="checkbox7_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="CoPa" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -223,6 +240,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="ThSpu"><h4>Theoretical Speedup</h4></label>
+                            <input type="checkbox" id="checkbox8" class="css-checkbox med" checked="checked" ng-model="report.iThSpuF"/>
+                            <label for="checkbox8" name="checkbox8_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="ThSpu" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -233,6 +252,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="EstSerFra"><h4>Estimated Serial Fraction</h4></label>
+                            <input type="checkbox" id="checkbox9" class="css-checkbox med" checked="checked" ng-model="report.iEstSerFraF"/>
+                            <label for="checkbox9" name="checkbox9_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="EstSerFra" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -243,6 +264,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="Tub"><h4>Tight upper bound based on Amdahl's Law</h4></label>
+                            <input type="checkbox" id="checkbox10" class="css-checkbox med" checked="checked" ng-model="report.iTubF"/>
+                            <label for="checkbox10" name="checkbox10_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="Tub" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -253,6 +276,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="NuMA"><h4>Number of memory accesses</h4></label>
+                            <input type="checkbox" id="checkbox11" class="css-checkbox med" checked="checked" ng-model="report.iNuMAF"/>
+                            <label for="checkbox11" name="checkbox11_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="NuMA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -263,6 +288,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="NoCom"><h4>Number of computations</h4></label>
+                            <input type="checkbox" id="checkbox12" class="css-checkbox med" checked="checked" ng-model="report.iNoComF"/>
+                            <label for="checkbox12" name="checkbox12_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="NoCom" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -276,11 +303,15 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading text-center">
                         <a href="#CuBaAn" data-toggle="collapse">Curve Based Analysis</a>
+                        <input type="checkbox" id="checkbox13" class="css-checkbox med" checked="checked" ng-model="report.iCuBaAnF"/>
+                        <label for="checkbox13" name="checkbox13_lbl" class="css-label med elegant"></label>
                     </div>
                     <div id="CuBaAn" class="panel-body collapse">
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="TCRAProc"><h4>Time Curve analysis</h4></label>
+                            <input type="checkbox" id="checkbox14" class="css-checkbox med" checked="checked" ng-model="report.iTCRAProcF"/>
+                            <label for="checkbox14" name="checkbox14_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="TCRAProc" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -291,6 +322,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="TCRAProSize"><h4>Time Curve analysis</h4></label>
+                            <input type="checkbox" id="checkbox15" class="css-checkbox med" checked="checked" ng-model="report.iTCRAProSizeF"/>
+                            <label for="checkbox15" name="checkbox15_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="TCRAProSize" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -301,6 +334,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="SCRA"><h4>Speedup Curve analysis</h4></label>
+                            <input type="checkbox" id="checkbox16" class="css-checkbox med" checked="checked" ng-model="report.iSCRAF"/>
+                            <label for="checkbox16" name="checkbox16_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="SCRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -311,6 +346,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="ECRA"><h4>Efficiency Curve analysis</h4></label>
+                            <input type="checkbox" id="checkbox17" class="css-checkbox med" checked="checked" ng-model="report.iECRAF"/>
+                            <label for="checkbox17" name="checkbox17_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="ECRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -321,6 +358,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="KFRA"><h4>Karp-Flatt metric analysis</h4></label>
+                            <input type="checkbox" id="checkbox18" class="css-checkbox med" checked="checked" ng-model="report.iKFRAF"/>
+                            <label for="checkbox18" name="checkbox18_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="KFRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -334,11 +373,15 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading text-center">
                         <a href="#FuDeAn" data-toggle="collapse">Further Detailed Analysis</a>
+                        <input type="checkbox" id="checkbox19" class="css-checkbox med" checked="checked" ng-model="report.iFuDeAnF"/>
+                        <label for="checkbox19" name="checkbox19_lbl" class="css-label med elegant"></label>
                     </div>
                     <div id="FuDeAn" class="panel-body collapse">
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="MSPO"><h4>Major serial and parallel overheads</h4></label>
+                            <input type="checkbox" id="checkbox20" class="css-checkbox med" checked="checked" ng-model="report.iMSPOF"/>
+                            <label for="checkbox20" name="checkbox20_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="MSPO" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -349,6 +392,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="MWRA"><h4>Memory wall analysis</h4></label>
+                            <input type="checkbox" id="checkbox21" class="css-checkbox med" checked="checked" ng-model="report.iMWRAF"/>
+                            <label for="checkbox21" name="checkbox21_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="MWRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -359,6 +404,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="CCRA"><h4>Cache coherence analysis</h4></label>
+                            <input type="checkbox" id="checkbox22" class="css-checkbox med" checked="checked" ng-model="report.iCCRAF"/>
+                            <label for="checkbox22" name="checkbox22_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="CCRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -369,6 +416,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="FSRA"><h4>False sharing analysis</h4></label>
+                            <input type="checkbox" id="checkbox23" class="css-checkbox med" checked="checked" ng-model="report.iFSRAF"/>
+                            <label for="checkbox23" name="checkbox23_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="FSRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -379,6 +428,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="SraRA"><h4>Scheduling analysis</h4></label>
+                            <input type="checkbox" id="checkbox24" class="css-checkbox med" checked="checked" ng-model="report.iSraRaF"/>
+                            <label for="checkbox24" name="checkbox24_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="SraRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -389,6 +440,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="LBRA"><h4>Load balance analysis</h4></label>
+                            <input type="checkbox" id="checkbox25" class="css-checkbox med" checked="checked" ng-model="report.iLBRAF"/>
+                            <label for="checkbox25" name="checkbox25_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="LBRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -399,6 +452,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="SyncRA"><h4>Synchronisation analysis</h4></label>
+                            <input type="checkbox" id="checkbox26" class="css-checkbox med" checked="checked" ng-model="report.iSyncRaF"/>
+                            <label for="checkbox26" name="checkbox26_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="SyncRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -409,6 +464,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="GRA"><h4>Granularity analysis</h4></label>
+                            <input type="checkbox" id="checkbox27" class="css-checkbox med" checked="checked" ng-model="report.iGRAF"/>
+                            <label for="checkbox27" name="checkbox27_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="GRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -419,6 +476,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="ScaRA"><h4>Scalability analysis</h4></label>
+                            <input type="checkbox" id="checkbox28" class="css-checkbox med" checked="checked" ng-model="report.iScaRAF"/>
+                            <label for="checkbox28" name="checkbox28_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="ScaRA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -431,11 +490,15 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading text-center">
                         <a href="#AddAna" data-toggle="collapse">Additional Approach Analysis</a>
+                        <input type="checkbox" id="checkbox29" class="css-checkbox med" checked="checked" ng-model="report.iAddAnaF"/>
+                        <label for="checkbox29" name="checkbox29_lbl" class="css-label med elegant"></label>
                     </div>
                     <div id="AddAna" class="panel-body collapse">
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="AOC"><h4>Further Analysis</h4></label>
+                            <input type="checkbox" id="checkbox30" class="css-checkbox med" checked="checked" ng-model="report.iAOCF"/>
+                            <label for="checkbox30" name="checkbox30_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="AOC" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -446,6 +509,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="CBMB"><h4>Further details</h4></label>
+                            <input type="checkbox" id="checkbox31" class="css-checkbox med" checked="checked" ng-model="report.iCBMBF"/>
+                            <label for="checkbox31" name="checkbox31_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="CBMB" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -456,6 +521,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="ADDADA"><h4>Advantages/Disadvantages</h4></label>
+                            <input type="checkbox" id="checkbox32" class="css-checkbox med" checked="checked" ng-model="report.iADDADAF"/>
+                            <label for="checkbox32" name="checkbox32_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="ADDADA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -466,6 +533,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="DFIA"><h4>Difficulties</h4></label>
+                            <input type="checkbox" id="checkbox33" class="css-checkbox med" checked="checked" ng-model="report.iDFIAF"/>
+                            <label for="checkbox33" name="checkbox33_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="DFIA" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
@@ -476,6 +545,8 @@
 
                         <div class="row">
                             <label class="col-md-10 col-md-offset-1 control-label" for="AAC"><h4>Any additional comments</h4></label>
+                            <input type="checkbox" id="checkbox34" class="css-checkbox med" checked="checked" ng-model="report.iAACF"/>
+                            <label for="checkbox34" name="checkbox34_lbl" class="css-label med elegant"></label>
                         </div>
                         <div id="AAC" class="row collapse-in">
                             <div class="col-md-10 col-md-offset-1 text-center">
