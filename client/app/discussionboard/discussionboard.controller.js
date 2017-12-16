@@ -1,38 +1,13 @@
 export default class DiscussionBoardController {
 
+    src = 'https://groups.google.com/forum/embed/?place=forum/lets-hpc' +
+    '&showsearch=true&showpopout=true&showtabs=false' +
+    '&parenturl=' + encodeURIComponent(window.location.href);
+
+    googleGroupSrc = '';
+
     /*@ngInject*/
-    constructor($http) {
-
-        $(function() {
-            $('.discussionboard-nav-link-button').bind('click',function(event){
-                var $anchor = $(this);
-
-                $('html, body').stop().animate({
-                    scrollTop: $($anchor.attr('href')).offset().top
-                }, 1500,'easeInOutExpo');
-                event.preventDefault();
-            });
-        });
-
-        $(document).ready(() => {
-            this.resizeDiv();
-            window.document.title = 'LETs HPC';
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
-        });
-
-        window.onresize = (event) => {
-            this.resizeDiv();
-        }
+    constructor($sce) {
+        this.googleGroupSrc = $sce.trustAsResourceUrl(this.src);
     }
-
-    resizeDiv() {
-        var vph = $(window).innerHeight();
-        $('.discussionboard-section-odd').css({
-            minHeight: vph + 'px'
-        });
-        $('.discussionboard-section-even').css({
-            minHeight: vph + 'px'
-        });
-    }
-
 }
