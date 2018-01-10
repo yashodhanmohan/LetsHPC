@@ -19,6 +19,7 @@ import LandingController from './landing';
 import LoginController from './login';
 import MainController from './main';
 import ReportGeneratorController from './reportgenerator';
+import DocumentsController from './documents';
 
 // Import Angular Service modules
 import ApproachService from '../services/approach';
@@ -52,7 +53,7 @@ angular.module('yashwantProjectApp', [
         // Angular Core Modules
         ngCookies, ngAnimate, ngResource, ngSanitize, ngRoute,
         // Controllers
-        LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController, LoginController, DiscussionBoardController,
+        LandingController, MainController, ReportGeneratorController, CustomDataController, DataEntryController, AboutController, LoginController, DiscussionBoardController,DocumentsController,
         // Services
         CategoryService, ProblemService, MachineService, NumberService, PerfService, ApproachService, UserService, CalculatorService, TableService, UtilService, AuthService,
         // Components/Directives

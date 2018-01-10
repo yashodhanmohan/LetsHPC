@@ -1,0 +1,174 @@
+<navbar></navbar>
+<div class="container-fluid">
+    <div class="row pad-up">
+        <div class="col-md-10 col-md-offset-1">
+            <b><h2>Basic Terminologies</h2></b>
+            <table class="table table-bordered table-striped table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Keywords
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Shared Memory
+                        </td>
+                        <td>
+                            In computer hardware, shared memory refers to a (typically large) block of random access memory (RAM) that can be accessed by several different central processing units (CPUs) in a multiprocessor computer system. Processors do not have to be aware where data resides, except that there may be performance penalties, and that race conditions are to be avoided.
+                            [ Ref:<a href="https://en.wikipedia.org/wiki/Shared_memory">Wikipedia</a> ]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Distributed Memory
+                        </td>
+                        <td>
+                            Distributed memory refers to a multiprocessor computer system in which each processor has its own private memory. Computational tasks can only operate on local data, and if remote data is required, the computational task must communicate with one or more remote processors. 
+                            [ Ref:<a href="https://en.wikipedia.org/wiki/Distributed_memory">Wikipedia</a> ]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Hetrogenous Architecture
+                        </td>
+                        <td>
+                            Heterogeneous architecture/computing refers to systems that use more than one kind of processor or cores. These systems gain performance or energy efficiency not just by adding the same type of processors, but by adding dissimilar coprocessors, usually incorporating specialized processing capabilities to handle particular tasks. 
+                            [ Ref:<a href="https://en.wikipedia.org/wiki/Heterogeneous_System_Architecture">Wikipedia</a> ]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Approach
+                        </td>
+                        <td>
+                            A particular algorithmic approach to solve a problem (out of many possible approaches).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Machine
+                        </td>
+                        <td>
+                            A computing system.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Programming Environment
+                        </td>
+                        <td>
+                            Required software setup to compile and execute a program.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Complexity
+                        </td>
+                        <td>
+                            Number of elementary operations performed by the algorithm. We refer to time complexity (execution time) based on which an algorithm is analyzed.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Execution Time
+                        </td>
+                        <td>
+                            The time spent by the computing system in executing a program.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Speed Up
+                        </td>
+                        <td>
+                            We refer to the relative speedup S = Ts/ Tp, where Tp is the time for parallel code and Ts is the time for serial code using the same approach on the same machine.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Karp-Flatt Metric
+                        </td>
+                        <td>
+                            This metric can be used to calculate an experimentally determined serial fraction "e" of a parallel computation as 
+                            \( e = (1/Ψ − 1/p) \over (1 − 1/p) \), where Ψ is the measured speedup using p processors. It provides information about the quality of the parallelization,. The less the value of "e", the better the parallelization.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Efficiency
+                        </td>
+                        <td>
+                            Speedup per processor.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row pad-up">
+        <div class="col-md-10 col-md-offset-1">
+            <b><h2>Abbreviations</h2></b>
+            <table class="table table-bordered table-striped table-condensed table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Abbreviations
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            ALG
+                        </td>
+                        <td>
+                            Algorithmic (ALG) time: This includes only the time for the core algorithm (memory access and operations), and does not include any time for the I/O part or other pre-processing.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            E2E
+                        </td>
+                        <td>
+                            End-to- end (E2E) time: This counts the entire run-time of the program. In addition to ALG time, this includes the time taken for I/O (reading the input test-case files and writing the output data files as well) as well as any other pre/post-processing that is not a part of the core algorithm.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            APR
+                        </td>
+                        <td>
+                            Abbreviation for Approach.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            MCN
+                        </td>
+                        <td>
+                            Abbreviation for Machine.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Problem Size
+                        </td>
+                        <td>
+                           Number of operations associate with a serial algorithm for a problem with 1D input, such as sorting “N” numbers or sum of “N” Elements. However, for 2D inputs such as a matrix (or an image), we have taken square matrices (no. of rows=No. of columns), and the problem size in this case is represented by the number of rows (or columns).
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
