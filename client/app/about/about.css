@@ -60,8 +60,16 @@
 
 .about-section-odd-heading {
     text-transform: uppercase;
-    font-size: 2.5em;
-    font-weight: 600;
+    font-size: 2em;
+    font-weight: 500;
+    color: #1A237E;
+    text-align: center;
+}
+
+.about-section-odd-subheading {
+
+    font-size: 1.5em;
+    font-weight: 400;
     color: #1A237E;
     text-align: center;
 }
@@ -69,6 +77,14 @@
 .about-section-odd-text {
     font-weight: 900;
     font-size: 1.25em;
+    text-align: justify;
+    text-align-last: center;
+    color: #1A237E;
+}
+
+.about-section-odd-stext {
+    font-weight: 900;
+    font-size: 1.0em;
     text-align: justify;
     text-align-last: center;
     color: #1A237E;
@@ -91,11 +107,11 @@
 }
 
 .about-hover-tile {
-    min-height: 60px;
+    min-height: 20px;
     background-color: #1A237E;
     color: #FFFFFF;
-    padding: 5px;
-    margin: 5px;
+    padding: 1px;
+    margin: 1px;
 }
 
 .about-hover-tile:hover {
