@@ -299,7 +299,7 @@ export default class Table {
     }
 
     getTableLegend() {
-        let legendString = `ALG: Algorithmic Time, E2E: End-to-end Time, `;
+        let legendString = ``;
         for(let i in this.approaches) {
             let approach = this.approaches[i];
             let approachNumber = this._approachNumber(approach) + 1;
