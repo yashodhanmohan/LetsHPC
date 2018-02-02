@@ -118,3 +118,10 @@
     background-color: #FFFFFF;
     color: #1A237E;
 }
+
+a:link {
+color: #FFFFFF;
+}
+a:hover {
+color: #1A237E;
+}
