@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "./ts_build",
+        "allowJs": true,
+        "target": "es5"
+    },
+    "include": [
+        "./client/app/**/*",
+        "./client/services/**/*",
+        "./client/components/**/*",
+        "./client/classes/**/*"
+    ]
+}
+
