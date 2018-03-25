@@ -7,6 +7,7 @@
     "include": [
         "./client/app/**/*",
         "./client/services/**/*",
+        "./client/schemas/**.*",
         "./client/components/**/*",
         "./client/classes/**/*"
     ]
