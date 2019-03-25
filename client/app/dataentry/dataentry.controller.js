@@ -46,6 +46,8 @@ export default class DataEntryController {
 
         this.student_data = [{
                 "studentID": "201401403-201401421",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "matrix_multiplication",
                 "approach": "transpose",
                 "codeLink": "https://db.tt/ISAzbeRGWk",
@@ -54,6 +56,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401433-201401439",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "reduction",
                 "approach": "tree",
                 "codeLink": "https://db.tt/I2O1GkfEmL",
@@ -62,6 +66,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401414-201401417",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "median_filtering",
                 "approach": "diff_mem_alloc",
                 "codeLink": "https://db.tt/MEV4qXkfhh",
@@ -70,6 +76,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401103-201401086",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "prefix_sum",
                 "approach": "double_tree",
                 "codeLink": "https://db.tt/neVZBWVBuQ",
@@ -78,6 +86,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401067-201401233",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "trapezoidal",
                 "approach": "reduction",
                 "codeLink": "https://db.tt/oT4Oppj0RU",
@@ -86,6 +96,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401106-20140114",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "prefix_sum",
                 "approach": "double_tree",
                 "codeLink": "https://db.tt/aHh50GKreL",
@@ -94,6 +106,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401436-201401420",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "median_filtering",
                 "approach": "qsort",
                 "codeLink": "https://db.tt/DLYKlsdpPW",
@@ -102,6 +116,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401180-201401207",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "vector",
                 "approach": "side_by_side",
                 "codeLink": "https://db.tt/sQt4XSmEfF",
@@ -110,6 +126,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401222-201401409",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "redution",
                 "approach": "data_segmenting",
                 "codeLink": "https://db.tt/eMcAb3CByg",
@@ -118,6 +136,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401408-201401416",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "image_warping",
                 "approach": "collapsed_directive",
                 "codeLink": "https://db.tt/n2t1oAo5u9",
@@ -126,6 +146,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201621007-201621004",
+                "year" : "2017",
+                "university" : "DAIICT",
                 "problem": "trapezoidal",
                 "approach": "critical",
                 "codeLink": "https://db.tt/YY0wl8t8Ak",
@@ -134,6 +156,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401402-201401453",
+                "year" : "2017",
+                "university" : "DAIICT",
                 "problem": "vector",
                 "approach": "static",
                 "codeLink": "https://db.tt/reNkDXl3lb",
@@ -142,6 +166,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401013-201401020",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "monte_carlo",
                 "approach": "rand_r_critical",
                 "codeLink": "https://db.tt/KCz7PrsyzE",
@@ -150,6 +176,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401221-201401442",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "monte_carlo",
                 "approach": "own_prng",
                 "codeLink": "https://db.tt/DwMDu0gXZh",
@@ -158,6 +186,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401443-20140456",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "reduction",
                 "approach": "segment_tree",
                 "codeLink": "https://db.tt/CGQZTeeOmf",
@@ -166,6 +196,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401056-201401105",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "matrix_multiplication",
                 "approach": "outermost",
                 "codeLink": "https://db.tt/b72KtWzx1j",
@@ -174,6 +206,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401406-201401461",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "trapezoidal",
                 "approach": "private",
                 "codeLink": "https://db.tt/hFIPlPioWq",
@@ -182,6 +216,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401118-201401418",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "pi_using_series",
                 "approach": "reduction",
                 "codeLink": "https://db.tt/gwUMlZIIwQ",
@@ -190,6 +226,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401434-201401435",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "pi_using_series",
                 "approach": "pow_function",
                 "codeLink": "https://db.tt/b4iAH6ljIt",
@@ -198,6 +236,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401449-201401444",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "monte_carlo",
                 "approach": "rand_r_reduction",
                 "codeLink": "https://db.tt/KKuN0xyj3c",
@@ -206,6 +246,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401415-201401432",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "image_warping",
                 "approach": "data_division",
                 "codeLink": "https://db.tt/oYCj8RkmTF",
@@ -214,6 +256,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401451-201401452",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "filter",
                 "approach": "linked_list",
                 "codeLink": "https://db.tt/0zLShZTLdj",
@@ -222,6 +266,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401407-201401448",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "matrix_multiplication",
                 "approach": "block",
                 "codeLink": "https://db.tt/1gyR1YK5XR",
@@ -230,6 +276,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401003-201401025",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "filter",
                 "approach": "double_tree_prefix",
                 "codeLink": "https://db.tt/aHWapjmBkx",
@@ -238,6 +286,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401447-201401459",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "monte_carlo",
                 "approach": "rand",
                 "codeLink": "https://db.tt/4hmEJ4IQye",
@@ -246,6 +296,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401437-201401457",
+                "year" : "2016",
+                "university" : "DAIICT",
                 "problem": "pi_using_series",
                 "approach": "critical",
                 "codeLink": "https://db.tt/LRzXnfL1Qr",
@@ -254,6 +306,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401098-201401428",
+                "year" : "2018",
+                "university" : "DAIICT",
                 "problem": "matrix_multiplication",
                 "approach": "middle",
                 "codeLink": "https://db.tt/OJBPX0FBcH",
@@ -262,6 +316,8 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401100-201401424",
+                "year" : "2018",
+                "university" : "DAIICT",
                 "problem": "filter",
                 "approach": "data_segmenting_prefix",
                 "codeLink": "https://db.tt/zpySp2Cf3s",
@@ -270,6 +326,58 @@ export default class DataEntryController {
             },
             {
                 "studentID": "201401422-201401425",
+                "year" : "2018",
+                "university" : "DAIICT",
+                "problem": "vector",
+                "approach": "dynamic",
+                "codeLink": "https://db.tt/87aVPDRD50",
+                "plotLink": "https://db.tt/XAJaj9W3nG",
+                "logLink": "https://db.tt/tPSS4DhtOW"
+            },
+            {
+                "studentID": "201401422-201401425",
+                "year" : "2018",
+                "university" : "university2",
+                "problem": "vector",
+                "approach": "dynamic",
+                "codeLink": "https://db.tt/87aVPDRD50",
+                "plotLink": "https://db.tt/XAJaj9W3nG",
+                "logLink": "https://db.tt/tPSS4DhtOW"
+            },
+            {
+                "studentID": "201401422-201401425",
+                "year" : "2018",
+                "university" : "university2",
+                "problem": "vector",
+                "approach": "dynamic",
+                "codeLink": "https://db.tt/87aVPDRD50",
+                "plotLink": "https://db.tt/XAJaj9W3nG",
+                "logLink": "https://db.tt/tPSS4DhtOW"
+            },
+            {
+                "studentID": "201401422-201401425",
+                "year" : "2018",
+                "university" : "university2",
+                "problem": "vector",
+                "approach": "dynamic",
+                "codeLink": "https://db.tt/87aVPDRD50",
+                "plotLink": "https://db.tt/XAJaj9W3nG",
+                "logLink": "https://db.tt/tPSS4DhtOW"
+            },
+            {
+                "studentID": "201401422-201401425",
+                "year" : "2015",
+                "university" : "university2",
+                "problem": "vector",
+                "approach": "dynamic",
+                "codeLink": "https://db.tt/87aVPDRD50",
+                "plotLink": "https://db.tt/XAJaj9W3nG",
+                "logLink": "https://db.tt/tPSS4DhtOW"
+            },
+            {
+                "studentID": "201401422-201401425",
+                "year" : "2015",
+                "university" : "university2",
                 "problem": "vector",
                 "approach": "dynamic",
                 "codeLink": "https://db.tt/87aVPDRD50",
